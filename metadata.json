@@ -1,0 +1,7 @@
+{
+  "name": "FermentLab PWA",
+  "description": "A high-precision process and data-driven tool for ambitious bakers focusing on fermentation, timing, and reproducibility.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
