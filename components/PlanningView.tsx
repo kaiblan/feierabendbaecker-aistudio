@@ -45,6 +45,9 @@ const PlanningView: React.FC<PlanningViewProps> = ({
 
   const isRecipeStage = status === 'recipe';
 
+  const bulkPercent = Math.round(90 - (config.fermentationBalance / 100) * 30);
+  const proofPercent = 100 - bulkPercent;
+
   return (
     <div className="flex flex-col min-h-full">
       {/* Scrollable Content Area */}
@@ -185,7 +188,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       <div className="space-y-4">
                         <div className="flex justify-between items-end">
                           <label className="text-[11px] text-slate-400 mono uppercase">Fermentation Balance</label>
-                          <span className="text-sm font-bold text-cyan-400 mono">{90 - (config.fermentationBalance / 100) * 30 | 0}% / {(100 - (90 - (config.fermentationBalance / 100) * 30)) | 0}%</span>
+                          <span className="text-sm font-bold text-cyan-400 mono">{bulkPercent}% / {proofPercent}%</span>
                         </div>
                         <input 
                           type="range" 

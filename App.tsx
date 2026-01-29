@@ -23,7 +23,7 @@ const DEFAULT_CONFIG: BakerConfig = {
   coldBulkDurationHours: 8,
   coldProofEnabled: false,
   coldProofDurationHours: 8,
-  fermentationBalance: 50,
+  fermentationBalance: 0,
 };
 
 const App: React.FC = () => {
@@ -99,14 +99,6 @@ const App: React.FC = () => {
         <header className="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950 backdrop-blur-xl z-10">
           <div>
             <h1 className="text-lg font-bold text-white tracking-tight">{session.name}</h1>
-            <div className="flex items-center space-x-3 mt-1">
-              <span className="text-[11px] mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-800 uppercase tracking-tighter">
-                {session.config.hydration}% Hydration
-              </span>
-              <span className={`text-[11px] mono px-2 py-0.5 rounded border uppercase tracking-tighter ${session.status === 'active' ? 'bg-emerald-950/50 text-emerald-400 border-emerald-900/50' : 'bg-amber-950/50 text-amber-400 border-amber-900/50'}`}>
-                {session.status}
-              </span>
-            </div>
           </div>
           <div className="text-right">
             <div className="text-[11px] mono text-slate-400 uppercase tracking-widest">Phase</div>

@@ -65,7 +65,7 @@ export const useBakeSchedule = ({
       steps.push({ label: translateFn('coldBulk'), min: coldBulkMins, active: false, cold: true });
     }
 
-    steps.push({ label: translateFn('shaping'), min: 20, active: true, cold: false });
+    steps.push({ label: translateFn('shaping'), min: 15, active: true, cold: false });
 
     // Base final proof (room temp)
     steps.push({ label: translateFn('finalProof'), min: proofMins, active: false, cold: false });

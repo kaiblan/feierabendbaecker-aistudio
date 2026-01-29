@@ -61,7 +61,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     salt: 'Salt',
     totalBatchWeight: 'Total Batch Weight:',
     // Production Workflow
-    productionWorkflow: 'Production Workflow',
+    productionWorkflow: 'Timeline',
     work: 'Work',
     cold: 'Cold',
     // Buttons & Actions
@@ -118,7 +118,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     salt: 'Salz',
     totalBatchWeight: 'Teiggewicht:',
     // Production Workflow
-    productionWorkflow: 'Arbeitsprozess',
+    productionWorkflow: 'Zeitplan',
     work: 'Arbeit',
     cold: 'Kalt',
     // Buttons & Actions
