@@ -107,74 +107,80 @@ const PlanningView: React.FC<PlanningViewProps> = ({
               <section className="order-3 lg:order-2 lg:col-span-4 w-full bg-slate-950/60 border border-slate-800 rounded-2xl p-6 space-y-4">
                 <h3 className="text-[11px] font-bold text-blue-500 mono uppercase tracking-widest border-b border-slate-800 pb-3">{t('additionalSteps')}</h3>
                 <div className="space-y-3">
-                   <div className="flex justify-between items-center bg-slate-950/60 p-3 rounded-xl border border-slate-800">
-                      <label className="text-sm text-slate-300">{t('autolyse')}</label>
-                     <input
-                      type="checkbox"
-                      checked={config.autolyseEnabled}
-                      onChange={e => onUpdateConfig(e.target.checked ? { autolyseEnabled: true, autolyseDurationMinutes: config.autolyseDurationMinutes || 5 } : { autolyseEnabled: false })}
-                      className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer"
-                     />
+                   <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-3">
+                      <div className="flex justify-between items-center">
+                         <label className="text-sm text-slate-300">{t('autolyse')}</label>
+                         <input
+                          type="checkbox"
+                          checked={config.autolyseEnabled}
+                          onChange={e => onUpdateConfig(e.target.checked ? { autolyseEnabled: true, autolyseDurationMinutes: config.autolyseDurationMinutes || 5 } : { autolyseEnabled: false })}
+                          className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer"
+                         />
+                      </div>
+                      {config.autolyseEnabled && (
+                        <div className="space-y-3 pt-2 border-t border-slate-800/50">
+                          <div className="flex justify-between items-end">
+                            <label className="text-[10px] text-slate-400 mono uppercase">{t('autolyse')}</label>
+                            <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatMinutesDisplay(config.autolyseDurationMinutes || 0)}</span>
+                          </div>
+                          <input
+                            type="range"
+                            min={5}
+                            max={120}
+                            step={5}
+                            value={config.autolyseDurationMinutes || 5}
+                            onChange={e => onUpdateConfig({ autolyseDurationMinutes: parseInt(e.target.value) })}
+                            className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                          />
+                        </div>
+                      )}
                    </div>
-                   {config.autolyseEnabled && (
-                     <div className="space-y-3 bg-slate-950/40 p-3 rounded-lg border border-slate-800/50">
-                       <div className="flex justify-between items-end">
-                         <label className="text-[10px] text-slate-400 mono uppercase">{t('autolyse')}</label>
-                         <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatMinutesDisplay(config.autolyseDurationMinutes || 0)}</span>
-                       </div>
-                       <input
-                         type="range"
-                         min={5}
-                         max={120}
-                         step={5}
-                         value={config.autolyseDurationMinutes || 5}
-                         onChange={e => onUpdateConfig({ autolyseDurationMinutes: parseInt(e.target.value) })}
-                         className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
-                       />
-                     </div>
-                   )}
-                   <div className="flex justify-between items-center bg-slate-950/60 p-3 rounded-xl border border-slate-800">
-                      <label className="text-sm text-slate-300">{t('coldBulk')}</label>
-                      <input type="checkbox" checked={config.coldBulkEnabled} onChange={e => onUpdateConfig({coldBulkEnabled: e.target.checked})} className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer" />
+                   <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-3">
+                      <div className="flex justify-between items-center">
+                         <label className="text-sm text-slate-300">{t('coldBulk')}</label>
+                         <input type="checkbox" checked={config.coldBulkEnabled} onChange={e => onUpdateConfig({coldBulkEnabled: e.target.checked})} className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer" />
+                      </div>
+                      {config.coldBulkEnabled && (
+                        <div className="space-y-3 pt-2 border-t border-slate-800/50">
+                          <div className="flex justify-between items-end">
+                            <label className="text-[10px] text-slate-400 mono uppercase">Cold Bulk Duration</label>
+                            <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldBulkDurationHours)}</span>
+                          </div>
+                          <input 
+                            type="range" 
+                            min="0" 
+                            max="100" 
+                            step="1" 
+                            value={durationToSliderValue(config.coldBulkDurationHours)}
+                            onChange={e => onUpdateConfig({coldBulkDurationHours: roundDuration(sliderValueToDuration(parseFloat(e.target.value)))})} 
+                            className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400" 
+                          />
+                        </div>
+                      )}
                    </div>
-                   {config.coldBulkEnabled && (
-                     <div className="space-y-3 bg-slate-950/40 p-3 rounded-lg border border-slate-800/50">
-                       <div className="flex justify-between items-end">
-                         <label className="text-[10px] text-slate-400 mono uppercase">Cold Bulk Duration</label>
-                         <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldBulkDurationHours)}</span>
-                       </div>
-                       <input 
-                         type="range" 
-                         min="0" 
-                         max="100" 
-                         step="1" 
-                         value={durationToSliderValue(config.coldBulkDurationHours)}
-                         onChange={e => onUpdateConfig({coldBulkDurationHours: roundDuration(sliderValueToDuration(parseFloat(e.target.value)))})} 
-                         className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400" 
-                       />
-                     </div>
-                   )}
-                   <div className="flex justify-between items-center bg-slate-950/60 p-3 rounded-xl border border-slate-800">
-                      <label className="text-sm text-slate-300">{t('coldProof')}</label>
-                      <input type="checkbox" checked={config.coldProofEnabled} onChange={e => onUpdateConfig({coldProofEnabled: e.target.checked})} className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer" />
+                   <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-3">
+                      <div className="flex justify-between items-center">
+                         <label className="text-sm text-slate-300">{t('coldProof')}</label>
+                         <input type="checkbox" checked={config.coldProofEnabled} onChange={e => onUpdateConfig({coldProofEnabled: e.target.checked})} className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer" />
+                      </div>
+                      {config.coldProofEnabled && (
+                        <div className="space-y-3 pt-2 border-t border-slate-800/50">
+                          <div className="flex justify-between items-end">
+                            <label className="text-[10px] text-slate-400 mono uppercase">Cold Proof Duration</label>
+                            <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldProofDurationHours)}</span>
+                          </div>
+                          <input 
+                            type="range" 
+                            min="0" 
+                            max="100" 
+                            step="1" 
+                            value={durationToSliderValue(config.coldProofDurationHours)}
+                            onChange={e => onUpdateConfig({coldProofDurationHours: roundDuration(sliderValueToDuration(parseFloat(e.target.value)))})} 
+                            className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400" 
+                          />
+                        </div>
+                      )}
                    </div>
-                   {config.coldProofEnabled && (
-                     <div className="space-y-3 bg-slate-950/40 p-3 rounded-lg border border-slate-800/50">
-                       <div className="flex justify-between items-end">
-                         <label className="text-[10px] text-slate-400 mono uppercase">Cold Proof Duration</label>
-                         <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldProofDurationHours)}</span>
-                       </div>
-                       <input 
-                         type="range" 
-                         min="0" 
-                         max="100" 
-                         step="1" 
-                         value={durationToSliderValue(config.coldProofDurationHours)}
-                         onChange={e => onUpdateConfig({coldProofDurationHours: roundDuration(sliderValueToDuration(parseFloat(e.target.value)))})} 
-                         className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400" 
-                       />
-                     </div>
-                   )}
                    <div className="pt-3 border-t border-slate-700/50">
                       <div className="space-y-4">
                         <div className="flex justify-between items-end">
