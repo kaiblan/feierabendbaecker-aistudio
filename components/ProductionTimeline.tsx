@@ -27,22 +27,22 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
   productionWorkflowLabel,
 }) => {
   return (
-    <div className="bg-slate-900/95 backdrop-blur-xl border-b border-slate-800 shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-20 px-4 md:px-8 py-6">
+    <div className="bg-slate-950/95 backdrop-blur-xl border-b border-slate-800 shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-20 px-4 md:px-8 py-6">
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-[10px] font-bold text-slate-500 mono uppercase tracking-[0.3em]">
+          <h3 className="text-[11px] font-bold text-slate-400 mono uppercase tracking-[0.3em]">
             {productionWorkflowLabel}
           </h3>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1.5">
               <div className="w-2.5 h-2.5 bg-cyan-600 rounded-sm"></div>
-              <span className="text-[9px] mono text-slate-400 uppercase">{workLabel}</span>
+              <span className="text-[10px] mono text-slate-400 uppercase">{workLabel}</span>
             </div>
             <div className="flex items-center space-x-1.5">
               <div className="w-2.5 h-2.5 bg-blue-900/60 rounded-sm"></div>
-              <span className="text-[9px] mono text-slate-400 uppercase">{coldLabel}</span>
+              <span className="text-[10px] mono text-slate-400 uppercase">{coldLabel}</span>
             </div>
-            <span className="text-[10px] mono text-slate-400 border-l border-slate-700 pl-4 ml-2">
+            <span className="text-[11px] mono text-slate-400 border-l border-slate-800 pl-4 ml-2">
               <span className="text-slate-200">
                 {sessionStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </span>
@@ -74,7 +74,7 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
                   `}
                 >
                   <span
-                    className={`text-[8px] md:text-[9px] mono font-bold uppercase truncate max-w-full tracking-tighter ${step.active ? 'text-white' : 'text-slate-400'}`}
+                    className={`text-[9px] md:text-[10px] mono font-bold uppercase truncate max-w-full tracking-tighter ${step.active ? 'text-white' : 'text-slate-400'}`}
                   >
                     {step.label}
                   </span>
@@ -94,7 +94,7 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
                 style={{ left: `${marker.position}%` }}
               >
                 <div className="w-[1px] h-2 bg-slate-700 group-hover:bg-slate-400 transition-colors" />
-                <span className="mt-1 text-[9px] md:text-[10px] mono text-slate-500 font-medium group-hover:text-slate-300 transition-colors">
+                <span className="mt-1 text-[10px] md:text-[11px] mono text-slate-400 font-medium group-hover:text-slate-300 transition-colors">
                   {marker.label}
                 </span>
               </div>
@@ -103,11 +103,11 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
             {/* Start/End explicit markers if they aren't on top of hourly ones */}
             <div className="absolute top-0 left-0 flex flex-col items-center -translate-x-1/2">
               <div className="w-[1px] h-3 bg-cyan-500" />
-              <span className="mt-1 text-[9px] mono text-cyan-400 font-bold">START</span>
+              <span className="mt-1 text-[10px] mono text-cyan-400 font-bold">START</span>
             </div>
             <div className="absolute top-0 left-[100%] flex flex-col items-center -translate-x-1/2">
               <div className="w-[1px] h-3 bg-emerald-500" />
-              <span className="mt-1 text-[9px] mono text-emerald-400 font-bold">END</span>
+              <span className="mt-1 text-[10px] mono text-emerald-400 font-bold">END</span>
             </div>
           </div>
         </div>

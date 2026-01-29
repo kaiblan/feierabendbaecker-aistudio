@@ -88,19 +88,19 @@ const App: React.FC = () => {
           ))}
         </div>
         <div className="mt-auto pt-8 border-t border-slate-700 w-full flex justify-center">
-          <div className="bg-slate-900/50 p-1 rounded-lg flex border border-slate-700">
-            <button onClick={() => setLanguage('en')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${language === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</button>
-            <button onClick={() => setLanguage('de')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${language === 'de' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>DE</button>
+          <div className="bg-slate-950 p-1 rounded-lg flex border border-slate-800">
+            <button onClick={() => setLanguage('en')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${language === 'en' ? 'bg-slate-700 text-white' : 'text-slate-400'}`}>EN</button>
+            <button onClick={() => setLanguage('de')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${language === 'de' ? 'bg-slate-700 text-white' : 'text-slate-400'}`}>DE</button>
           </div>
         </div>
       </nav>
 
       <main className="flex-1 flex flex-col relative overflow-hidden">
-        <header className="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/80 backdrop-blur-xl z-10">
+        <header className="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950 backdrop-blur-xl z-10">
           <div>
             <h1 className="text-lg font-bold text-white tracking-tight">{session.name}</h1>
             <div className="flex items-center space-x-3 mt-1">
-              <span className="text-[10px] mono bg-slate-800 text-slate-400 px-2 py-0.5 rounded border border-slate-700 uppercase tracking-tighter">
+              <span className="text-[10px] mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-800 uppercase tracking-tighter">
                 {session.config.hydration}% Hydration
               </span>
               <span className={`text-[10px] mono px-2 py-0.5 rounded border uppercase tracking-tighter ${session.status === 'active' ? 'bg-emerald-950/50 text-emerald-400 border-emerald-900/50' : 'bg-amber-950/50 text-amber-400 border-amber-900/50'}`}>
@@ -109,7 +109,7 @@ const App: React.FC = () => {
             </div>
           </div>
           <div className="text-right">
-            <div className="text-[10px] mono text-slate-500 uppercase tracking-widest">Phase</div>
+            <div className="text-[11px] mono text-slate-400 uppercase tracking-widest">Phase</div>
             <div className="text-sm font-bold text-slate-300 mono">{session.status.toUpperCase()}</div>
           </div>
         </header>
@@ -120,14 +120,14 @@ const App: React.FC = () => {
           {activeTab === 'planning' && (
             <>
               {/* Production Timeline */}
-              <div className="sticky top-0 z-40 lg:static bg-slate-900/95 backdrop-blur-xl border-b border-slate-800 shadow-[0_10px_40px_rgba(0,0,0,0.5)] px-4 md:px-8 py-6">
+              <div className="sticky top-0 z-40 lg:static bg-slate-950/95 backdrop-blur-xl border-b border-slate-800 shadow-[0_10px_40px_rgba(0,0,0,0.5)] px-4 md:px-8 py-6">
                 <div className="max-w-7xl mx-auto w-full">
                   <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-[10px] font-bold text-slate-500 mono uppercase tracking-[0.3em]">{t('productionWorkflow')}</h3>
+                    <h3 className="text-[11px] font-bold text-slate-400 mono uppercase tracking-[0.3em]">{t('productionWorkflow')}</h3>
                     <div className="flex items-center space-x-4">
-                        <div className="flex items-center space-x-1.5"><div className="w-2.5 h-2.5 bg-cyan-600 rounded-sm"></div><span className="text-[9px] mono text-slate-400 uppercase">{t('work')}</span></div>
-                        <div className="flex items-center space-x-1.5"><div className="w-2.5 h-2.5 bg-blue-900/60 rounded-sm"></div><span className="text-[9px] mono text-slate-400 uppercase">{t('cold')}</span></div>
-                        <span className="text-[10px] mono text-slate-400 border-l border-slate-700 pl-4 ml-2">
+                        <div className="flex items-center space-x-1.5"><div className="w-2.5 h-2.5 bg-cyan-600 rounded-sm"></div><span className="text-[10px] mono text-slate-400 uppercase">{t('work')}</span></div>
+                        <div className="flex items-center space-x-1.5"><div className="w-2.5 h-2.5 bg-blue-900/60 rounded-sm"></div><span className="text-[10px] mono text-slate-400 uppercase">{t('cold')}</span></div>
+                        <span className="text-[11px] mono text-slate-400 border-l border-slate-800 pl-4 ml-2">
                           <span className="text-slate-200">{sessionStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span> — <span className="text-slate-200">{sessionEndTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                         </span>
                     </div>
@@ -148,7 +148,7 @@ const App: React.FC = () => {
                                 'bg-slate-800/60'}
                             `}
                           >
-                            <span className={`text-[8px] md:text-[9px] mono font-bold uppercase truncate max-w-full tracking-tighter ${step.active ? 'text-white' : 'text-slate-400'}`}>
+                            <span className={`text-[9px] md:text-[10px] mono font-bold uppercase truncate max-w-full tracking-tighter ${step.active ? 'text-white' : 'text-slate-400'}`}>
                               {step.label}
                             </span>
                           </div>
@@ -167,7 +167,7 @@ const App: React.FC = () => {
                            style={{ left: `${marker.position}%` }}
                          >
                             <div className="w-[1px] h-2 bg-slate-700 group-hover:bg-slate-400 transition-colors" />
-                            <span className="mt-1 text-[9px] md:text-[10px] mono text-slate-500 font-medium group-hover:text-slate-300 transition-colors">
+                            <span className="mt-1 text-[10px] md:text-[11px] mono text-slate-400 font-medium group-hover:text-slate-300 transition-colors">
                               {marker.label}
                             </span>
                          </div>
@@ -176,11 +176,11 @@ const App: React.FC = () => {
                        {/* Start/End explicit markers if they aren't on top of hourly ones */}
                        <div className="absolute top-0 left-0 flex flex-col items-center -translate-x-1/2">
                          <div className="w-[1px] h-3 bg-cyan-500" />
-                         <span className="mt-1 text-[9px] mono text-cyan-400 font-bold">START</span>
+                         <span className="mt-1 text-[10px] mono text-cyan-400 font-bold">START</span>
                        </div>
                        <div className="absolute top-0 left-[100%] flex flex-col items-center -translate-x-1/2">
                          <div className="w-[1px] h-3 bg-emerald-500" />
-                         <span className="mt-1 text-[9px] mono text-emerald-400 font-bold">END</span>
+                         <span className="mt-1 text-[10px] mono text-emerald-400 font-bold">END</span>
                        </div>
                     </div>
                   </div>
