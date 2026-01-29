@@ -11,7 +11,7 @@ import { BakerConfig } from '../types';
  */
 const balanceBulkProof = (totalMins: number, balance: number): { bulkMins: number; proofMins: number } => {
   // Linear interpolation: at balance=0, bulk% = 90; at balance=100, bulk% = 60
-  const bulkPercent = 90 - (balance / 100) * 30;
+  const bulkPercent = 60 + (balance / 100) * 30;
   const proofPercent = 100 - bulkPercent;
 
   const totalRounded = Math.round(totalMins);

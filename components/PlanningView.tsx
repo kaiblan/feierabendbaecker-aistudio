@@ -45,7 +45,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
 
   const isRecipeStage = status === 'recipe';
 
-  const bulkPercent = Math.round(90 - (config.fermentationBalance / 100) * 30);
+  const bulkPercent = Math.round(60 + (config.fermentationBalance / 100) * 30);
   const proofPercent = 100 - bulkPercent;
 
   return (
@@ -200,8 +200,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                           className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
                         />
                         <div className="flex justify-between text-[9px] text-slate-400 mono">
-                          <span>90% Bulk</span>
                           <span>60% Bulk</span>
+                          <span>90% Bulk</span>
                         </div>
                       </div>
                       <div className="space-y-4 mt-4">
