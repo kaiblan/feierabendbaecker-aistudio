@@ -14,11 +14,11 @@ export const calculateFermentationTimes = (config: BakerConfig): { bulkMins: num
   const tempEffect = Math.pow(0.85, (config.targetTemp - 24) / 2);
 
   const bulkMins = config.coldBulkEnabled 
-    ? 720 
+    ? Math.round(config.coldBulkDurationHours * 60)
     : Math.round(300 * yeastFactor * tempEffect);
     
   const proofMins = config.coldProofEnabled 
-    ? 960 
+    ? Math.round(config.coldProofDurationHours * 60)
     : 60;
 
   return { bulkMins, proofMins };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BakerConfig } from '../types';
 import { ICONS, Language } from '../constants';
 import { useBakeSchedule } from '../hooks/useBakeSchedule';
+import { sliderValueToDuration, durationToSliderValue, formatDurationDisplay, roundDuration } from '../utils/coldFermentationUtils';
 
 interface PlanningViewProps {
   config: BakerConfig;
@@ -108,10 +109,44 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       <label className="text-xs text-slate-300">{t('coldBulk')}</label>
                       <input type="checkbox" checked={config.coldBulkEnabled} onChange={e => onUpdateConfig({coldBulkEnabled: e.target.checked})} className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer" />
                    </div>
+                   {config.coldBulkEnabled && (
+                     <div className="space-y-3 bg-slate-900/20 p-3 rounded-lg border border-slate-700/30">
+                       <div className="flex justify-between items-end">
+                         <label className="text-[9px] text-slate-500 mono uppercase">Cold Bulk Duration</label>
+                         <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldBulkDurationHours)}</span>
+                       </div>
+                       <input 
+                         type="range" 
+                         min="0" 
+                         max="100" 
+                         step="1" 
+                         value={durationToSliderValue(config.coldBulkDurationHours)}
+                         onChange={e => onUpdateConfig({coldBulkDurationHours: roundDuration(sliderValueToDuration(parseFloat(e.target.value)))})} 
+                         className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400" 
+                       />
+                     </div>
+                   )}
                    <div className="flex justify-between items-center bg-slate-900/40 p-3 rounded-xl border border-slate-700/50">
                       <label className="text-xs text-slate-300">{t('coldProof')}</label>
                       <input type="checkbox" checked={config.coldProofEnabled} onChange={e => onUpdateConfig({coldProofEnabled: e.target.checked})} className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer" />
                    </div>
+                   {config.coldProofEnabled && (
+                     <div className="space-y-3 bg-slate-900/20 p-3 rounded-lg border border-slate-700/30">
+                       <div className="flex justify-between items-end">
+                         <label className="text-[9px] text-slate-500 mono uppercase">Cold Proof Duration</label>
+                         <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldProofDurationHours)}</span>
+                       </div>
+                       <input 
+                         type="range" 
+                         min="0" 
+                         max="100" 
+                         step="1" 
+                         value={durationToSliderValue(config.coldProofDurationHours)}
+                         onChange={e => onUpdateConfig({coldProofDurationHours: roundDuration(sliderValueToDuration(parseFloat(e.target.value)))})} 
+                         className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400" 
+                       />
+                     </div>
+                   )}
                    <div className="pt-3 border-t border-slate-700/50">
                       <div className="space-y-4">
                         <div className="flex justify-between items-end">

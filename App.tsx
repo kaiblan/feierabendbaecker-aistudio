@@ -18,7 +18,9 @@ const DEFAULT_CONFIG: BakerConfig = {
   prefermentEnabled: false,
   autolyseEnabled: true,
   coldBulkEnabled: false,
+  coldBulkDurationHours: 12,
   coldProofEnabled: false,
+  coldProofDurationHours: 16,
 };
 
 const App: React.FC = () => {

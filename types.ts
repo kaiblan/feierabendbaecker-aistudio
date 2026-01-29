@@ -33,7 +33,9 @@ export interface BakerConfig {
   prefermentEnabled: boolean;
   autolyseEnabled: boolean;
   coldBulkEnabled: boolean;
+  coldBulkDurationHours: number; // Duration of cold bulk in hours
   coldProofEnabled: boolean;
+  coldProofDurationHours: number; // Duration of cold proof in hours
 }
 
 export interface Session {
