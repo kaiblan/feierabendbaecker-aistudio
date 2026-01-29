@@ -5,23 +5,79 @@
 import { BakerConfig } from '../types';
 
 /**
- * Calculate fermentation durations based on config parameters
- * Uses scientific approximation: 0.5% yeast at 24°C is baseline (300m bulk, 60m proof)
- * Proof time is fixed at 60 minutes unless cold proof is enabled (960m)
+ * Temperature-dependent cold equivalence factor
+ * 
+ * A(T) computes how much 1 minute of cold fermentation at temperature T°C
+ * is equivalent to in warm fermentation minutes.
+ *
+ * Algorithm:
+ * - T <= 2°C:   A(T) = 0 (essentially no fermentation)
+ * - 2 < T < 5°C: A(T) = 0.05 × (T - 2) / 3 (linear interpolation)
+ * - T >= 5°C:   A(T) = k × 2^((T - 20) / 10), where k = 0.05 / 2^((5 - 20) / 10)
+ */
+const coldEquivalenceFactor = (tempC: number): number => {
+  if (tempC <= 2) {
+    return 0;
+  } else if (tempC < 5) {
+    return 0.05 * (tempC - 2) / 3;
+  } else {
+    const Araw5 = Math.pow(2, (5 - 20) / 10);
+    const k = 0.05 / Araw5;
+    return k * Math.pow(2, (tempC - 20) / 10);
+  }
+};
+
+/**
+ * Deterministic fermentation time model
+ *
+ * Baseline (0.5% yeast @ 24°C):
+ * - Bulk target = 300 min
+ * - Proof target = 180 min
+ *
+ * Yeast effect: time ∝ 1 / yeastPercent (yeastFactor = 0.5 / yeastPercent)
+ *
+ * Temperature effect (exponential):
+ * - Bulk:  bulkTempEffect  = 0.85 ^ ((tempC - 24) / 2)
+ * - Proof: proofTempEffect = 0.80 ^ ((tempC - 24) / 2)
+ *
+ * Warm fermentation targets:
+ * - bulkWarmTarget  = 300 × yeastFactor × bulkTempEffect
+ * - proofWarmTarget = 180 × yeastFactor × proofTempEffect
+ *
+ * Cold fermentation:
+ * - Cold does not stop fermentation, it slows it (1 min cold ≈ 0.07 min warm)
+ * - Warm remaining = max(0, warmTarget - coldMins × 0.07)
  */
 export const calculateFermentationTimes = (config: BakerConfig): { bulkMins: number; proofMins: number; coldBulkMins: number; coldProofMins: number } => {
-  const yeastFactor = 0.5 / (config.yeast || 0.05);
-  const tempEffect = Math.pow(0.85, (config.targetTemp - 24) / 2);
+  const BASE_YEAST = 0.5;
 
-  // Base (room-temp) fermentations
-  const baseBulkMins = Math.round(300 * yeastFactor * tempEffect);
-  const baseProofMins = 60;
+  const yeastFactor = BASE_YEAST / (config.yeast || BASE_YEAST);
 
-  // Cold (refrigerated) additional durations (if enabled)
+  // Temperature effects (exponential, different for bulk and proof)
+  const bulkTempEffect = Math.pow(0.85, (config.targetTemp - 24) / 2);
+  const proofTempEffect = Math.pow(0.80, (config.targetTemp - 24) / 2);
+
+  // Warm fermentation targets
+  const bulkWarmTarget = 300 * yeastFactor * bulkTempEffect;
+  const proofWarmTarget = 180 * yeastFactor * proofTempEffect;
+
+  // Cold durations (user-specified in hours)
   const coldBulkMins = config.coldBulkEnabled ? Math.round((config.coldBulkDurationHours || 0) * 60) : 0;
   const coldProofMins = config.coldProofEnabled ? Math.round((config.coldProofDurationHours || 0) * 60) : 0;
 
-  return { bulkMins: baseBulkMins, proofMins: baseProofMins, coldBulkMins, coldProofMins };
+  // Temperature-dependent cold equivalence factor
+  const coldFactor = coldEquivalenceFactor(config.fridgeTemp);
+
+  // Warm remaining time after cold fermentation accounts for slowdown
+  const bulkWarmRemaining = Math.max(0, bulkWarmTarget - coldBulkMins * coldFactor);
+  const proofWarmRemaining = Math.max(0, proofWarmTarget - coldProofMins * coldFactor);
+
+  return {
+    bulkMins: Math.round(bulkWarmRemaining),
+    proofMins: Math.round(proofWarmRemaining),
+    coldBulkMins,
+    coldProofMins,
+  };
 };
 
 /**
