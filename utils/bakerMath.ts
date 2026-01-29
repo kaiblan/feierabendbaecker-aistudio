@@ -90,7 +90,7 @@ export const calculateTotalProcessTime = (
   coldBulkMins: number = 0,
   coldProofMins: number = 0
 ): number => {
-  let total = bulkMins + proofMins + coldBulkMins + coldProofMins + 130; // 15 (mix) + 45 (folds) + 20 (shape) + 50 (bake)
+  let total = bulkMins + proofMins + coldBulkMins + coldProofMins + 125; // 15 (mix) + 45 (folds) + 15 (shape) + 50 (bake)
   if (config.autolyseEnabled) total += (config.autolyseDurationMinutes || 0);
   return total;
 };

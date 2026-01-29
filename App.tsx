@@ -13,16 +13,16 @@ const DEFAULT_CONFIG: BakerConfig = {
   totalFlour: 1000,
   hydration: 75,
   salt: 2,
-  yeast: 0.5, // Default 0.5% yeast
-  targetTemp: 24,
-  fridgeTemp: 4,
+  yeast: 0.5,
+  targetTemp: 22,
+  fridgeTemp: 6,
   prefermentEnabled: false,
-  autolyseEnabled: true,
+  autolyseEnabled: false,
   autolyseDurationMinutes: 60,
   coldBulkEnabled: false,
-  coldBulkDurationHours: 12,
+  coldBulkDurationHours: 8,
   coldProofEnabled: false,
-  coldProofDurationHours: 16,
+  coldProofDurationHours: 8,
 };
 
 const App: React.FC = () => {

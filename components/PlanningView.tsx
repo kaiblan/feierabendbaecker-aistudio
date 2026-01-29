@@ -25,7 +25,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
   language,
   t 
 }) => {
-  const [planningMode, setPlanningMode] = useState<'forward' | 'backward'>('forward');
+  const [planningMode, setPlanningMode] = useState<'forward' | 'backward'>('backward');
 
   const {
     scheduleWithTimes,
