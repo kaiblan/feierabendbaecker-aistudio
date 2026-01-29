@@ -14,10 +14,11 @@ const balanceBulkProof = (totalMins: number, balance: number): { bulkMins: numbe
   const bulkPercent = 90 - (balance / 100) * 30;
   const proofPercent = 100 - bulkPercent;
 
-  return {
-    bulkMins: Math.round(totalMins * bulkPercent / 100),
-    proofMins: Math.round(totalMins * proofPercent / 100),
-  };
+  const totalRounded = Math.round(totalMins);
+  const bulkMins = Math.round(totalRounded * bulkPercent / 100);
+  const proofMins = totalRounded - bulkMins;
+
+  return { bulkMins, proofMins };
 };
 
 /**
