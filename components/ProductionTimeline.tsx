@@ -14,6 +14,7 @@ interface ProductionTimelineProps {
   workLabel: string;
   coldLabel: string;
   productionWorkflowLabel: string;
+  planningMode: 'forward' | 'backward';
 }
 
 export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
@@ -25,27 +26,45 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
   workLabel,
   coldLabel,
   productionWorkflowLabel,
+  planningMode,
 }) => {
   const [maxLabels, setMaxLabels] = useState<number>(() => {
-    if (typeof window === 'undefined') return 8;
+    if (typeof window === 'undefined') return 12;
     const w = window.innerWidth;
-    if (w < 640) return 4;
-    if (w < 1024) return 8;
-    return 12;
+    if (w < 640) return 8;
+    if (w < 1024) return 12;
+    return 16;
   });
 
   useEffect(() => {
     const onResize = () => {
       const w = window.innerWidth;
-      if (w < 640) setMaxLabels(4);
-      else if (w < 1024) setMaxLabels(8);
-      else setMaxLabels(12);
+      if (w < 640) setMaxLabels(8);
+      else if (w < 1024) setMaxLabels(12);
+      else setMaxLabels(16);
     };
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
   const labelStep = Math.max(1, Math.ceil(hourlyMarkers.length / maxLabels));
+  const labelsToShow = new Set<number>();
+  
+  // Direction-aware label selection
+  if (planningMode === 'backward') {
+    // Start from the end for backward planning
+    for (let i = hourlyMarkers.length - 1; i >= 0; i -= labelStep) {
+      labelsToShow.add(i);
+    }
+  } else {
+    // Start from the beginning for forward planning
+    for (let i = 0; i < hourlyMarkers.length; i += labelStep) {
+      labelsToShow.add(i);
+    }
+  }
+  // Always show first and last
+  labelsToShow.add(0);
+  labelsToShow.add(hourlyMarkers.length - 1);
   return (
     <div className="bg-slate-950/95 backdrop-blur-xl border-b border-slate-800 shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-20 px-4 md:px-8 py-6">
       <div className="max-w-7xl mx-auto w-full">
@@ -114,7 +133,7 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
                 style={{ left: `${marker.position}%` }}
               >
                 <div className="w-[1px] h-2 bg-slate-700 group-hover:bg-slate-400 transition-colors" />
-                {(i % labelStep === 0 || i === hourlyMarkers.length - 1) && (
+                {labelsToShow.has(i) && (
                   <span className="mt-1 text-[10px] md:text-[11px] mono text-slate-400 font-medium group-hover:text-slate-300 transition-colors">
                     {marker.label}
                   </span>

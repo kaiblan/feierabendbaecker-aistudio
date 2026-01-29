@@ -123,6 +123,7 @@ const App: React.FC = () => {
                 workLabel={t('work')}
                 coldLabel={t('cold')}
                 productionWorkflowLabel={t('productionWorkflow')}
+                planningMode={planningMode}
               />
 
               {/* Planning View Content */}
