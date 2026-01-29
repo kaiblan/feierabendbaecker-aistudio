@@ -93,9 +93,9 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
           </div>
         </div>
 
-        <div className="relative">
+        <div className="relative p-1">
           {/* Main Process Blocks */}
-          <div className="relative h-14 flex w-full bg-slate-950/50 rounded-lg border border-slate-800/50 p-1 overflow-hidden shadow-inner">
+          <div className="relative h-14 flex w-full bg-slate-950/50 rounded-lg border border-slate-800/50 overflow-hidden shadow-inner">
             {scheduleWithTimes.map((step, i) => {
               const width = (step.min / totalProcessMins) * 100;
               return (
@@ -120,8 +120,6 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
                 </div>
               );
             })}
-            {/* Finished indicator */}
-            <div className="absolute right-0 top-0 bottom-0 w-1 bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" title="Finished" />
           </div>
 
           {/* Hourly Scale */}
@@ -140,16 +138,6 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
                 )}
               </div>
             ))}
-
-            {/* Start/End explicit markers if they aren't on top of hourly ones */}
-            <div className="absolute top-0 left-0 flex flex-col items-center -translate-x-1/2">
-              <div className="w-[1px] h-3 bg-cyan-500" />
-              <span className="mt-1 text-[11px] mono text-cyan-400 font-bold">START</span>
-            </div>
-            <div className="absolute top-0 left-[100%] flex flex-col items-center -translate-x-1/2">
-              <div className="w-[1px] h-3 bg-emerald-500" />
-              <span className="mt-1 text-[11px] mono text-emerald-400 font-bold">END</span>
-            </div>
           </div>
         </div>
       </div>
