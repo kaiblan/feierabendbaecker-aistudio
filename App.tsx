@@ -34,6 +34,7 @@ const App: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState<'planning' | 'active' | 'history' | 'starter' | 'knowledge'>('planning');
   const [startTimeStr, setStartTimeStr] = useState('08:00');
+  const [planningMode, setPlanningMode] = useState<'forward' | 'backward'>('backward');
   const [selectedStageIdx, setSelectedStageIdx] = useState(0);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
@@ -51,7 +52,7 @@ const App: React.FC = () => {
   const { scheduleWithTimes, sessionStartTime, sessionEndTime, hourlyMarkers, totalProcessMins } = useBakeSchedule({
     config: session.config,
     startTimeStr,
-    planningMode: session.status === 'recipe' ? 'backward' : 'forward',
+    planningMode,
     translateFn: t,
   });
 
@@ -190,8 +191,10 @@ const App: React.FC = () => {
               config={session.config}
               status={session.status}
               startTimeStr={startTimeStr}
+              planningMode={planningMode}
               onUpdateConfig={updateConfig}
               onUpdateStartTime={setStartTimeStr}
+              onUpdatePlanningMode={setPlanningMode}
               onStartProcess={handleNextStage}
               language={language}
               t={t}

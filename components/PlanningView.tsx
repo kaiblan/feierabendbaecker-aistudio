@@ -8,8 +8,10 @@ interface PlanningViewProps {
   config: BakerConfig;
   status: 'planning' | 'recipe' | 'active' | 'completed';
   startTimeStr: string;
+  planningMode: 'forward' | 'backward';
   onUpdateConfig: (updates: Partial<BakerConfig>) => void;
   onUpdateStartTime: (time: string) => void;
+  onUpdatePlanningMode: (mode: 'forward' | 'backward') => void;
   onStartProcess: () => void;
   language: Language;
   t: (key: string) => string;
@@ -18,14 +20,15 @@ interface PlanningViewProps {
 const PlanningView: React.FC<PlanningViewProps> = ({ 
   config, 
   status,
-  startTimeStr, 
+  startTimeStr,
+  planningMode,
   onUpdateConfig, 
   onUpdateStartTime,
+  onUpdatePlanningMode,
   onStartProcess,
   language,
   t 
 }) => {
-  const [planningMode, setPlanningMode] = useState<'forward' | 'backward'>('backward');
 
   const {
     scheduleWithTimes,
@@ -67,8 +70,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
               <section className="order-1 lg:order-3 lg:col-span-2 w-full bg-slate-800/40 border border-slate-700 rounded-2xl p-6 flex flex-col space-y-4">
                 <h3 className="text-[10px] font-bold text-emerald-500 mono uppercase tracking-widest border-b border-slate-700 pb-3">{t('sessionTiming')}</h3>
                 <div className="bg-slate-900/40 p-1 rounded-lg flex border border-slate-700">
-                  <button onClick={() => setPlanningMode('forward')} className={`flex-1 text-[9px] py-1.5 rounded mono uppercase transition-all ${planningMode === 'forward' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>{t('forward')}</button>
-                  <button onClick={() => setPlanningMode('backward')} className={`flex-1 text-[9px] py-1.5 rounded mono uppercase transition-all ${planningMode === 'backward' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>{t('backward')}</button>
+                  <button onClick={() => onUpdatePlanningMode('forward')} className={`flex-1 text-[9px] py-1.5 rounded mono uppercase transition-all ${planningMode === 'forward' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>{t('forward')}</button>
+                  <button onClick={() => onUpdatePlanningMode('backward')} className={`flex-1 text-[9px] py-1.5 rounded mono uppercase transition-all ${planningMode === 'backward' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>{t('backward')}</button>
                 </div>
                 <div className="flex flex-col items-center">
                   <label className="text-[9px] text-slate-500 mono uppercase mb-1">{planningMode === 'forward' ? t('startTime') : t('readyTime')}</label>
