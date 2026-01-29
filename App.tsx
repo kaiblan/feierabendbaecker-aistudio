@@ -118,7 +118,7 @@ const App: React.FC = () => {
           {activeTab === 'planning' && (
             <>
               {/* Production Timeline */}
-              <div className="bg-slate-900/95 backdrop-blur-xl border-b border-slate-800 shadow-[0_10px_40px_rgba(0,0,0,0.5)] px-4 md:px-8 py-6">
+              <div className="sticky top-0 z-40 lg:static bg-slate-900/95 backdrop-blur-xl border-b border-slate-800 shadow-[0_10px_40px_rgba(0,0,0,0.5)] px-4 md:px-8 py-6">
                 <div className="max-w-7xl mx-auto w-full">
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="text-[10px] font-bold text-slate-500 mono uppercase tracking-[0.3em]">{t('productionWorkflow')}</h3>

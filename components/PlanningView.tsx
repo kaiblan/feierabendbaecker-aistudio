@@ -61,7 +61,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
           </div>
         </header>
 
-        <div className="max-w-7xl mx-auto w-full flex flex-col lg:grid lg:grid-cols-10 gap-6 items-start">
+          <div className="max-w-7xl mx-auto w-full flex flex-col lg:grid lg:grid-cols-10 gap-6 items-start">
           {!isRecipeStage ? (
             <>
               <section className="order-1 lg:order-3 lg:col-span-2 w-full bg-slate-800/40 border border-slate-700 rounded-2xl p-6 flex flex-col space-y-4">
@@ -82,17 +82,16 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                 </div>
               </section>
 
-              <section className="order-2 lg:order-1 lg:col-span-6 w-full bg-slate-800/40 border border-slate-700 rounded-2xl p-6 space-y-6">
+              <section className="order-2 lg:order-1 lg:col-span-4 w-full bg-slate-800/40 border border-slate-700 rounded-2xl p-6 space-y-6">
                 <h3 className="text-[10px] font-bold text-cyan-500 mono uppercase tracking-widest border-b border-slate-700 pb-3">{t('basicFactors')}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <div className="grid grid-cols-1 gap-8 items-start">
                   <div className="space-y-4">
                     <div className="flex justify-between items-end">
                       <label className="text-[10px] text-slate-500 mono uppercase">{t('yeastPercentage')}</label>
                       <span className="text-xl font-bold text-emerald-400 mono tracking-tighter">{config.yeast.toFixed(2)}%</span>
                     </div>
                     <input type="range" min="0.05" max="5.00" step="0.05" value={config.yeast} onChange={e => onUpdateConfig({yeast: parseFloat(e.target.value)})} className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500" />
-                  </div>
-                  <div className="space-y-4">
+
                     <div className="flex justify-between items-end">
                       <label className="text-[10px] text-slate-500 mono uppercase">{t('doughTemperature')}</label>
                       <span className="text-xl font-bold text-amber-400 mono tracking-tighter">{config.targetTemp.toFixed(1)}°C</span>
@@ -102,7 +101,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                 </div>
               </section>
 
-              <section className="order-3 lg:order-2 lg:col-span-2 w-full bg-slate-800/40 border border-slate-700 rounded-2xl p-6 space-y-4">
+              <section className="order-3 lg:order-2 lg:col-span-4 w-full bg-slate-800/40 border border-slate-700 rounded-2xl p-6 space-y-4">
                 <h3 className="text-[10px] font-bold text-blue-500 mono uppercase tracking-widest border-b border-slate-700 pb-3">{t('additionalSteps')}</h3>
                 <div className="space-y-3">
                    <div className="flex justify-between items-center bg-slate-900/40 p-3 rounded-xl border border-slate-700/50">

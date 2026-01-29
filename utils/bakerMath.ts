@@ -9,19 +9,19 @@ import { BakerConfig } from '../types';
  * Uses scientific approximation: 0.5% yeast at 24°C is baseline (300m bulk, 60m proof)
  * Proof time is fixed at 60 minutes unless cold proof is enabled (960m)
  */
-export const calculateFermentationTimes = (config: BakerConfig): { bulkMins: number; proofMins: number } => {
+export const calculateFermentationTimes = (config: BakerConfig): { bulkMins: number; proofMins: number; coldBulkMins: number; coldProofMins: number } => {
   const yeastFactor = 0.5 / (config.yeast || 0.05);
   const tempEffect = Math.pow(0.85, (config.targetTemp - 24) / 2);
 
-  const bulkMins = config.coldBulkEnabled 
-    ? Math.round(config.coldBulkDurationHours * 60)
-    : Math.round(300 * yeastFactor * tempEffect);
-    
-  const proofMins = config.coldProofEnabled 
-    ? Math.round(config.coldProofDurationHours * 60)
-    : 60;
+  // Base (room-temp) fermentations
+  const baseBulkMins = Math.round(300 * yeastFactor * tempEffect);
+  const baseProofMins = 60;
 
-  return { bulkMins, proofMins };
+  // Cold (refrigerated) additional durations (if enabled)
+  const coldBulkMins = config.coldBulkEnabled ? Math.round((config.coldBulkDurationHours || 0) * 60) : 0;
+  const coldProofMins = config.coldProofEnabled ? Math.round((config.coldProofDurationHours || 0) * 60) : 0;
+
+  return { bulkMins: baseBulkMins, proofMins: baseProofMins, coldBulkMins, coldProofMins };
 };
 
 /**
@@ -30,9 +30,11 @@ export const calculateFermentationTimes = (config: BakerConfig): { bulkMins: num
 export const calculateTotalProcessTime = (
   config: BakerConfig,
   bulkMins: number,
-  proofMins: number
+  proofMins: number,
+  coldBulkMins: number = 0,
+  coldProofMins: number = 0
 ): number => {
-  let total = bulkMins + proofMins + 130; // 15 (mix) + 45 (folds) + 20 (shape) + 50 (bake)
+  let total = bulkMins + proofMins + coldBulkMins + coldProofMins + 130; // 15 (mix) + 45 (folds) + 20 (shape) + 50 (bake)
   if (config.autolyseEnabled) total += (config.autolyseDurationMinutes || 0);
   return total;
 };

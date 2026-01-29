@@ -29,14 +29,14 @@ export const useBakeSchedule = ({
   planningMode,
   translateFn,
 }: UseBakeScheduleProps) => {
-  const { bulkMins, proofMins } = useMemo(
+  const { bulkMins, proofMins, coldBulkMins, coldProofMins } = useMemo(
     () => calculateFermentationTimes(config),
     [config]
   );
 
   const totalProcessMins = useMemo(
-    () => calculateTotalProcessTime(config, bulkMins, proofMins),
-    [config, bulkMins, proofMins]
+    () => calculateTotalProcessTime(config, bulkMins, proofMins, coldBulkMins, coldProofMins),
+    [config, bulkMins, proofMins, coldBulkMins, coldProofMins]
   );
 
   const { scheduleWithTimes, sessionStartTime, sessionEndTime } = useMemo(() => {
@@ -57,19 +57,23 @@ export const useBakeSchedule = ({
     }
     steps.push({ label: translateFn('mixing'), min: 15, active: true, cold: false });
     steps.push({ label: translateFn('folds'), min: 45, active: true, cold: false });
-    steps.push({
-      label: config.coldBulkEnabled ? translateFn('coldBulk') : translateFn('bulkFerment'),
-      min: bulkMins,
-      active: false,
-      cold: config.coldBulkEnabled,
-    });
+
+    // Base bulk fermentation (room temp)
+    steps.push({ label: translateFn('bulkFerment'), min: bulkMins, active: false, cold: false });
+    // If cold bulk is enabled, append it after the normal bulk
+    if (coldBulkMins > 0) {
+      steps.push({ label: translateFn('coldBulk'), min: coldBulkMins, active: false, cold: true });
+    }
+
     steps.push({ label: translateFn('shaping'), min: 20, active: true, cold: false });
-    steps.push({
-      label: config.coldProofEnabled ? translateFn('coldProof') : translateFn('finalProof'),
-      min: proofMins,
-      active: false,
-      cold: config.coldProofEnabled,
-    });
+
+    // Base final proof (room temp)
+    steps.push({ label: translateFn('finalProof'), min: proofMins, active: false, cold: false });
+    // If cold proof is enabled, append it after the normal proof
+    if (coldProofMins > 0) {
+      steps.push({ label: translateFn('coldProof'), min: coldProofMins, active: false, cold: true });
+    }
+
     steps.push({ label: translateFn('baking'), min: 50, active: true, cold: false });
 
     let currentCursor = start.getTime();

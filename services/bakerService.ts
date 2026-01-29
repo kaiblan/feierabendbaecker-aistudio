@@ -12,7 +12,7 @@ export const generateBakingStages = (
   config: BakerConfig,
   translateFn: (key: string) => string
 ): Stage[] => {
-  const { bulkMins, proofMins } = calculateFermentationTimes(config);
+  const { bulkMins, proofMins, coldBulkMins, coldProofMins } = calculateFermentationTimes(config);
 
   const stages: Stage[] = [];
 
@@ -45,14 +45,26 @@ export const generateBakingStages = (
     isActive: true,
   });
 
+  // Base bulk fermentation (room temp)
   stages.push({
     id: 'b1',
     type: StageType.BULK_FERMENTATION,
-    label: config.coldBulkEnabled ? translateFn('coldBulk') : translateFn('bulkFerment'),
+    label: translateFn('bulkFerment'),
     durationMinutes: bulkMins,
     completed: false,
     isActive: false,
   });
+  // Append cold bulk after normal bulk when configured
+  if (coldBulkMins > 0) {
+    stages.push({
+      id: 'cb1',
+      type: StageType.BULK_FERMENTATION,
+      label: translateFn('coldBulk'),
+      durationMinutes: coldBulkMins,
+      completed: false,
+      isActive: false,
+    });
+  }
 
   stages.push({
     id: 's1',
@@ -63,14 +75,26 @@ export const generateBakingStages = (
     isActive: true,
   });
 
+  // Base final proof (room temp)
   stages.push({
     id: 'pr1',
     type: StageType.PROVING,
-    label: config.coldProofEnabled ? translateFn('coldProof') : translateFn('finalProof'),
+    label: translateFn('finalProof'),
     durationMinutes: proofMins,
     completed: false,
     isActive: false,
   });
+  // Append cold proof after normal proof when configured
+  if (coldProofMins > 0) {
+    stages.push({
+      id: 'cp1',
+      type: StageType.PROVING,
+      label: translateFn('coldProof'),
+      durationMinutes: coldProofMins,
+      completed: false,
+      isActive: false,
+    });
+  }
 
   stages.push({
     id: 'bk1',
@@ -88,6 +112,6 @@ export const generateBakingStages = (
  * Calculate total minutes for a baking session
  */
 export const calculateSessionDuration = (config: BakerConfig): number => {
-  const { bulkMins, proofMins } = calculateFermentationTimes(config);
-  return calculateTotalProcessTime(config, bulkMins, proofMins);
+  const { bulkMins, proofMins, coldBulkMins, coldProofMins } = calculateFermentationTimes(config);
+  return calculateTotalProcessTime(config, bulkMins, proofMins, coldBulkMins, coldProofMins);
 };
