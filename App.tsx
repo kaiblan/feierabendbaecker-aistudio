@@ -27,7 +27,7 @@ const DEFAULT_CONFIG: BakerConfig = {
 };
 
 const App: React.FC = () => {
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<Language>('de');
   const t = useCallback(
     (key: string) => TRANSLATIONS[language][key as keyof typeof TRANSLATIONS.en] || key,
     [language]
@@ -100,10 +100,10 @@ const App: React.FC = () => {
           <div>
             <h1 className="text-lg font-bold text-white tracking-tight">{session.name}</h1>
             <div className="flex items-center space-x-3 mt-1">
-              <span className="text-[10px] mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-800 uppercase tracking-tighter">
+              <span className="text-[11px] mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-800 uppercase tracking-tighter">
                 {session.config.hydration}% Hydration
               </span>
-              <span className={`text-[10px] mono px-2 py-0.5 rounded border uppercase tracking-tighter ${session.status === 'active' ? 'bg-emerald-950/50 text-emerald-400 border-emerald-900/50' : 'bg-amber-950/50 text-amber-400 border-amber-900/50'}`}>
+              <span className={`text-[11px] mono px-2 py-0.5 rounded border uppercase tracking-tighter ${session.status === 'active' ? 'bg-emerald-950/50 text-emerald-400 border-emerald-900/50' : 'bg-amber-950/50 text-amber-400 border-amber-900/50'}`}>
                 {session.status}
               </span>
             </div>
@@ -125,8 +125,8 @@ const App: React.FC = () => {
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="text-[11px] font-bold text-slate-400 mono uppercase tracking-[0.3em]">{t('productionWorkflow')}</h3>
                     <div className="flex items-center space-x-4">
-                        <div className="flex items-center space-x-1.5"><div className="w-2.5 h-2.5 bg-cyan-600 rounded-sm"></div><span className="text-[10px] mono text-slate-400 uppercase">{t('work')}</span></div>
-                        <div className="flex items-center space-x-1.5"><div className="w-2.5 h-2.5 bg-blue-900/60 rounded-sm"></div><span className="text-[10px] mono text-slate-400 uppercase">{t('cold')}</span></div>
+                        <div className="flex items-center space-x-1.5"><div className="w-2.5 h-2.5 bg-cyan-600 rounded-sm"></div><span className="text-[11px] mono text-slate-400 uppercase">{t('work')}</span></div>
+                        <div className="flex items-center space-x-1.5"><div className="w-2.5 h-2.5 bg-blue-900/60 rounded-sm"></div><span className="text-[11px] mono text-slate-400 uppercase">{t('cold')}</span></div>
                         <span className="text-[11px] mono text-slate-400 border-l border-slate-800 pl-4 ml-2">
                           <span className="text-slate-200">{sessionStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span> — <span className="text-slate-200">{sessionEndTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                         </span>
@@ -148,7 +148,7 @@ const App: React.FC = () => {
                                 'bg-slate-800/60'}
                             `}
                           >
-                            <span className={`text-[9px] md:text-[10px] mono font-bold uppercase truncate max-w-full tracking-tighter ${step.active ? 'text-white' : 'text-slate-400'}`}>
+                            <span className={`text-[9px] md:text-[11px] mono font-bold uppercase truncate max-w-full tracking-tighter ${step.active ? 'text-white' : 'text-slate-400'}`}>
                               {step.label}
                             </span>
                           </div>
@@ -176,11 +176,11 @@ const App: React.FC = () => {
                        {/* Start/End explicit markers if they aren't on top of hourly ones */}
                        <div className="absolute top-0 left-0 flex flex-col items-center -translate-x-1/2">
                          <div className="w-[1px] h-3 bg-cyan-500" />
-                         <span className="mt-1 text-[10px] mono text-cyan-400 font-bold">START</span>
+                         <span className="mt-1 text-[11px] mono text-cyan-400 font-bold">START</span>
                        </div>
                        <div className="absolute top-0 left-[100%] flex flex-col items-center -translate-x-1/2">
                          <div className="w-[1px] h-3 bg-emerald-500" />
-                         <span className="mt-1 text-[10px] mono text-emerald-400 font-bold">END</span>
+                         <span className="mt-1 text-[11px] mono text-emerald-400 font-bold">END</span>
                        </div>
                     </div>
                   </div>
@@ -208,7 +208,7 @@ const App: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 bg-slate-800/50 border border-slate-700 rounded-2xl p-8 flex flex-col justify-center items-center text-center shadow-2xl relative overflow-hidden">
                   <div className={`absolute top-0 left-0 w-full h-1 ${session.stages[session.activeStageIndex]?.isActive ? 'bg-cyan-500' : 'bg-slate-700'}`} />
-                  <div className="text-[10px] mono text-cyan-500 mb-2 uppercase tracking-[0.3em] font-bold">
+                  <div className="text-[11px] mono text-cyan-500 mb-2 uppercase tracking-[0.3em] font-bold">
                     {session.stages[session.activeStageIndex]?.isActive ? 'ACTIVE WORK PHASE' : 'PASSIVE FERMENTATION'}
                   </div>
                   <h2 className="text-4xl font-black mb-6 tracking-tight">{session.stages[session.activeStageIndex]?.label}</h2>
@@ -225,7 +225,7 @@ const App: React.FC = () => {
 
                 <div className="bg-slate-800/30 border border-slate-700 rounded-2xl p-6 flex flex-col justify-between">
                   <div>
-                    <div className="text-[10px] mono text-slate-500 mb-4 uppercase tracking-widest">UPCOMING</div>
+                    <div className="text-[11px] mono text-slate-500 mb-4 uppercase tracking-widest">UPCOMING</div>
                     <div className="text-lg font-bold text-slate-200">{session.stages[session.activeStageIndex + 1]?.label || 'SESSION END'}</div>
                   </div>
                   <div className="space-y-2">
@@ -247,7 +247,7 @@ const App: React.FC = () => {
 
               <section className="space-y-4">
                 <div className="flex justify-between items-center px-1">
-                  <h3 className="text-[10px] font-bold text-slate-500 mono uppercase tracking-[0.3em]">Session Progress</h3>
+                  <h3 className="text-[11px] font-bold text-slate-500 mono uppercase tracking-[0.3em]">Session Progress</h3>
                 </div>
                 <div className="rounded-2xl border border-slate-800 bg-slate-900/80 overflow-hidden">
                   <Timeline 
@@ -268,7 +268,7 @@ const App: React.FC = () => {
         <div className={`fixed inset-y-0 right-0 w-full md:w-96 bg-slate-900 shadow-2xl z-[60] transform transition-transform duration-500 ease-out border-l border-slate-800 ${isPanelOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           <div className="h-full flex flex-col">
             <header className="p-6 border-b border-slate-800 flex justify-between items-center">
-              <span className="text-[10px] font-bold text-slate-500 mono uppercase tracking-[0.2em]">Parameter Log</span>
+              <span className="text-[11px] font-bold text-slate-500 mono uppercase tracking-[0.2em]">Parameter Log</span>
               <button onClick={() => setIsPanelOpen(false)} className="p-2 text-slate-400 hover:text-white">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>

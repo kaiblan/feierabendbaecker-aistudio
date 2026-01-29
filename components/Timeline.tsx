@@ -30,13 +30,13 @@ const Timeline: React.FC<TimelineProps> = ({ stages, activeIndex, orientation, o
               <span className={`text-[11px] mono font-bold uppercase tracking-wider ${isActive ? 'text-cyan-400' : 'text-slate-400'}`}>
                 {stage.type.replace('_', ' ')}
               </span>
-              {isCompleted && <span className="text-emerald-500 text-[10px] mono">DONE</span>}
+              {isCompleted && <span className="text-emerald-500 text-[11px] mono">DONE</span>}
             </div>
             <div className="flex items-center space-x-2">
               <div className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-cyan-400 animate-pulse' : isCompleted ? 'bg-emerald-500' : 'bg-slate-600'}`} />
               <span className={`text-xs font-semibold truncate ${isActive ? 'text-white' : 'text-slate-400'}`}>{stage.label}</span>
             </div>
-            <div className="text-[10px] mono text-slate-400 mt-1">
+            <div className="text-[11px] mono text-slate-400 mt-1">
               {stage.durationMinutes} MINS
             </div>
           </button>
