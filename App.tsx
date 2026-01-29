@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { ICONS, COLORS } from './constants';
-import { Session, Stage, StageType, BakerConfig } from './types';
+import React, { useState, useCallback, useMemo } from 'react';
+import { ICONS, COLORS, TRANSLATIONS, Language } from './constants';
+import { BakerConfig } from './types';
 import Timeline from './components/Timeline';
 import StageDetail from './components/StageDetail';
 import PlanningView from './components/PlanningView';
+import { useSession } from './hooks/useSession';
+import { useTimer } from './hooks/useTimer';
+import { formatTime } from './utils/timeUtils';
 
 const DEFAULT_CONFIG: BakerConfig = {
   totalFlour: 1000,
@@ -19,94 +22,37 @@ const DEFAULT_CONFIG: BakerConfig = {
 };
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'planning' | 'active' | 'history' | 'starter' | 'knowledge'>('planning');
-  const [startTimeStr, setStartTimeStr] = useState("08:00");
-  
-  const [session, setSession] = useState<Session>({
-    id: 'new-bake',
-    name: 'Experimental Batch',
-    startTime: new Date(),
-    targetEndTime: new Date(),
-    stages: [],
-    activeStageIndex: 0,
-    status: 'planning',
-    config: DEFAULT_CONFIG
-  });
+  const [language, setLanguage] = useState<Language>('en');
+  const t = useCallback(
+    (key: string) => TRANSLATIONS[language][key as keyof typeof TRANSLATIONS.en] || key,
+    [language]
+  );
 
+  const [activeTab, setActiveTab] = useState<'planning' | 'active' | 'history' | 'starter' | 'knowledge'>('planning');
+  const [startTimeStr, setStartTimeStr] = useState('08:00');
   const [selectedStageIdx, setSelectedStageIdx] = useState(0);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(0);
 
-  // Re-calculate stages based on config drivers
-  const calculatedStages = useMemo(() => {
-    // Scientific approximation: 0.5% yeast at 24°C is our baseline (300m bulk, 180m proof)
-    const yeastFactor = 0.5 / (session.config.yeast || 0.05);
-    const tempEffect = Math.pow(0.85, (session.config.targetTemp - 24) / 2);
-    
-    let bulkMins = session.config.coldBulkEnabled 
-      ? 720 
-      : Math.round(300 * yeastFactor * tempEffect);
-      
-    let proofMins = session.config.coldProofEnabled 
-      ? 960 
-      : Math.round(180 * yeastFactor * tempEffect);
+  const { session, updateConfig, transitionToRecipe, transitionToActive, advanceStage, setSession } = useSession({
+    initialConfig: DEFAULT_CONFIG,
+    translateFn: t,
+  });
 
-    const stages: Stage[] = [];
-    if (session.config.autolyseEnabled) {
-      stages.push({ id: 'a1', type: StageType.AUTOLYSE, label: 'Autolyse', durationMinutes: 60, completed: false, isActive: false });
-    }
-    stages.push({ id: 'm1', type: StageType.MIXING, label: 'Mixing', durationMinutes: 15, completed: false, isActive: true });
-    stages.push({ id: 'f1', type: StageType.STRETCH_AND_FOLD, label: 'Folds', durationMinutes: 45, completed: false, isActive: true });
-    stages.push({ id: 'b1', type: StageType.BULK_FERMENTATION, label: session.config.coldBulkEnabled ? 'Cold Bulk' : 'Bulk Ferment', durationMinutes: bulkMins, completed: false, isActive: false });
-    stages.push({ id: 's1', type: StageType.SHAPING, label: 'Shaping', durationMinutes: 20, completed: false, isActive: true });
-    stages.push({ id: 'pr1', type: StageType.PROVING, label: session.config.coldProofEnabled ? 'Cold Proof' : 'Final Proof', durationMinutes: proofMins, completed: false, isActive: false });
-    stages.push({ id: 'bk1', type: StageType.BAKING, label: 'Baking', durationMinutes: 50, completed: false, isActive: true });
-    
-    return stages;
-  }, [session.config]);
+  const isActiveSessionRunning = session.status === 'active' && activeTab === 'active';
+  const { timeLeft, setTimeLeft } = useTimer({
+    isActive: isActiveSessionRunning && !session.stages[session.activeStageIndex]?.completed,
+    durationMinutes: session.stages[session.activeStageIndex]?.durationMinutes || 0,
+  });
 
-  useEffect(() => {
-    if (session.status === 'planning' || session.status === 'recipe') {
-      setSession(prev => ({ ...prev, stages: calculatedStages }));
-    }
-  }, [calculatedStages, session.status]);
-
-  // Timer logic for active session
-  useEffect(() => {
-    if (session.status === 'active' && activeTab === 'active' && !session.stages[session.activeStageIndex]?.completed) {
-      const timer = setInterval(() => {
-        setTimeLeft(prev => (prev > 0 ? prev - 1 : 0));
-      }, 1000);
-      return () => clearInterval(timer);
-    }
-  }, [session.status, activeTab, session.activeStageIndex]);
-
-  const handleNextStage = () => {
+  const handleNextStage = useCallback(() => {
     if (session.status === 'planning') {
-      setSession(prev => ({ ...prev, status: 'recipe' }));
+      transitionToRecipe();
     } else if (session.status === 'recipe') {
-      setSession(prev => ({
-        ...prev,
-        status: 'active',
-        activeStageIndex: 0
-      }));
+      transitionToActive();
       setActiveTab('active');
       setTimeLeft(session.stages[0]?.durationMinutes * 60 || 0);
     }
-  };
-
-  const handleUpdateConfig = (updates: Partial<BakerConfig>) => {
-    setSession(prev => ({
-      ...prev,
-      config: { ...prev.config, ...updates }
-    }));
-  };
-
-  const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m}:${s.toString().padStart(2, '0')}`;
-  };
+  }, [session.status, session.stages, transitionToRecipe, transitionToActive, setTimeLeft]);
 
   return (
     <div className="flex h-screen flex-col lg:flex-row bg-slate-900 text-slate-100 font-sans">
@@ -117,7 +63,7 @@ const App: React.FC = () => {
             <button 
               key={tab} 
               onClick={() => setActiveTab(tab)}
-              title={tab.toUpperCase()}
+              title={t(tab)}
               className={`p-3 rounded-xl transition-all ${activeTab === tab ? 'text-cyan-400 bg-cyan-400/10 scale-110' : 'text-slate-500 hover:text-slate-300'}`}
             >
               {tab === 'planning' && <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>}
@@ -127,6 +73,12 @@ const App: React.FC = () => {
               {tab === 'knowledge' && <ICONS.Knowledge />}
             </button>
           ))}
+        </div>
+        <div className="mt-auto pt-8 border-t border-slate-700 w-full flex justify-center">
+          <div className="bg-slate-900/50 p-1 rounded-lg flex border border-slate-700">
+            <button onClick={() => setLanguage('en')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${language === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</button>
+            <button onClick={() => setLanguage('de')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${language === 'de' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>DE</button>
+          </div>
         </div>
       </nav>
 
@@ -157,9 +109,11 @@ const App: React.FC = () => {
               config={session.config}
               status={session.status}
               startTimeStr={startTimeStr}
-              onUpdateConfig={handleUpdateConfig}
+              onUpdateConfig={updateConfig}
               onUpdateStartTime={setStartTimeStr}
               onStartProcess={handleNextStage}
+              language={language}
+              t={t}
             />
           )}
 
