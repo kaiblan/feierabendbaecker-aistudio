@@ -66,7 +66,7 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
   labelsToShow.add(0);
   labelsToShow.add(hourlyMarkers.length - 1);
   return (
-    <div className="bg-slate-950/95 backdrop-blur-xl border-b border-slate-800 shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-20 px-4 md:px-8 py-6">
+    <div className="sticky top-0 bg-slate-950/95 backdrop-blur-xl border-b border-slate-800 shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-40 px-4 md:px-8 py-6">
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-[11px] font-bold text-slate-400 mono uppercase tracking-[0.3em]">
