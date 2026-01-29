@@ -23,6 +23,7 @@ const DEFAULT_CONFIG: BakerConfig = {
   coldBulkDurationHours: 8,
   coldProofEnabled: false,
   coldProofDurationHours: 8,
+  fermentationBalance: 50,
 };
 
 const App: React.FC = () => {

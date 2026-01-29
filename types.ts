@@ -37,6 +37,7 @@ export interface BakerConfig {
   coldBulkDurationHours: number; // Duration of cold bulk in hours
   coldProofEnabled: boolean;
   coldProofDurationHours: number; // Duration of cold proof in hours
+  fermentationBalance: number; // 0-100: 0 = 90% bulk / 10% proof, 100 = 60% bulk / 40% proof
 }
 
 export interface Session {

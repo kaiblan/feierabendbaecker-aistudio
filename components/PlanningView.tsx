@@ -178,6 +178,25 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                    <div className="pt-3 border-t border-slate-700/50">
                       <div className="space-y-4">
                         <div className="flex justify-between items-end">
+                          <label className="text-[10px] text-slate-500 mono uppercase">Fermentation Balance</label>
+                          <span className="text-sm font-bold text-cyan-400 mono">{90 - (config.fermentationBalance / 100) * 30 | 0}% / {(100 - (90 - (config.fermentationBalance / 100) * 30)) | 0}%</span>
+                        </div>
+                        <input 
+                          type="range" 
+                          min="0" 
+                          max="100" 
+                          step="1" 
+                          value={config.fermentationBalance}
+                          onChange={e => onUpdateConfig({ fermentationBalance: parseInt(e.target.value) })}
+                          className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                        />
+                        <div className="flex justify-between text-[8px] text-slate-500 mono">
+                          <span>90% Bulk</span>
+                          <span>60% Bulk</span>
+                        </div>
+                      </div>
+                      <div className="space-y-4 mt-4">
+                        <div className="flex justify-between items-end">
                           <label className="text-[10px] text-slate-500 mono uppercase">{t('fridgeTemperature')}</label>
                           <span className="text-xl font-bold text-cyan-400 mono tracking-tighter">{config.fridgeTemp.toFixed(1)}°C</span>
                         </div>

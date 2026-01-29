@@ -5,6 +5,22 @@
 import { BakerConfig } from '../types';
 
 /**
+ * Balance bulk and proof fermentation times based on slider (0-100)
+ * 0   = 90% bulk / 10% proof
+ * 100 = 60% bulk / 40% proof
+ */
+const balanceBulkProof = (totalMins: number, balance: number): { bulkMins: number; proofMins: number } => {
+  // Linear interpolation: at balance=0, bulk% = 90; at balance=100, bulk% = 60
+  const bulkPercent = 90 - (balance / 100) * 30;
+  const proofPercent = 100 - bulkPercent;
+
+  return {
+    bulkMins: Math.round(totalMins * bulkPercent / 100),
+    proofMins: Math.round(totalMins * proofPercent / 100),
+  };
+};
+
+/**
  * Temperature-dependent cold equivalence factor
  * 
  * A(T) computes how much 1 minute of cold fermentation at temperature T°C
@@ -72,9 +88,15 @@ export const calculateFermentationTimes = (config: BakerConfig): { bulkMins: num
   const bulkWarmRemaining = Math.max(0, bulkWarmTarget - coldBulkMins * coldFactor);
   const proofWarmRemaining = Math.max(0, proofWarmTarget - coldProofMins * coldFactor);
 
+  // Total warm fermentation time
+  const totalWarmMins = bulkWarmRemaining + proofWarmRemaining;
+
+  // Balance bulk and proof based on slider
+  const { bulkMins: balancedBulk, proofMins: balancedProof } = balanceBulkProof(totalWarmMins, config.fermentationBalance);
+
   return {
-    bulkMins: Math.round(bulkWarmRemaining),
-    proofMins: Math.round(proofWarmRemaining),
+    bulkMins: balancedBulk,
+    proofMins: balancedProof,
     coldBulkMins,
     coldProofMins,
   };
