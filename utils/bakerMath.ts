@@ -33,7 +33,7 @@ export const calculateTotalProcessTime = (
   proofMins: number
 ): number => {
   let total = bulkMins + proofMins + 130; // 15 (mix) + 45 (folds) + 20 (shape) + 50 (bake)
-  if (config.autolyseEnabled) total += 60;
+  if (config.autolyseEnabled) total += (config.autolyseDurationMinutes || 0);
   return total;
 };
 

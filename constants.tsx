@@ -44,8 +44,8 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     basicFactors: 'Basic Factors',
     yeastPercentage: 'Yeast Percentage',
     doughTemperature: 'Dough Temperature',
-    // Fridge Stages
-    fridgeStages: 'Fridge Stages',
+    // Additional Steps
+    additionalSteps: 'Additional Steps',
     coldBulk: 'Cold Bulk',
     coldProof: 'Cold Proof',
     fridgeTemperature: 'Fridge Temperature',
@@ -101,8 +101,8 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     basicFactors: 'Gärungsparameter',
     yeastPercentage: 'Hefe',
     doughTemperature: 'Teigtemperatur',
-    // Fridge Stages
-    fridgeStages: 'Kalte Gare',
+    // Additional Steps
+    additionalSteps: 'Weitere Schritte',
     coldBulk: 'Kalte Stockgare',
     coldProof: 'Kalte Stückgare',
     fridgeTemperature: 'Kühlschrank-Temperatur',

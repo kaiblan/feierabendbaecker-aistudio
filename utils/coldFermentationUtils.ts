@@ -61,3 +61,14 @@ export const formatDurationDisplay = (hours: number): string => {
   
   return `${wholeHours}:${minutes.toString().padStart(2, '0')}h`;
 };
+
+/**
+ * Format a duration given in minutes as H:MMh without additional rounding.
+ * Example: 5 -> "0:05h", 30 -> "0:30h", 90 -> "1:30h"
+ */
+export const formatMinutesDisplay = (minutesInput: number): string => {
+  const mins = Math.max(0, Math.round(minutesInput));
+  const hours = Math.floor(mins / 60);
+  const minutes = mins % 60;
+  return `${hours}:${minutes.toString().padStart(2, '0')}h`;
+};

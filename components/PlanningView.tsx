@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BakerConfig } from '../types';
 import { ICONS, Language } from '../constants';
 import { useBakeSchedule } from '../hooks/useBakeSchedule';
-import { sliderValueToDuration, durationToSliderValue, formatDurationDisplay, roundDuration } from '../utils/coldFermentationUtils';
+import { sliderValueToDuration, durationToSliderValue, formatDurationDisplay, formatMinutesDisplay, roundDuration } from '../utils/coldFermentationUtils';
 
 interface PlanningViewProps {
   config: BakerConfig;
@@ -47,7 +47,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
       {/* Scrollable Content Area */}
       <div className="flex-1 px-4 lg:px-8 py-8 space-y-8 animate-fade-in">
         <header className="max-w-7xl mx-auto w-full flex justify-between items-end">
-          <div>
+              <div>
             <h2 className="text-2xl font-bold text-white tracking-tight">
               {isRecipeStage ? t('recipeDetails') : t('bakingSchedule')}
             </h2>
@@ -55,9 +55,9 @@ const PlanningView: React.FC<PlanningViewProps> = ({
               {isRecipeStage ? t('adjustWeights') : t('planYourBake')}
             </p>
           </div>
-          <div className="text-right">
-              <span className="text-[10px] mono text-slate-500 block uppercase tracking-widest">{t('totalDuration')}</span>
-              <span className="text-2xl font-black text-cyan-400 mono italic">{(totalProcessMins / 60).toFixed(1)}h</span>
+            <div className="text-right">
+            <span className="text-[10px] mono text-slate-500 block uppercase tracking-widest">{t('totalDuration')}</span>
+            <span className="text-2xl font-black text-cyan-400 mono">{formatMinutesDisplay(totalProcessMins)}</span>
           </div>
         </header>
 
@@ -103,8 +103,34 @@ const PlanningView: React.FC<PlanningViewProps> = ({
               </section>
 
               <section className="order-3 lg:order-2 lg:col-span-2 w-full bg-slate-800/40 border border-slate-700 rounded-2xl p-6 space-y-4">
-                <h3 className="text-[10px] font-bold text-blue-500 mono uppercase tracking-widest border-b border-slate-700 pb-3">{t('fridgeStages')}</h3>
+                <h3 className="text-[10px] font-bold text-blue-500 mono uppercase tracking-widest border-b border-slate-700 pb-3">{t('additionalSteps')}</h3>
                 <div className="space-y-3">
+                   <div className="flex justify-between items-center bg-slate-900/40 p-3 rounded-xl border border-slate-700/50">
+                     <label className="text-xs text-slate-300">{t('autolyse')}</label>
+                     <input
+                      type="checkbox"
+                      checked={config.autolyseEnabled}
+                      onChange={e => onUpdateConfig(e.target.checked ? { autolyseEnabled: true, autolyseDurationMinutes: config.autolyseDurationMinutes || 5 } : { autolyseEnabled: false })}
+                      className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer"
+                     />
+                   </div>
+                   {config.autolyseEnabled && (
+                     <div className="space-y-3 bg-slate-900/20 p-3 rounded-lg border border-slate-700/30">
+                       <div className="flex justify-between items-end">
+                         <label className="text-[9px] text-slate-500 mono uppercase">{t('autolyse')}</label>
+                         <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatMinutesDisplay(config.autolyseDurationMinutes || 0)}</span>
+                       </div>
+                       <input
+                         type="range"
+                         min={5}
+                         max={120}
+                         step={5}
+                         value={config.autolyseDurationMinutes || 5}
+                         onChange={e => onUpdateConfig({ autolyseDurationMinutes: parseInt(e.target.value) })}
+                         className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                       />
+                     </div>
+                   )}
                    <div className="flex justify-between items-center bg-slate-900/40 p-3 rounded-xl border border-slate-700/50">
                       <label className="text-xs text-slate-300">{t('coldBulk')}</label>
                       <input type="checkbox" checked={config.coldBulkEnabled} onChange={e => onUpdateConfig({coldBulkEnabled: e.target.checked})} className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer" />

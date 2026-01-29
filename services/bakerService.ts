@@ -21,7 +21,7 @@ export const generateBakingStages = (
       id: 'a1',
       type: StageType.AUTOLYSE,
       label: translateFn('autolyse'),
-      durationMinutes: 60,
+      durationMinutes: config.autolyseDurationMinutes || 0,
       completed: false,
       isActive: false,
     });

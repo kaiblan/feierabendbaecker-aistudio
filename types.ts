@@ -32,6 +32,7 @@ export interface BakerConfig {
   fridgeTemp: number;
   prefermentEnabled: boolean;
   autolyseEnabled: boolean;
+  autolyseDurationMinutes: number;
   coldBulkEnabled: boolean;
   coldBulkDurationHours: number; // Duration of cold bulk in hours
   coldProofEnabled: boolean;

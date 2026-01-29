@@ -18,6 +18,7 @@ const DEFAULT_CONFIG: BakerConfig = {
   fridgeTemp: 4,
   prefermentEnabled: false,
   autolyseEnabled: true,
+  autolyseDurationMinutes: 60,
   coldBulkEnabled: false,
   coldBulkDurationHours: 12,
   coldProofEnabled: false,

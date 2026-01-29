@@ -53,7 +53,7 @@ export const useBakeSchedule = ({
     const steps: Array<{ label: string; min: number; active: boolean; cold: boolean }> = [];
     
     if (config.autolyseEnabled) {
-      steps.push({ label: translateFn('autolyse'), min: 60, active: false, cold: false });
+      steps.push({ label: translateFn('autolyse'), min: config.autolyseDurationMinutes || 0, active: false, cold: false });
     }
     steps.push({ label: translateFn('mixing'), min: 15, active: true, cold: false });
     steps.push({ label: translateFn('folds'), min: 45, active: true, cold: false });
