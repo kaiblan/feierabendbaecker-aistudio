@@ -70,7 +70,7 @@ export const generateBakingStages = (
     id: 's1',
     type: StageType.SHAPING,
     label: translateFn('shaping'),
-    durationMinutes: 20,
+    durationMinutes: 15,
     completed: false,
     isActive: true,
   });

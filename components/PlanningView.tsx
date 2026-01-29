@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BakerConfig } from '../types';
 import { ICONS, Language } from '../constants';
 import { useBakeSchedule } from '../hooks/useBakeSchedule';
@@ -96,7 +96,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       <label className="text-[11px] text-slate-400 mono uppercase">{t('yeastPercentage')}</label>
                       <span className="text-xl font-bold text-emerald-400 mono tracking-tighter">{config.yeast.toFixed(2)}%</span>
                     </div>
-                    <input type="range" min="0.05" max="5.00" step="0.05" value={config.yeast} onChange={e => onUpdateConfig({yeast: parseFloat(e.target.value)})} className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500" />
+                    <input type="range" min="0.01" max="2.00" step="0.01" value={config.yeast} onChange={e => onUpdateConfig({yeast: parseFloat(e.target.value)})} className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500" />
 
                     <div className="flex justify-between items-end">
                       <label className="text-[11px] text-slate-400 mono uppercase">{t('doughTemperature')}</label>

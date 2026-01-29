@@ -2,7 +2,7 @@
  * ProductionTimeline - Displays the baking process workflow timeline
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScheduleStep } from '../hooks/useBakeSchedule';
 
 interface ProductionTimelineProps {
@@ -26,6 +26,26 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
   coldLabel,
   productionWorkflowLabel,
 }) => {
+  const [maxLabels, setMaxLabels] = useState<number>(() => {
+    if (typeof window === 'undefined') return 8;
+    const w = window.innerWidth;
+    if (w < 640) return 4;
+    if (w < 1024) return 8;
+    return 12;
+  });
+
+  useEffect(() => {
+    const onResize = () => {
+      const w = window.innerWidth;
+      if (w < 640) setMaxLabels(4);
+      else if (w < 1024) setMaxLabels(8);
+      else setMaxLabels(12);
+    };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  const labelStep = Math.max(1, Math.ceil(hourlyMarkers.length / maxLabels));
   return (
     <div className="bg-slate-950/95 backdrop-blur-xl border-b border-slate-800 shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-20 px-4 md:px-8 py-6">
       <div className="max-w-7xl mx-auto w-full">
@@ -94,9 +114,11 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
                 style={{ left: `${marker.position}%` }}
               >
                 <div className="w-[1px] h-2 bg-slate-700 group-hover:bg-slate-400 transition-colors" />
-                <span className="mt-1 text-[10px] md:text-[11px] mono text-slate-400 font-medium group-hover:text-slate-300 transition-colors">
-                  {marker.label}
-                </span>
+                {(i % labelStep === 0 || i === hourlyMarkers.length - 1) && (
+                  <span className="mt-1 text-[10px] md:text-[11px] mono text-slate-400 font-medium group-hover:text-slate-300 transition-colors">
+                    {marker.label}
+                  </span>
+                )}
               </div>
             ))}
 

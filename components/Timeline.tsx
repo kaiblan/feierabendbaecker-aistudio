@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Stage, StageType } from '../types';
+import { Stage } from '../types';
 
 interface TimelineProps {
   stages: Stage[];
