@@ -58,7 +58,7 @@ export const formatDurationDisplay = (hours: number): string => {
   const rounded = roundDuration(hours);
   const wholeHours = Math.floor(rounded);
   const minutes = Math.round((rounded - wholeHours) * 60);
-  
+
   return `${wholeHours}:${minutes.toString().padStart(2, '0')}h`;
 };
 

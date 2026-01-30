@@ -19,8 +19,8 @@ const StageDetail: React.FC<StageDetailProps> = ({ stage, onUpdate }) => {
         <div className="bg-slate-950/60 p-4 rounded-lg border border-slate-800">
           <label className="text-[12px] text-slate-400 mono block mb-1">TARGET DURATION</label>
           <div className="flex items-center">
-            <input 
-              type="number" 
+            <input
+              type="number"
               value={stage.durationMinutes}
               onChange={(e) => onUpdate({ durationMinutes: parseInt(e.target.value) || 0 })}
               className="bg-transparent text-xl font-bold text-cyan-400 w-full outline-none"
@@ -30,8 +30,8 @@ const StageDetail: React.FC<StageDetailProps> = ({ stage, onUpdate }) => {
         </div>
         <div className="bg-slate-950/60 p-4 rounded-lg border border-slate-800">
           <label className="text-[12px] text-slate-400 mono block mb-1">TEMPERATURE (°C)</label>
-          <input 
-            type="number" 
+          <input
+            type="number"
             placeholder="--"
             className="bg-transparent text-xl font-bold text-emerald-400 w-full outline-none"
           />
@@ -49,7 +49,7 @@ const StageDetail: React.FC<StageDetailProps> = ({ stage, onUpdate }) => {
       </section>
 
       <div className="pt-4 border-t border-slate-800">
-        <button 
+        <button
           onClick={() => onUpdate({ completed: !stage.completed })}
           className={`w-full py-4 rounded-lg font-bold transition-all ${stage.completed ? 'bg-slate-800 text-slate-400' : 'bg-cyan-600 text-white hover:bg-cyan-500 shadow-lg shadow-cyan-900/20'}`}
         >

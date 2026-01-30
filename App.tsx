@@ -58,7 +58,7 @@ const App: React.FC = () => {
     translateFn: t,
   });
 
-  
+
 
   const handleNextStage = useCallback(() => {
     if (session.status === 'planning') {
@@ -76,8 +76,8 @@ const App: React.FC = () => {
         <div className="w-10 h-10 bg-cyan-600 rounded flex items-center justify-center font-bold text-xl shadow-lg shadow-cyan-900/50">F</div>
         <div className="flex flex-col space-y-8">
           {(['planning', 'active', 'history', 'starter', 'knowledge'] as const).map(tab => (
-            <button 
-              key={tab} 
+            <button
+              key={tab}
               onClick={() => setActiveTab(tab)}
               title={t(tab)}
               className={`p-3 rounded-xl transition-all ${activeTab === tab ? 'text-cyan-400 bg-cyan-400/10 scale-110' : 'text-slate-500 hover:text-slate-300'}`}
@@ -127,18 +127,18 @@ const App: React.FC = () => {
               />
 
               {/* Planning View Content */}
-            <PlanningView 
-              config={session.config}
-              status={session.status}
-              startTimeStr={startTimeStr}
-              planningMode={planningMode}
-              onUpdateConfig={updateConfig}
-              onUpdateStartTime={setStartTimeStr}
-              onUpdatePlanningMode={setPlanningMode}
-              onStartProcess={handleNextStage}
-              language={language}
-              t={t}
-            />
+              <PlanningView
+                config={session.config}
+                status={session.status}
+                startTimeStr={startTimeStr}
+                planningMode={planningMode}
+                onUpdateConfig={updateConfig}
+                onUpdateStartTime={setStartTimeStr}
+                onUpdatePlanningMode={setPlanningMode}
+                onStartProcess={handleNextStage}
+                language={language}
+                t={t}
+              />
             </>
           )}
 
@@ -147,7 +147,7 @@ const App: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 bg-slate-800/50 border border-slate-700 rounded-2xl p-8 flex flex-col justify-center items-center text-center shadow-2xl relative overflow-hidden">
                   <div className={`absolute top-0 left-0 w-full h-1 ${session.stages[session.activeStageIndex]?.isActive ? 'bg-cyan-500' : 'bg-slate-700'}`} />
-                    <div className="text-[12px] mono text-cyan-500 mb-2 uppercase tracking-[0.3em] font-bold">
+                  <div className="text-[12px] mono text-cyan-500 mb-2 uppercase tracking-[0.3em] font-bold">
                     {session.stages[session.activeStageIndex]?.isActive ? 'ACTIVE WORK PHASE' : 'PASSIVE FERMENTATION'}
                   </div>
                   <h2 className="text-4xl font-black mb-6 tracking-tight">{session.stages[session.activeStageIndex]?.label}</h2>
@@ -155,8 +155,8 @@ const App: React.FC = () => {
                     {formatTime(timeLeft)}
                   </div>
                   <div className="w-full bg-slate-700/50 h-2 rounded-full overflow-hidden mt-4">
-                    <div 
-                      className={`h-full transition-all duration-1000 ${session.stages[session.activeStageIndex]?.isActive ? 'bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]' : 'bg-slate-400 opacity-50'}`} 
+                    <div
+                      className={`h-full transition-all duration-1000 ${session.stages[session.activeStageIndex]?.isActive ? 'bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]' : 'bg-slate-400 opacity-50'}`}
                       style={{ width: `${(1 - timeLeft / ((session.stages[session.activeStageIndex]?.durationMinutes || 1) * 60)) * 100}%` }}
                     />
                   </div>
@@ -168,12 +168,12 @@ const App: React.FC = () => {
                     <div className="text-lg font-bold text-slate-200">{session.stages[session.activeStageIndex + 1]?.label || 'SESSION END'}</div>
                   </div>
                   <div className="space-y-2">
-                    <button 
+                    <button
                       onClick={() => {
                         const nextIdx = session.activeStageIndex + 1;
                         if (nextIdx < session.stages.length) {
-                            setSession({ ...session, activeStageIndex: nextIdx });
-                            setTimeLeft(session.stages[nextIdx].durationMinutes * 60);
+                          setSession({ ...session, activeStageIndex: nextIdx });
+                          setTimeLeft(session.stages[nextIdx].durationMinutes * 60);
                         }
                       }}
                       className="w-full py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-bold transition-all uppercase tracking-widest"
@@ -189,8 +189,8 @@ const App: React.FC = () => {
                   <h3 className="text-[12px] font-bold text-slate-500 mono uppercase tracking-[0.3em]">Session Progress</h3>
                 </div>
                 <div className="rounded-2xl border border-slate-800 bg-slate-900/80 overflow-hidden">
-                  <Timeline 
-                    stages={session.stages} 
+                  <Timeline
+                    stages={session.stages}
                     activeIndex={session.activeStageIndex}
                     orientation="horizontal"
                     onSelectStage={(idx) => {
@@ -214,13 +214,13 @@ const App: React.FC = () => {
             </header>
             <div className="flex-1 overflow-y-auto">
               {session.stages[selectedStageIdx] && (
-                <StageDetail 
-                  stage={session.stages[selectedStageIdx]} 
+                <StageDetail
+                  stage={session.stages[selectedStageIdx]}
                   onUpdate={(updates) => {
                     const newStages = [...session.stages];
                     newStages[selectedStageIdx] = { ...newStages[selectedStageIdx], ...updates };
                     setSession({ ...session, stages: newStages });
-                  }} 
+                  }}
                 />
               )}
             </div>

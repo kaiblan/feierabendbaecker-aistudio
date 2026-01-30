@@ -28,7 +28,7 @@ export interface BakerConfig {
   hydration: number;
   salt: number;
   yeast: number; // Changed from starter to yeast
-  targetTemp: number; 
+  targetTemp: number;
   fridgeTemp: number;
   prefermentEnabled: boolean;
   autolyseEnabled: boolean;

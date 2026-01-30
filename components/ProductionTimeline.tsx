@@ -49,7 +49,7 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
 
   const labelStep = Math.max(1, Math.ceil(hourlyMarkers.length / maxLabels));
   const labelsToShow = new Set<number>();
-  
+
   // Direction-aware label selection
   if (planningMode === 'backward') {
     // Start from the end for backward planning
@@ -103,12 +103,11 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
                   key={i}
                   style={{ width: `${width}%` }}
                   className={`h-full first:rounded-l last:rounded-r relative flex flex-col justify-center items-center px-0.5 transition-all duration-700 border-r border-slate-950/20
-                    ${
-                      step.active
-                        ? 'bg-cyan-600/80 shadow-[inset_0_0_15px_rgba(6,182,212,0.2)]'
-                        : step.cold
-                          ? 'bg-blue-900/50 shadow-[inset_0_0_15px_rgba(30,58,138,0.2)]'
-                          : 'bg-slate-800/60'
+                    ${step.active
+                      ? 'bg-cyan-600/80 shadow-[inset_0_0_15px_rgba(6,182,212,0.2)]'
+                      : step.cold
+                        ? 'bg-blue-900/50 shadow-[inset_0_0_15px_rgba(30,58,138,0.2)]'
+                        : 'bg-slate-800/60'
                     }
                   `}
                 >
