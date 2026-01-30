@@ -58,6 +58,11 @@ const App: React.FC = () => {
     translateFn: t,
   });
 
+  const roundDateTo5Minutes = (date: Date) => {
+    const stepMs = 5 * 60 * 1000;
+    return new Date(Math.round(date.getTime() / stepMs) * stepMs);
+  };
+
   const handleShiftMinutes = (minutes: number, baseStart: Date) => {
     // In forward mode: startTimeStr is the start time
     // In backward mode: startTimeStr is the ready/end time
@@ -66,12 +71,14 @@ const App: React.FC = () => {
       // Calculate what the new end time should be
       const newStart = addMinutesToDate(baseStart, minutes);
       const newEnd = addMinutesToDate(newStart, totalProcessMins);
-      const formatted = formatDateAsTime(newEnd);
+      const roundedEnd = roundDateTo5Minutes(newEnd);
+      const formatted = formatDateAsTime(roundedEnd);
       setStartTimeStr(formatted);
     } else {
       // Forward mode: directly shift the start time
       const newStart = addMinutesToDate(baseStart, minutes);
-      const formatted = formatDateAsTime(newStart);
+      const roundedStart = roundDateTo5Minutes(newStart);
+      const formatted = formatDateAsTime(roundedStart);
       setStartTimeStr(formatted);
     }
   };
