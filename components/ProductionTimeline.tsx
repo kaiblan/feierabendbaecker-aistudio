@@ -2,8 +2,9 @@
  * ProductionTimeline - Displays the baking process workflow timeline
  */
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { ScheduleStep } from '../hooks/useBakeSchedule';
+import { formatDateAsTime } from '../utils/timeUtils';
 
 interface ProductionTimelineProps {
   scheduleWithTimes: ScheduleStep[];
@@ -88,6 +89,37 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
   // Always ensure first and last markers are visible
   labelsToShow.add(0);
   labelsToShow.add(hourlyMarkers.length - 1);
+
+  const shouldShowLabel = (label: string) => {
+    const hour = parseHour(label);
+    return hour !== null && hour % chosenStep === 0;
+  };
+
+  const extendedMarkers = useMemo<Array<{ label: string; position: number }>>(() => {
+    if (!sessionStartTime || !sessionEndTime || totalProcessMins <= 0) return [];
+
+    const bufferHours = Math.ceil(Math.abs(scrollOffset) / 60) + 2;
+    const bufferMins = bufferHours * 60;
+
+    const start = new Date(sessionStartTime.getTime() - bufferMins * 60000);
+    start.setMinutes(0, 0, 0);
+
+    const end = new Date(sessionEndTime.getTime() + bufferMins * 60000);
+    const markers: Array<{ label: string; position: number }> = [];
+
+    let current = new Date(start);
+    while (current <= end) {
+      const offsetMins = (current.getTime() - sessionStartTime.getTime()) / 60000;
+      const position = (offsetMins / totalProcessMins) * 100;
+      markers.push({
+        label: formatDateAsTime(current),
+        position,
+      });
+      current = new Date(current.getTime() + 3600000);
+    }
+
+    return markers;
+  }, [sessionStartTime, sessionEndTime, totalProcessMins, scrollOffset]);
 
   // Drag state for viewport scrolling
   const draggingRef = useRef<{ active: boolean; startX: number; width: number; initialOffset: number }>({
@@ -234,7 +266,7 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
             onPointerCancel={handlePointerUp}
             style={{ touchAction: 'pan-y', cursor: 'ew-resize' }}
           >
-            {hourlyMarkers.map((marker, i) => {
+            {extendedMarkers.map((marker, i) => {
               // Apply scroll offset: dragging right should shift markers right
               const offsetPercent = (scrollOffset / totalProcessMins) * 100;
               const adjustedLeft = marker.position + offsetPercent;
@@ -246,7 +278,7 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
                   style={{ left: `${adjustedLeft}%` }}
                 >
                   <div className="w-[1px] h-2 bg-slate-700 transition-colors" />
-                  {labelsToShow.has(i) && (
+                  {shouldShowLabel(marker.label) && (
                     <span className="mt-1 text-[12px] md:text-[12px] mono text-slate-400 font-medium transition-colors">
                       {marker.label}
                     </span>
