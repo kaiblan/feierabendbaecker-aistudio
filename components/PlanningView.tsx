@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { BakerConfig } from '../types';
 import { ICONS, Language } from '../constants';
 import { useBakeSchedule } from '../hooks/useBakeSchedule';
@@ -48,6 +48,59 @@ const PlanningView: React.FC<PlanningViewProps> = ({
   const bulkPercent = Math.round(60 + (config.fermentationBalance / 100) * 30);
   const proofPercent = 100 - bulkPercent;
 
+  const startInputRef = useRef<HTMLInputElement | null>(null);
+  const readyInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleSelectForward = () => {
+    // Preserve the calculated session start time when switching to forward
+    try {
+      const formatted = formatDateToInput(sessionStartTime);
+      onUpdateStartTime(formatted);
+    } catch (e) {
+      // ignore
+    }
+    onUpdatePlanningMode('forward');
+    setTimeout(() => {
+      const el = startInputRef.current;
+      if (el) {
+        try {
+          el.focus();
+          if ((el as any).showPicker) (el as any).showPicker();
+        } catch (e) {
+          // ignore
+        }
+      }
+    }, 0);
+  };
+
+  const handleSelectBackward = () => {
+    // Preserve the calculated session end time when switching to backward
+    try {
+      const formatted = formatDateToInput(sessionEndTime);
+      onUpdateStartTime(formatted);
+    } catch (e) {
+      // ignore
+    }
+    onUpdatePlanningMode('backward');
+    setTimeout(() => {
+      const el = readyInputRef.current;
+      if (el) {
+        try {
+          el.focus();
+          if ((el as any).showPicker) (el as any).showPicker();
+        } catch (e) {
+          // ignore
+        }
+      }
+    }, 0);
+  };
+
+  const pad = (n: number) => n.toString().padStart(2, '0');
+  const formatDateToInput = (d: Date) => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+
+  const startInputValue = planningMode === 'forward' ? startTimeStr : formatDateToInput(sessionStartTime);
+  const readyInputValue = planningMode === 'backward' ? startTimeStr : formatDateToInput(sessionEndTime);
+
   return (
     <div className="flex flex-col min-h-full">
       {/* Scrollable Content Area */}
@@ -73,27 +126,45 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <button onClick={() => onUpdatePlanningMode('forward')} className={`rounded-lg border transition-all text-left ${planningMode === 'forward' ? 'border-emerald-500 bg-slate-900' : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 cursor-pointer'}`}>
+                  <button onClick={handleSelectForward} className={`rounded-lg border transition-all text-left ${planningMode === 'forward' ? 'border-emerald-500 bg-slate-900' : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 cursor-pointer'}`}>
                     <div className={`w-full text-[12px] py-1.5 mono uppercase text-center transition-all ${planningMode === 'forward' ? 'text-white' : 'text-slate-400'}`}>{t('forward')}</div>
                     <div className="px-2 pb-2">
                       <div className="text-[10px] text-slate-400 mono uppercase mb-1 text-center">{t('startTime')}</div>
-                      {planningMode === 'forward' ? (
-                        <input type="time" value={startTimeStr} onChange={e => onUpdateStartTime(e.target.value)} onClick={e => e.stopPropagation()} className="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-[20px] font-bold text-white text-center mono outline-none focus:border-emerald-500" />
-                      ) : (
-                        <div className="w-full p-1.5 text-[20px] font-bold text-slate-500 text-center mono">{sessionStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                      )}
+                      <div className="relative">
+                        <input
+                          ref={startInputRef}
+                          type="time"
+                          value={startInputValue}
+                          onChange={e => { if (planningMode === 'forward') onUpdateStartTime(e.target.value); }}
+                          onClick={e => { if (planningMode === 'forward') e.stopPropagation(); }}
+                          readOnly={planningMode !== 'forward'}
+                          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-full opacity-0 z-10"
+                        />
+                        <div className={`w-full p-1.5 text-[20px] font-bold text-center mono rounded ${planningMode === 'forward' ? 'bg-slate-950 border border-slate-700 text-white' : 'bg-slate-900/50 border border-slate-800/50 text-slate-400'}`}>
+                          {startInputValue}
+                        </div>
+                      </div>
                     </div>
                   </button>
                   
-                  <button onClick={() => onUpdatePlanningMode('backward')} className={`rounded-lg border transition-all text-left ${planningMode === 'backward' ? 'border-emerald-500 bg-slate-900' : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 cursor-pointer'}`}>
+                  <button onClick={handleSelectBackward} className={`rounded-lg border transition-all text-left ${planningMode === 'backward' ? 'border-emerald-500 bg-slate-900' : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 cursor-pointer'}`}>
                     <div className={`w-full text-[12px] py-1.5 mono uppercase text-center transition-all ${planningMode === 'backward' ? 'text-white' : 'text-slate-400'}`}>{t('backward')}</div>
                     <div className="px-2 pb-2">
                       <div className="text-[10px] text-slate-400 mono uppercase mb-1 text-center">{t('readyTime')}</div>
-                      {planningMode === 'backward' ? (
-                        <input type="time" value={startTimeStr} onChange={e => onUpdateStartTime(e.target.value)} onClick={e => e.stopPropagation()} className="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-[20px] font-bold text-white text-center mono outline-none focus:border-emerald-500" />
-                      ) : (
-                        <div className="w-full p-1.5 text-[20px] font-bold text-slate-500 text-center mono">{sessionEndTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                      )}
+                      <div className="relative">
+                        <input
+                          ref={readyInputRef}
+                          type="time"
+                          value={readyInputValue}
+                          onChange={e => { if (planningMode === 'backward') onUpdateStartTime(e.target.value); }}
+                          onClick={e => { if (planningMode === 'backward') e.stopPropagation(); }}
+                          readOnly={planningMode !== 'backward'}
+                          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-full opacity-0 z-10"
+                        />
+                        <div className={`w-full p-1.5 text-[20px] font-bold text-center mono rounded ${planningMode === 'backward' ? 'bg-slate-950 border border-slate-700 text-white' : 'bg-slate-900/50 border border-slate-800/50 text-slate-400'}`}>
+                          {readyInputValue}
+                        </div>
+                      </div>
                     </div>
                   </button>
                 </div>
