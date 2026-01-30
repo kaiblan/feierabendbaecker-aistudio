@@ -3,6 +3,7 @@ import { BakerConfig } from '../types';
 import { ICONS, Language } from '../constants';
 import { useBakeSchedule } from '../hooks/useBakeSchedule';
 import { sliderValueToDuration, durationToSliderValue, formatDurationDisplay, formatMinutesDisplay, roundDuration } from '../utils/coldFermentationUtils';
+import { Card } from './Card';
 
 interface PlanningViewProps {
   config: BakerConfig;
@@ -119,7 +120,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
         <div className="max-w-7xl mx-auto w-full flex flex-col lg:grid lg:grid-cols-10 gap-6 items-start">
           {!isRecipeStage ? (
             <>
-              <section className="order-1 lg:order-3 lg:col-span-2 w-full bg-slate-950/60 border border-slate-800 rounded-2xl p-4 flex flex-col space-y-3">
+              <Card variant="default" className="order-1 lg:order-3 lg:col-span-2 w-full p-4 flex flex-col space-y-3">
                 <div className="flex justify-between items-center">
                   <h3 className="text-[12px] font-bold text-emerald-500 mono uppercase tracking-widest">{t('sessionTiming')}</h3>
                   <span className="text-[12px] font-bold text-cyan-400 mono">{formatMinutesDisplay(totalProcessMins)}</span>
@@ -168,9 +169,9 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                     </div>
                   </button>
                 </div>
-              </section>
+              </Card>
 
-              <section className="order-2 lg:order-1 lg:col-span-4 w-full bg-slate-950/60 border border-slate-800 rounded-2xl p-6 space-y-6">
+              <Card variant="default" className="order-2 lg:order-1 lg:col-span-4 w-full space-y-6">
                 <h3 className="text-[12px] font-bold text-cyan-500 mono uppercase tracking-widest border-b border-slate-800 pb-3">{t('basicFactors')}</h3>
                 <div className="grid grid-cols-1 gap-8 items-start">
                   <div className="space-y-4">
@@ -187,9 +188,9 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                     <input type="range" min="18" max="32" step="0.5" value={config.targetTemp} onChange={e => onUpdateConfig({ targetTemp: parseFloat(e.target.value) })} className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500" />
                   </div>
                 </div>
-              </section>
+              </Card>
 
-              <section className="order-3 lg:order-2 lg:col-span-4 w-full bg-slate-950/60 border border-slate-800 rounded-2xl p-6 space-y-4">
+              <Card variant="default" className="order-3 lg:order-2 lg:col-span-4 w-full space-y-4">
                 <h3 className="text-[12px] font-bold text-blue-500 mono uppercase tracking-widest border-b border-slate-800 pb-3">{t('additionalSteps')}</h3>
                 <div className="space-y-3">
                   <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-3">
@@ -295,11 +296,11 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                     </div>
                   </div>
                 </div>
-              </section>
+              </Card>
             </>
           ) : (
             <>
-              <section className="lg:col-span-3 w-full bg-slate-950/60 border border-slate-800 rounded-2xl p-6">
+              <Card variant="default" className="lg:col-span-3 w-full">
                 <h3 className="text-[12px] font-bold text-slate-400 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('doughSettings')}</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -311,8 +312,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                     <input type="number" value={config.hydration} onChange={e => onUpdateConfig({ hydration: +e.target.value })} className="bg-slate-950 border border-slate-800 p-3 rounded-xl text-xl font-bold w-full outline-none focus:border-cyan-500 mono" />
                   </div>
                 </div>
-              </section>
-              <section className="lg:col-span-7 w-full bg-slate-950/60 border border-slate-800 rounded-2xl p-6">
+              </Card>
+              <Card variant="default" className="lg:col-span-7 w-full">
                 <h3 className="text-[12px] font-bold text-emerald-500 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('recipeComponents')}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
@@ -336,7 +337,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   <span className="uppercase tracking-widest">{t('totalBatchWeight')}</span>
                   <span className="text-slate-300 text-lg">{(config.totalFlour * (1 + (config.hydration + config.yeast + config.salt) / 100)).toFixed(0)}g</span>
                 </div>
-              </section>
+              </Card>
             </>
           )}
         </div>

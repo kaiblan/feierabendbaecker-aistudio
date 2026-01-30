@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Stage } from '../types';
+import { Button } from './Button';
 
 interface StageDetailProps {
   stage: Stage;
@@ -49,15 +50,19 @@ const StageDetail: React.FC<StageDetailProps> = ({ stage, onUpdate }) => {
       </section>
 
       <div className="pt-4 border-t border-slate-800">
-        <button
+        <Button
           onClick={() => onUpdate({ completed: !stage.completed })}
-          className={`w-full py-4 rounded-lg font-bold transition-all ${stage.completed ? 'bg-slate-800 text-slate-400' : 'bg-cyan-600 text-white hover:bg-cyan-500 shadow-lg shadow-cyan-900/20'}`}
+          disabled={stage.completed}
+          variant="primary"
+          size="lg"
+          className="w-full"
         >
           {stage.completed ? 'RE-OPEN STAGE' : 'COMPLETE STAGE'}
-        </button>
+        </Button>
       </div>
     </div>
   );
 };
 
 export default StageDetail;
+

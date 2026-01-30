@@ -6,6 +6,7 @@ import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { ScheduleStep } from '../hooks/useBakeSchedule';
 import { formatDateAsTime } from '../utils/timeUtils';
+import { Button } from './Button';
 
 interface ProductionTimelineProps {
   scheduleWithTimes: ScheduleStep[];
@@ -274,12 +275,14 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
                   <h3 className="text-lg font-bold text-slate-200 mono uppercase tracking-wider">
                     {translateFn('scheduleDetails')}
                   </h3>
-                  <button
+                  <Button
                     onClick={() => setIsPopupOpen(false)}
-                    className="text-slate-400 hover:text-slate-200 transition-colors text-2xl leading-none w-8 h-8 flex items-center justify-center rounded hover:bg-slate-800"
+                    variant="ghost"
+                    size="sm"
+                    className="text-2xl leading-none w-8 h-8 p-0"
                   >
                     ×
-                  </button>
+                  </Button>
                 </div>
                 <div className="p-6 space-y-3">
                   {scheduleWithTimes.map((step) => (

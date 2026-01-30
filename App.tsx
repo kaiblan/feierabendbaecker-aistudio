@@ -5,6 +5,9 @@ import Timeline from './components/Timeline';
 import { ProductionTimeline } from './components/ProductionTimeline';
 import StageDetail from './components/StageDetail';
 import PlanningView from './components/PlanningView';
+import { LanguageSelector } from './components/LanguageSelector';
+import { Button } from './components/Button';
+import { Card } from './components/Card';
 import { useSession } from './hooks/useSession';
 import { useTimer } from './hooks/useTimer';
 import { useBakeSchedule } from './hooks/useBakeSchedule';
@@ -116,10 +119,7 @@ const App: React.FC = () => {
           ))}
         </div>
         <div className="mt-auto pt-8 border-t border-slate-700 w-full flex justify-center">
-          <div className="bg-slate-950 p-1 rounded-lg flex border border-slate-800">
-            <button onClick={() => setLanguage('en')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${language === 'en' ? 'bg-slate-700 text-white' : 'text-slate-400'}`}>EN</button>
-            <button onClick={() => setLanguage('de')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${language === 'de' ? 'bg-slate-700 text-white' : 'text-slate-400'}`}>DE</button>
-          </div>
+          <LanguageSelector language={language} onLanguageChange={setLanguage} />
         </div>
       </nav>
 
@@ -129,9 +129,8 @@ const App: React.FC = () => {
             <h1 className="text-lg font-bold text-white tracking-tight">{session.name}</h1>
           </div>
           {/* Mobile language selector */}
-          <div className="flex items-center space-x-2 lg:hidden">
-            <button onClick={() => setLanguage('en')} className={`px-2 py-1 rounded text-xs font-bold transition-all ${language === 'en' ? 'bg-slate-700 text-white' : 'text-slate-400'}`}>EN</button>
-            <button onClick={() => setLanguage('de')} className={`px-2 py-1 rounded text-xs font-bold transition-all ${language === 'de' ? 'bg-slate-700 text-white' : 'text-slate-400'}`}>DE</button>
+          <div className="lg:hidden">
+            <LanguageSelector language={language} onLanguageChange={setLanguage} size="sm" />
           </div>
           <div className="text-right">
             <div className="text-[12px] mono text-slate-400 uppercase tracking-widest">Phase</div>
@@ -177,7 +176,7 @@ const App: React.FC = () => {
           {activeTab === 'active' && session.status === 'active' && (
             <div className="max-w-4xl mx-auto px-6 py-8 space-y-8 animate-fade-in pb-32">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="md:col-span-2 bg-slate-800/50 border border-slate-700 rounded-2xl p-8 flex flex-col justify-center items-center text-center shadow-2xl relative overflow-hidden">
+                <Card variant="highlight" className="md:col-span-2 p-8 flex flex-col justify-center items-center text-center relative overflow-hidden">
                   <div className={`absolute top-0 left-0 w-full h-1 ${session.stages[session.activeStageIndex]?.isActive ? 'bg-cyan-500' : 'bg-slate-700'}`} />
                   <div className="text-[12px] mono text-cyan-500 mb-2 uppercase tracking-[0.3em] font-bold">
                     {session.stages[session.activeStageIndex]?.isActive ? 'ACTIVE WORK PHASE' : 'PASSIVE FERMENTATION'}
@@ -192,15 +191,15 @@ const App: React.FC = () => {
                       style={{ width: `${(1 - timeLeft / ((session.stages[session.activeStageIndex]?.durationMinutes || 1) * 60)) * 100}%` }}
                     />
                   </div>
-                </div>
+                </Card>
 
-                <div className="bg-slate-800/30 border border-slate-700 rounded-2xl p-6 flex flex-col justify-between">
+                <Card variant="subtle" className="flex flex-col justify-between">
                   <div>
                     <div className="text-[12px] mono text-slate-500 mb-4 uppercase tracking-widest">UPCOMING</div>
                     <div className="text-lg font-bold text-slate-200">{session.stages[session.activeStageIndex + 1]?.label || 'SESSION END'}</div>
                   </div>
                   <div className="space-y-2">
-                    <button
+                    <Button
                       onClick={() => {
                         const nextIdx = session.activeStageIndex + 1;
                         if (nextIdx < session.stages.length) {
@@ -208,12 +207,14 @@ const App: React.FC = () => {
                           setTimeLeft(session.stages[nextIdx].durationMinutes * 60);
                         }
                       }}
-                      className="w-full py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-bold transition-all uppercase tracking-widest"
+                      variant="primary"
+                      size="lg"
+                      className="w-full uppercase tracking-widest text-xs"
                     >
                       COMPLETE & ADVANCE
-                    </button>
+                    </Button>
                   </div>
-                </div>
+                </Card>
               </div>
 
               <section className="space-y-4">
@@ -240,9 +241,9 @@ const App: React.FC = () => {
           <div className="h-full flex flex-col">
             <header className="p-6 border-b border-slate-800 flex justify-between items-center">
               <span className="text-[12px] font-bold text-slate-500 mono uppercase tracking-[0.2em]">Parameter Log</span>
-              <button onClick={() => setIsPanelOpen(false)} className="p-2 text-slate-400 hover:text-white">
+              <Button onClick={() => setIsPanelOpen(false)} variant="ghost" size="sm" className="p-2">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-              </button>
+              </Button>
             </header>
             <div className="flex-1 overflow-y-auto">
               {session.stages[selectedStageIdx] && (
