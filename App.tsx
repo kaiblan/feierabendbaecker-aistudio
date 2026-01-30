@@ -6,6 +6,7 @@ import { ProductionTimeline } from './components/ProductionTimeline';
 import StageDetail from './components/StageDetail';
 import PlanningView from './components/PlanningView';
 import { LanguageSelector } from './components/LanguageSelector';
+import { LanguageContext, createTranslator } from './components/LanguageContext';
 import { Button } from './components/Button';
 import { Card } from './components/Card';
 import { useSession } from './hooks/useSession';
@@ -99,6 +100,7 @@ const App: React.FC = () => {
   }, [session.status, session.stages, transitionToRecipe, transitionToActive, setTimeLeft]);
 
   return (
+    <LanguageContext.Provider value={{ language, setLanguage, t: createTranslator(language) }}>
     <div className="flex h-screen flex-col lg:flex-row bg-slate-900 text-slate-100 font-sans">
       <nav className="hidden lg:flex flex-col w-20 border-r border-slate-800 bg-slate-950/50 py-8 items-center space-y-12">
         <div className="w-10 h-10 bg-cyan-600 rounded flex items-center justify-center font-bold text-xl shadow-lg shadow-cyan-900/50">F</div>
@@ -119,7 +121,7 @@ const App: React.FC = () => {
           ))}
         </div>
         <div className="mt-auto pt-8 border-t border-slate-700 w-full flex justify-center">
-          <LanguageSelector language={language} onLanguageChange={setLanguage} />
+          <LanguageSelector />
         </div>
       </nav>
 
@@ -130,7 +132,7 @@ const App: React.FC = () => {
           </div>
           {/* Mobile language selector */}
           <div className="lg:hidden">
-            <LanguageSelector language={language} onLanguageChange={setLanguage} size="sm" />
+            <LanguageSelector size="sm" />
           </div>
           <div className="text-right">
             <div className="text-[12px] mono text-slate-400 uppercase tracking-widest">Phase</div>
@@ -153,7 +155,6 @@ const App: React.FC = () => {
                 coldLabel={t('cold')}
                 productionWorkflowLabel={t('productionWorkflow')}
                 planningMode={planningMode}
-                translateFn={t}
                 onShiftMinutes={handleShiftMinutes}
               />
 
@@ -167,8 +168,6 @@ const App: React.FC = () => {
                 onUpdateStartTime={setStartTimeStr}
                 onUpdatePlanningMode={setPlanningMode}
                 onStartProcess={handleNextStage}
-                language={language}
-                t={t}
               />
             </>
           )}
@@ -262,6 +261,7 @@ const App: React.FC = () => {
         {isPanelOpen && <div onClick={() => setIsPanelOpen(false)} className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[55]" />}
       </main>
     </div>
+    </LanguageContext.Provider>
   );
 };
 

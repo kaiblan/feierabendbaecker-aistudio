@@ -14,9 +14,9 @@ interface PlanningViewProps {
   onUpdateStartTime: (time: string) => void;
   onUpdatePlanningMode: (mode: 'forward' | 'backward') => void;
   onStartProcess: () => void;
-  language: Language;
-  t: (key: string) => string;
 }
+
+import { useLanguage } from './LanguageContext';
 
 const PlanningView: React.FC<PlanningViewProps> = ({
   config,
@@ -27,9 +27,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
   onUpdateStartTime,
   onUpdatePlanningMode,
   onStartProcess,
-  language,
-  t
 }) => {
+  const { t } = useLanguage();
 
   const {
     scheduleWithTimes,

@@ -1,17 +1,25 @@
 import React from 'react';
 import { Language } from '../constants';
+import { useLanguage } from './LanguageContext';
 
 interface LanguageSelectorProps {
-  language: Language;
-  onLanguageChange: (lang: Language) => void;
+  language?: Language;
+  onLanguageChange?: (lang: Language) => void;
   size?: 'sm' | 'md';
 }
 
 export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ 
-  language, 
-  onLanguageChange,
+  language: languageProp,
+  onLanguageChange: onChangeProp,
   size = 'md'
 }) => {
+  const ctx = (() => {
+    try { return useLanguage(); } catch { return undefined as any; }
+  })();
+
+  const language = languageProp ?? ctx?.language ?? 'en';
+  const onLanguageChange = onChangeProp ?? ctx?.setLanguage ?? (() => {});
+
   const sizeStyles = size === 'sm' ? 'px-2 py-1' : 'px-3 py-1';
   
   return (

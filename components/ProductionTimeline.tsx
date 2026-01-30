@@ -6,6 +6,7 @@ import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { ScheduleStep } from '../hooks/useBakeSchedule';
 import { formatDateAsTime } from '../utils/timeUtils';
+import { useLanguage } from './LanguageContext';
 import { Button } from './Button';
 
 interface ProductionTimelineProps {
@@ -18,7 +19,7 @@ interface ProductionTimelineProps {
   coldLabel: string;
   productionWorkflowLabel: string;
   planningMode: 'forward' | 'backward';
-  translateFn: (key: string) => string;
+  translateFn?: (key: string) => string;
   onShiftMinutes?: (minutes: number, baseStart: Date) => void;
 }
 
@@ -35,6 +36,9 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
   translateFn,
   onShiftMinutes,
 }) => {
+  const { t } = (() => {
+    try { return useLanguage(); } catch { return { t: translateFn ?? ((k: string) => k) }; }
+  })();
   const [scrollOffset, setScrollOffset] = useState<number>(0); // offset in minutes
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [maxLabels, setMaxLabels] = useState<number>(() => {
@@ -273,7 +277,7 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
               >
                 <div className="sticky top-0 bg-slate-900 border-b border-slate-700 px-6 py-4 flex items-center justify-between">
                   <h3 className="text-lg font-bold text-slate-200 mono uppercase tracking-wider">
-                    {translateFn('scheduleDetails')}
+                    {t('scheduleDetails')}
                   </h3>
                   <Button
                     onClick={() => setIsPopupOpen(false)}
