@@ -232,13 +232,13 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
         <div className="relative p-1">
           {/* Main Process Blocks */}
           <div className="relative h-14 flex w-full bg-slate-950/50 rounded-lg border border-slate-800/50 overflow-hidden shadow-inner">
-            {scheduleWithTimes.map((step, i) => {
+            {scheduleWithTimes.map((step) => {
               const width = (step.min / totalProcessMins) * 100;
               return (
                 <div
-                  key={i}
+                  key={step.type}
                   style={{ width: `${width}%` }}
-                  className={`h-full first:rounded-l last:rounded-r relative flex flex-col justify-center items-center px-0.5 transition-all duration-700 border-r border-slate-950/20
+                  className={`h-full first:rounded-l last:rounded-r relative flex flex-col justify-center items-center px-0.5 transition-colors duration-700 border-r border-slate-950/20
                     ${step.active
                       ? 'bg-cyan-600/80 shadow-[inset_0_0_15px_rgba(6,182,212,0.2)]'
                       : step.cold

@@ -8,6 +8,7 @@ import { calculateFermentationTimes, calculateTotalProcessTime } from '../utils/
 import { parseTimeString, createDateWithTime, addMinutesToDate, formatDateAsTime } from '../utils/timeUtils';
 
 export interface ScheduleStep {
+  type: string;
   label: string;
   min: number;
   active: boolean;
@@ -50,31 +51,31 @@ export const useBakeSchedule = ({
       start = new Date(anchorDate.getTime() - totalProcessMins * 60000);
     }
 
-    const steps: Array<{ label: string; min: number; active: boolean; cold: boolean }> = [];
+    const steps: Array<{ type: string; label: string; min: number; active: boolean; cold: boolean }> = [];
 
     if (config.autolyseEnabled) {
-      steps.push({ label: translateFn('autolyse'), min: config.autolyseDurationMinutes || 0, active: false, cold: false });
+      steps.push({ type: 'autolyse', label: translateFn('autolyse'), min: config.autolyseDurationMinutes || 0, active: false, cold: false });
     }
-    steps.push({ label: translateFn('mixing'), min: 15, active: true, cold: false });
-    steps.push({ label: translateFn('folds'), min: 45, active: true, cold: false });
+    steps.push({ type: 'mixing', label: translateFn('mixing'), min: 15, active: true, cold: false });
+    steps.push({ type: 'folds', label: translateFn('folds'), min: 45, active: true, cold: false });
 
     // Base bulk fermentation (room temp)
-    steps.push({ label: translateFn('bulkFerment'), min: bulkMins, active: false, cold: false });
+    steps.push({ type: 'bulkFerment', label: translateFn('bulkFerment'), min: bulkMins, active: false, cold: false });
     // If cold bulk is enabled, append it after the normal bulk
     if (coldBulkMins > 0) {
-      steps.push({ label: translateFn('coldBulk'), min: coldBulkMins, active: false, cold: true });
+      steps.push({ type: 'coldBulk', label: translateFn('coldBulk'), min: coldBulkMins, active: false, cold: true });
     }
 
-    steps.push({ label: translateFn('shaping'), min: 15, active: true, cold: false });
+    steps.push({ type: 'shaping', label: translateFn('shaping'), min: 15, active: true, cold: false });
 
     // Base final proof (room temp)
-    steps.push({ label: translateFn('finalProof'), min: proofMins, active: false, cold: false });
+    steps.push({ type: 'finalProof', label: translateFn('finalProof'), min: proofMins, active: false, cold: false });
     // If cold proof is enabled, append it after the normal proof
     if (coldProofMins > 0) {
-      steps.push({ label: translateFn('coldProof'), min: coldProofMins, active: false, cold: true });
+      steps.push({ type: 'coldProof', label: translateFn('coldProof'), min: coldProofMins, active: false, cold: true });
     }
 
-    steps.push({ label: translateFn('baking'), min: 50, active: true, cold: false });
+    steps.push({ type: 'baking', label: translateFn('baking'), min: 50, active: true, cold: false });
 
     let currentCursor = start.getTime();
     const resultSteps: ScheduleStep[] = steps.map((step) => {
