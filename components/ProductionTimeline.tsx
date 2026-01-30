@@ -209,22 +209,22 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
 
           {/* Hourly Scale */}
           <div
-            className="relative h-8 mt-2 w-full"
+            className="relative h-8 mt-2 w-full cursor-ew-resize"
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerUp}
-            style={{ touchAction: 'pan-y' }}
+            style={{ touchAction: 'pan-y', cursor: 'ew-resize' }}
           >
             {hourlyMarkers.map((marker, i) => (
               <div
                 key={i}
-                className="absolute top-0 flex flex-col items-center -translate-x-1/2 group"
+                className="absolute top-0 flex flex-col items-center -translate-x-1/2"
                 style={{ left: `${marker.position}%` }}
               >
-                <div className="w-[1px] h-2 bg-slate-700 group-hover:bg-slate-400 transition-colors" />
+                <div className="w-[1px] h-2 bg-slate-700 transition-colors" />
                 {labelsToShow.has(i) && (
-                  <span className="mt-1 text-[12px] md:text-[12px] mono text-slate-400 font-medium group-hover:text-slate-300 transition-colors">
+                  <span className="mt-1 text-[12px] md:text-[12px] mono text-slate-400 font-medium transition-colors">
                     {marker.label}
                   </span>
                 )}
