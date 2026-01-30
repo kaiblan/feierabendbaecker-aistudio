@@ -52,7 +52,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
     <div className="flex flex-col min-h-full">
       {/* Scrollable Content Area */}
       <div className="flex-1 px-4 lg:px-8 py-8 space-y-8 animate-fade-in">
-        <header className="max-w-7xl mx-auto w-full flex justify-between items-end">
+        <header className="max-w-7xl mx-auto w-full">
           <div>
             <h2 className="text-2xl font-bold text-white tracking-tight">
               {isRecipeStage ? t('recipeDetails') : t('bakingSchedule')}
@@ -61,30 +61,41 @@ const PlanningView: React.FC<PlanningViewProps> = ({
               {isRecipeStage ? t('adjustWeights') : t('planYourBake')}
             </p>
           </div>
-          <div className="text-right">
-            <span className="text-[12px] mono text-slate-400 block uppercase tracking-widest">{t('totalDuration')}</span>
-            <span className="text-2xl font-black text-cyan-400 mono">{formatMinutesDisplay(totalProcessMins)}</span>
-          </div>
         </header>
 
         <div className="max-w-7xl mx-auto w-full flex flex-col lg:grid lg:grid-cols-10 gap-6 items-start">
           {!isRecipeStage ? (
             <>
-              <section className="order-1 lg:order-3 lg:col-span-2 w-full bg-slate-950/60 border border-slate-800 rounded-2xl p-6 flex flex-col space-y-4">
-                <h3 className="text-[12px] font-bold text-emerald-500 mono uppercase tracking-widest border-b border-slate-800 pb-3">{t('sessionTiming')}</h3>
-                <div className="bg-slate-950/80 p-1 rounded-lg flex border border-slate-800">
-                  <button onClick={() => onUpdatePlanningMode('forward')} className={`flex-1 text-[12px] py-1.5 rounded mono uppercase transition-all ${planningMode === 'forward' ? 'bg-slate-800 text-white' : 'text-slate-400'}`}>{t('forward')}</button>
-                  <button onClick={() => onUpdatePlanningMode('backward')} className={`flex-1 text-[12px] py-1.5 rounded mono uppercase transition-all ${planningMode === 'backward' ? 'bg-slate-800 text-white' : 'text-slate-400'}`}>{t('backward')}</button>
+              <section className="order-1 lg:order-3 lg:col-span-2 w-full bg-slate-950/60 border border-slate-800 rounded-2xl p-4 flex flex-col space-y-3">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-[12px] font-bold text-emerald-500 mono uppercase tracking-widest">{t('sessionTiming')}</h3>
+                  <span className="text-[12px] font-bold text-cyan-400 mono">{formatMinutesDisplay(totalProcessMins)}</span>
                 </div>
-                <div className="flex flex-col items-center">
-                  <label className="text-[12px] text-slate-400 mono uppercase mb-1">{planningMode === 'forward' ? t('startTime') : t('readyTime')}</label>
-                  <input type="time" value={startTimeStr} onChange={e => onUpdateStartTime(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-2xl font-black text-white text-center mono outline-none focus:border-emerald-500" />
-                </div>
-                <div className="pt-3 border-t border-slate-800/50">
-                  <div className="flex justify-between items-center">
-                    <span className="text-[12px] mono text-slate-400 uppercase">{planningMode === 'forward' ? t('readyBy') : t('startsAt')}</span>
-                    <span className="text-sm font-bold text-emerald-400 mono">{planningMode === 'forward' ? sessionEndTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : sessionStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                  </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <button onClick={() => onUpdatePlanningMode('forward')} className={`rounded-lg border transition-all text-left ${planningMode === 'forward' ? 'border-emerald-500 bg-slate-900' : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 cursor-pointer'}`}>
+                    <div className={`w-full text-[12px] py-1.5 mono uppercase text-center transition-all ${planningMode === 'forward' ? 'text-white' : 'text-slate-400'}`}>{t('forward')}</div>
+                    <div className="px-2 pb-2">
+                      <div className="text-[10px] text-slate-400 mono uppercase mb-1 text-center">{t('startTime')}</div>
+                      {planningMode === 'forward' ? (
+                        <input type="time" value={startTimeStr} onChange={e => onUpdateStartTime(e.target.value)} onClick={e => e.stopPropagation()} className="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-[20px] font-bold text-white text-center mono outline-none focus:border-emerald-500" />
+                      ) : (
+                        <div className="w-full p-1.5 text-[20px] font-bold text-slate-500 text-center mono">{sessionStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                      )}
+                    </div>
+                  </button>
+                  
+                  <button onClick={() => onUpdatePlanningMode('backward')} className={`rounded-lg border transition-all text-left ${planningMode === 'backward' ? 'border-emerald-500 bg-slate-900' : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 cursor-pointer'}`}>
+                    <div className={`w-full text-[12px] py-1.5 mono uppercase text-center transition-all ${planningMode === 'backward' ? 'text-white' : 'text-slate-400'}`}>{t('backward')}</div>
+                    <div className="px-2 pb-2">
+                      <div className="text-[10px] text-slate-400 mono uppercase mb-1 text-center">{t('readyTime')}</div>
+                      {planningMode === 'backward' ? (
+                        <input type="time" value={startTimeStr} onChange={e => onUpdateStartTime(e.target.value)} onClick={e => e.stopPropagation()} className="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-[20px] font-bold text-white text-center mono outline-none focus:border-emerald-500" />
+                      ) : (
+                        <div className="w-full p-1.5 text-[20px] font-bold text-slate-500 text-center mono">{sessionEndTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                      )}
+                    </div>
+                  </button>
                 </div>
               </section>
 
