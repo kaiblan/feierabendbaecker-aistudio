@@ -104,8 +104,7 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
     // Apply the final offset to shift the actual times
     const finalOffset = scrollOffset;
     if (finalOffset !== 0 && onShiftMinutes) {
-      const snapped = Math.round(finalOffset / 15) * 15;
-      onShiftMinutes(-snapped, sessionStartTime);
+      onShiftMinutes(-finalOffset, sessionStartTime);
       setScrollOffset(0); // Reset offset after applying
     }
     
@@ -121,8 +120,9 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
     const { startX, width, initialOffset } = draggingRef.current;
     const deltaX = ev.clientX - startX;
     const percent = deltaX / Math.max(1, width);
-    const deltaMinutes = Math.round(percent * totalProcessMins);
-    setScrollOffset(initialOffset + deltaMinutes);
+    const deltaMinutes = percent * totalProcessMins;
+    const rawOffset = initialOffset + deltaMinutes;
+    setScrollOffset(rawOffset);
   };
 
   const onDocMouseUp = () => { _endDrag(); };
@@ -133,8 +133,9 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
     const { startX, width, initialOffset } = draggingRef.current;
     const deltaX = t.clientX - startX;
     const percent = deltaX / Math.max(1, width);
-    const deltaMinutes = Math.round(percent * totalProcessMins);
-    setScrollOffset(initialOffset + deltaMinutes);
+    const deltaMinutes = percent * totalProcessMins;
+    const rawOffset = initialOffset + deltaMinutes;
+    setScrollOffset(rawOffset);
   };
 
   const onDocTouchEnd = () => { _endDrag(); };
