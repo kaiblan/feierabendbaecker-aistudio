@@ -149,6 +149,7 @@ const App: React.FC = () => {
                 coldLabel={t('cold')}
                 productionWorkflowLabel={t('productionWorkflow')}
                 planningMode={planningMode}
+                translateFn={t}
                 onShiftMinutes={handleShiftMinutes}
               />
 
