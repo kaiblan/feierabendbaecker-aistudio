@@ -2,7 +2,7 @@
  * ProductionTimeline - Displays the baking process workflow timeline
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ScheduleStep } from '../hooks/useBakeSchedule';
 
 interface ProductionTimelineProps {
@@ -15,6 +15,7 @@ interface ProductionTimelineProps {
   coldLabel: string;
   productionWorkflowLabel: string;
   planningMode: 'forward' | 'backward';
+  onShiftMinutes?: (minutes: number, baseStart: Date) => void;
 }
 
 export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
@@ -27,6 +28,7 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
   coldLabel,
   productionWorkflowLabel,
   planningMode,
+  onShiftMinutes,
 }) => {
   const [maxLabels, setMaxLabels] = useState<number>(() => {
     if (typeof window === 'undefined') return 12;
@@ -47,24 +49,108 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  const labelStep = Math.max(1, Math.ceil(hourlyMarkers.length / maxLabels));
   const labelsToShow = new Set<number>();
 
-  // Direction-aware label selection
-  if (planningMode === 'backward') {
-    // Start from the end for backward planning
-    for (let i = hourlyMarkers.length - 1; i >= 0; i -= labelStep) {
-      labelsToShow.add(i);
+  // Choose a step from the allowed set so that displayed labels are one of
+  // [1,2,3,4,6,8,12] hours. Selection is anchored at 00:00 (midnight) —
+  // show markers whose hour % step === 0. Pick the smallest step that
+  // yields <= maxLabels labels (including first+last). If none, pick 12.
+  const allowedSteps = [1, 2, 3, 4, 6, 8, 12];
+
+  const parseHour = (label: string) => {
+    // label expected like "14:00" — fall back to index if parse fails
+    const parts = label.split(':');
+    const h = parseInt(parts[0], 10);
+    return Number.isFinite(h) ? h : null;
+  };
+
+  let chosenStep = 1;
+  for (const step of allowedSteps) {
+    let count = 0;
+    for (let i = 0; i < hourlyMarkers.length; i++) {
+      const hour = parseHour(hourlyMarkers[i].label);
+      if (hour === null) continue;
+      if (hour % step === 0) count++;
     }
-  } else {
-    // Start from the beginning for forward planning
-    for (let i = 0; i < hourlyMarkers.length; i += labelStep) {
-      labelsToShow.add(i);
+    // include first and last if not counted
+    const includeExtras = (count === 0 ? 2 : 0);
+    if (count + includeExtras <= maxLabels) {
+      chosenStep = step;
+      break;
     }
   }
-  // Always show first and last
+
+  for (let i = 0; i < hourlyMarkers.length; i++) {
+    const hour = parseHour(hourlyMarkers[i].label);
+    if (hour !== null && hour % chosenStep === 0) labelsToShow.add(i);
+  }
+  // Always ensure first and last markers are visible
   labelsToShow.add(0);
   labelsToShow.add(hourlyMarkers.length - 1);
+
+  const draggingRef = useRef({ active: false, startX: 0, width: 0 });
+  const baseStartRef = useRef<Date | null>(null);
+
+  const _endDrag = () => {
+    draggingRef.current.active = false;
+    baseStartRef.current = null;
+    document.body.style.userSelect = '';
+    window.removeEventListener('mousemove', onDocMouseMove);
+    window.removeEventListener('mouseup', onDocMouseUp);
+    window.removeEventListener('touchmove', onDocTouchMove);
+    window.removeEventListener('touchend', onDocTouchEnd);
+  };
+
+  const onDocMouseMove = (ev: MouseEvent) => {
+    if (!draggingRef.current.active || !onShiftMinutes || !baseStartRef.current) return;
+    const { startX, width } = draggingRef.current;
+    const deltaX = ev.clientX - startX;
+    const percent = deltaX / Math.max(1, width);
+    const deltaMinutes = Math.round(percent * totalProcessMins);
+    const snapped = Math.round(deltaMinutes / 15) * 15;
+    onShiftMinutes(-snapped, baseStartRef.current);
+  };
+
+  const onDocMouseUp = () => { _endDrag(); };
+
+  const onDocTouchMove = (ev: TouchEvent) => {
+    if (!draggingRef.current.active || !onShiftMinutes || !baseStartRef.current) return;
+    const t = ev.touches[0];
+    const { startX, width } = draggingRef.current;
+    const deltaX = t.clientX - startX;
+    const percent = deltaX / Math.max(1, width);
+    const deltaMinutes = Math.round(percent * totalProcessMins);
+    const snapped = Math.round(deltaMinutes / 15) * 15;
+    onShiftMinutes(-snapped, baseStartRef.current);
+  };
+
+  const onDocTouchEnd = () => { _endDrag(); };
+
+  const startDrag = (clientX: number, containerWidth: number) => {
+    draggingRef.current = { active: true, startX: clientX, width: containerWidth };
+    baseStartRef.current = sessionStartTime;
+    document.body.style.userSelect = 'none';
+    window.addEventListener('mousemove', onDocMouseMove);
+    window.addEventListener('mouseup', onDocMouseUp);
+    window.addEventListener('touchmove', onDocTouchMove, { passive: true });
+    window.addEventListener('touchend', onDocTouchEnd);
+  };
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = e.currentTarget as HTMLDivElement;
+    try { el.setPointerCapture(e.pointerId); } catch {}
+    const rect = el.getBoundingClientRect();
+    startDrag(e.clientX, rect.width);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    // leave empty; we use document-level listeners for robustness
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    try { (e.currentTarget as HTMLDivElement).releasePointerCapture(e.pointerId); } catch {}
+    _endDrag();
+  };
   return (
     <div className="sticky top-0 bg-slate-950/95 backdrop-blur-xl border-b border-slate-800 shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-40 px-4 md:px-8 py-6">
       <div className="max-w-7xl mx-auto w-full">
@@ -122,7 +208,14 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
           </div>
 
           {/* Hourly Scale */}
-          <div className="relative h-8 mt-2 w-full">
+          <div
+            className="relative h-8 mt-2 w-full"
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+            style={{ touchAction: 'pan-y' }}
+          >
             {hourlyMarkers.map((marker, i) => (
               <div
                 key={i}

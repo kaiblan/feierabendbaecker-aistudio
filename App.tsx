@@ -8,7 +8,7 @@ import PlanningView from './components/PlanningView';
 import { useSession } from './hooks/useSession';
 import { useTimer } from './hooks/useTimer';
 import { useBakeSchedule } from './hooks/useBakeSchedule';
-import { formatTime } from './utils/timeUtils';
+import { formatTime, formatDateAsTime, addMinutesToDate } from './utils/timeUtils';
 
 const DEFAULT_CONFIG: BakerConfig = {
   totalFlour: 1000,
@@ -57,6 +57,13 @@ const App: React.FC = () => {
     planningMode,
     translateFn: t,
   });
+
+  const handleShiftMinutes = (minutes: number, baseStart: Date) => {
+    // shift the session start time by minutes relative to the pointerdown base time
+    const newStart = addMinutesToDate(baseStart, minutes);
+    const formatted = formatDateAsTime(newStart);
+    setStartTimeStr(formatted);
+  };
 
 
 
@@ -124,6 +131,7 @@ const App: React.FC = () => {
                 coldLabel={t('cold')}
                 productionWorkflowLabel={t('productionWorkflow')}
                 planningMode={planningMode}
+                onShiftMinutes={handleShiftMinutes}
               />
 
               {/* Planning View Content */}
