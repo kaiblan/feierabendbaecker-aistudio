@@ -69,19 +69,19 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
     <div className="sticky top-0 bg-slate-950/95 backdrop-blur-xl border-b border-slate-800 shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-40 px-4 md:px-8 py-6">
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-[11px] font-bold text-slate-400 mono uppercase tracking-[0.3em]">
+          <h3 className="text-[12px] font-bold text-slate-400 mono uppercase tracking-[0.3em]">
             {productionWorkflowLabel}
           </h3>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1.5">
               <div className="w-2.5 h-2.5 bg-cyan-600 rounded-sm"></div>
-              <span className="text-[11px] mono text-slate-400 uppercase">{workLabel}</span>
+              <span className="text-[12px] mono text-slate-400 uppercase">{workLabel}</span>
             </div>
             <div className="flex items-center space-x-1.5">
               <div className="w-2.5 h-2.5 bg-blue-900/60 rounded-sm"></div>
-              <span className="text-[11px] mono text-slate-400 uppercase">{coldLabel}</span>
+              <span className="text-[12px] mono text-slate-400 uppercase">{coldLabel}</span>
             </div>
-            <span className="text-[11px] mono text-slate-400 border-l border-slate-800 pl-4 ml-2">
+            <span className="text-[12px] mono text-slate-400 border-l border-slate-800 pl-4 ml-2">
               <span className="text-slate-200">
                 {sessionStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </span>
@@ -113,7 +113,7 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
                   `}
                 >
                   <span
-                    className={`text-[9px] md:text-[11px] mono font-bold uppercase truncate max-w-full tracking-tighter ${step.active ? 'text-white' : 'text-slate-400'}`}
+                    className={`text-[9px] md:text-[12px] mono font-bold uppercase truncate max-w-full tracking-tighter ${step.active ? 'text-white' : 'text-slate-400'}`}
                   >
                     {step.label}
                   </span>
@@ -132,7 +132,7 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
               >
                 <div className="w-[1px] h-2 bg-slate-700 group-hover:bg-slate-400 transition-colors" />
                 {labelsToShow.has(i) && (
-                  <span className="mt-1 text-[10px] md:text-[11px] mono text-slate-400 font-medium group-hover:text-slate-300 transition-colors">
+                  <span className="mt-1 text-[12px] md:text-[12px] mono text-slate-400 font-medium group-hover:text-slate-300 transition-colors">
                     {marker.label}
                   </span>
                 )}

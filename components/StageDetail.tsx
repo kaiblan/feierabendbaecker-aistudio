@@ -17,7 +17,7 @@ const StageDetail: React.FC<StageDetailProps> = ({ stage, onUpdate }) => {
 
       <section className="grid grid-cols-2 gap-4">
         <div className="bg-slate-950/60 p-4 rounded-lg border border-slate-800">
-          <label className="text-[11px] text-slate-400 mono block mb-1">TARGET DURATION</label>
+          <label className="text-[12px] text-slate-400 mono block mb-1">TARGET DURATION</label>
           <div className="flex items-center">
             <input 
               type="number" 
@@ -29,7 +29,7 @@ const StageDetail: React.FC<StageDetailProps> = ({ stage, onUpdate }) => {
           </div>
         </div>
         <div className="bg-slate-950/60 p-4 rounded-lg border border-slate-800">
-          <label className="text-[11px] text-slate-400 mono block mb-1">TEMPERATURE (°C)</label>
+          <label className="text-[12px] text-slate-400 mono block mb-1">TEMPERATURE (°C)</label>
           <input 
             type="number" 
             placeholder="--"
@@ -39,7 +39,7 @@ const StageDetail: React.FC<StageDetailProps> = ({ stage, onUpdate }) => {
       </section>
 
       <section>
-        <label className="text-[11px] text-slate-400 mono block mb-2">OBSERVATIONS & PARAMETERS</label>
+        <label className="text-[12px] text-slate-400 mono block mb-2">OBSERVATIONS & PARAMETERS</label>
         <textarea
           placeholder="Enter dough elasticity, extensibility, gas retention..."
           className="w-full h-32 bg-slate-950/60 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 focus:border-cyan-500 outline-none resize-none"

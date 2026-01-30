@@ -104,7 +104,7 @@ const App: React.FC = () => {
             <h1 className="text-lg font-bold text-white tracking-tight">{session.name}</h1>
           </div>
           <div className="text-right">
-            <div className="text-[11px] mono text-slate-400 uppercase tracking-widest">Phase</div>
+            <div className="text-[12px] mono text-slate-400 uppercase tracking-widest">Phase</div>
             <div className="text-sm font-bold text-slate-300 mono">{session.status.toUpperCase()}</div>
           </div>
         </header>
@@ -147,7 +147,7 @@ const App: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 bg-slate-800/50 border border-slate-700 rounded-2xl p-8 flex flex-col justify-center items-center text-center shadow-2xl relative overflow-hidden">
                   <div className={`absolute top-0 left-0 w-full h-1 ${session.stages[session.activeStageIndex]?.isActive ? 'bg-cyan-500' : 'bg-slate-700'}`} />
-                  <div className="text-[11px] mono text-cyan-500 mb-2 uppercase tracking-[0.3em] font-bold">
+                    <div className="text-[12px] mono text-cyan-500 mb-2 uppercase tracking-[0.3em] font-bold">
                     {session.stages[session.activeStageIndex]?.isActive ? 'ACTIVE WORK PHASE' : 'PASSIVE FERMENTATION'}
                   </div>
                   <h2 className="text-4xl font-black mb-6 tracking-tight">{session.stages[session.activeStageIndex]?.label}</h2>
@@ -164,7 +164,7 @@ const App: React.FC = () => {
 
                 <div className="bg-slate-800/30 border border-slate-700 rounded-2xl p-6 flex flex-col justify-between">
                   <div>
-                    <div className="text-[11px] mono text-slate-500 mb-4 uppercase tracking-widest">UPCOMING</div>
+                    <div className="text-[12px] mono text-slate-500 mb-4 uppercase tracking-widest">UPCOMING</div>
                     <div className="text-lg font-bold text-slate-200">{session.stages[session.activeStageIndex + 1]?.label || 'SESSION END'}</div>
                   </div>
                   <div className="space-y-2">
@@ -186,7 +186,7 @@ const App: React.FC = () => {
 
               <section className="space-y-4">
                 <div className="flex justify-between items-center px-1">
-                  <h3 className="text-[11px] font-bold text-slate-500 mono uppercase tracking-[0.3em]">Session Progress</h3>
+                  <h3 className="text-[12px] font-bold text-slate-500 mono uppercase tracking-[0.3em]">Session Progress</h3>
                 </div>
                 <div className="rounded-2xl border border-slate-800 bg-slate-900/80 overflow-hidden">
                   <Timeline 
@@ -207,7 +207,7 @@ const App: React.FC = () => {
         <div className={`fixed inset-y-0 right-0 w-full md:w-96 bg-slate-900 shadow-2xl z-[60] transform transition-transform duration-500 ease-out border-l border-slate-800 ${isPanelOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           <div className="h-full flex flex-col">
             <header className="p-6 border-b border-slate-800 flex justify-between items-center">
-              <span className="text-[11px] font-bold text-slate-500 mono uppercase tracking-[0.2em]">Parameter Log</span>
+              <span className="text-[12px] font-bold text-slate-500 mono uppercase tracking-[0.2em]">Parameter Log</span>
               <button onClick={() => setIsPanelOpen(false)} className="p-2 text-slate-400 hover:text-white">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
