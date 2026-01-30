@@ -24,7 +24,7 @@ const DEFAULT_CONFIG: BakerConfig = {
   coldBulkDurationHours: 8,
   coldProofEnabled: false,
   coldProofDurationHours: 8,
-  fermentationBalance: 0,
+  fermentationBalance: 85,
 };
 
 const App: React.FC = () => {
@@ -127,6 +127,11 @@ const App: React.FC = () => {
         <header className="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950 backdrop-blur-xl z-10">
           <div>
             <h1 className="text-lg font-bold text-white tracking-tight">{session.name}</h1>
+          </div>
+          {/* Mobile language selector */}
+          <div className="flex items-center space-x-2 lg:hidden">
+            <button onClick={() => setLanguage('en')} className={`px-2 py-1 rounded text-xs font-bold transition-all ${language === 'en' ? 'bg-slate-700 text-white' : 'text-slate-400'}`}>EN</button>
+            <button onClick={() => setLanguage('de')} className={`px-2 py-1 rounded text-xs font-bold transition-all ${language === 'de' ? 'bg-slate-700 text-white' : 'text-slate-400'}`}>DE</button>
           </div>
           <div className="text-right">
             <div className="text-[12px] mono text-slate-400 uppercase tracking-widest">Phase</div>

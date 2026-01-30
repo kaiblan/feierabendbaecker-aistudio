@@ -45,7 +45,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
 
   const isRecipeStage = status === 'recipe';
 
-  const bulkPercent = Math.round(60 + (config.fermentationBalance / 100) * 30);
+  const bulkPercent = Math.floor(60 + (config.fermentationBalance / 100) * 30);
   const proofPercent = 100 - bulkPercent;
 
   const startInputRef = useRef<HTMLInputElement | null>(null);
