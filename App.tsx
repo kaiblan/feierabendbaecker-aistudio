@@ -59,10 +59,21 @@ const App: React.FC = () => {
   });
 
   const handleShiftMinutes = (minutes: number, baseStart: Date) => {
-    // shift the session start time by minutes relative to the pointerdown base time
-    const newStart = addMinutesToDate(baseStart, minutes);
-    const formatted = formatDateAsTime(newStart);
-    setStartTimeStr(formatted);
+    // In forward mode: startTimeStr is the start time
+    // In backward mode: startTimeStr is the ready/end time
+    // We always receive sessionStartTime as baseStart, so we need to convert
+    if (planningMode === 'backward') {
+      // Calculate what the new end time should be
+      const newStart = addMinutesToDate(baseStart, minutes);
+      const newEnd = addMinutesToDate(newStart, totalProcessMins);
+      const formatted = formatDateAsTime(newEnd);
+      setStartTimeStr(formatted);
+    } else {
+      // Forward mode: directly shift the start time
+      const newStart = addMinutesToDate(baseStart, minutes);
+      const formatted = formatDateAsTime(newStart);
+      setStartTimeStr(formatted);
+    }
   };
 
 

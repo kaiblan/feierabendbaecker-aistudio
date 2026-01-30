@@ -30,6 +30,7 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
   planningMode,
   onShiftMinutes,
 }) => {
+  const [scrollOffset, setScrollOffset] = useState<number>(0); // offset in minutes
   const [maxLabels, setMaxLabels] = useState<number>(() => {
     if (typeof window === 'undefined') return 12;
     const w = window.innerWidth;
@@ -88,12 +89,26 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
   labelsToShow.add(0);
   labelsToShow.add(hourlyMarkers.length - 1);
 
-  const draggingRef = useRef({ active: false, startX: 0, width: 0 });
-  const baseStartRef = useRef<Date | null>(null);
+  // Drag state for viewport scrolling
+  const draggingRef = useRef<{ active: boolean; startX: number; width: number; initialOffset: number }>({
+    active: false,
+    startX: 0,
+    width: 0,
+    initialOffset: 0
+  });
 
   const _endDrag = () => {
+    if (!draggingRef.current.active) return;
     draggingRef.current.active = false;
-    baseStartRef.current = null;
+    
+    // Apply the final offset to shift the actual times
+    const finalOffset = scrollOffset;
+    if (finalOffset !== 0 && onShiftMinutes) {
+      const snapped = Math.round(finalOffset / 15) * 15;
+      onShiftMinutes(-snapped, sessionStartTime);
+      setScrollOffset(0); // Reset offset after applying
+    }
+    
     document.body.style.userSelect = '';
     window.removeEventListener('mousemove', onDocMouseMove);
     window.removeEventListener('mouseup', onDocMouseUp);
@@ -102,33 +117,35 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
   };
 
   const onDocMouseMove = (ev: MouseEvent) => {
-    if (!draggingRef.current.active || !onShiftMinutes || !baseStartRef.current) return;
-    const { startX, width } = draggingRef.current;
+    if (!draggingRef.current.active) return;
+    const { startX, width, initialOffset } = draggingRef.current;
     const deltaX = ev.clientX - startX;
     const percent = deltaX / Math.max(1, width);
     const deltaMinutes = Math.round(percent * totalProcessMins);
-    const snapped = Math.round(deltaMinutes / 15) * 15;
-    onShiftMinutes(-snapped, baseStartRef.current);
+    setScrollOffset(initialOffset + deltaMinutes);
   };
 
   const onDocMouseUp = () => { _endDrag(); };
 
   const onDocTouchMove = (ev: TouchEvent) => {
-    if (!draggingRef.current.active || !onShiftMinutes || !baseStartRef.current) return;
+    if (!draggingRef.current.active) return;
     const t = ev.touches[0];
-    const { startX, width } = draggingRef.current;
+    const { startX, width, initialOffset } = draggingRef.current;
     const deltaX = t.clientX - startX;
     const percent = deltaX / Math.max(1, width);
     const deltaMinutes = Math.round(percent * totalProcessMins);
-    const snapped = Math.round(deltaMinutes / 15) * 15;
-    onShiftMinutes(-snapped, baseStartRef.current);
+    setScrollOffset(initialOffset + deltaMinutes);
   };
 
   const onDocTouchEnd = () => { _endDrag(); };
 
   const startDrag = (clientX: number, containerWidth: number) => {
-    draggingRef.current = { active: true, startX: clientX, width: containerWidth };
-    baseStartRef.current = sessionStartTime;
+    draggingRef.current = { 
+      active: true, 
+      startX: clientX, 
+      width: containerWidth,
+      initialOffset: scrollOffset
+    };
     document.body.style.userSelect = 'none';
     window.addEventListener('mousemove', onDocMouseMove);
     window.addEventListener('mouseup', onDocMouseUp);
@@ -209,27 +226,33 @@ export const ProductionTimeline: React.FC<ProductionTimelineProps> = ({
 
           {/* Hourly Scale */}
           <div
-            className="relative h-8 mt-2 w-full cursor-ew-resize"
+            className="relative h-8 mt-2 w-full cursor-ew-resize overflow-hidden"
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerUp}
             style={{ touchAction: 'pan-y', cursor: 'ew-resize' }}
           >
-            {hourlyMarkers.map((marker, i) => (
-              <div
-                key={i}
-                className="absolute top-0 flex flex-col items-center -translate-x-1/2"
-                style={{ left: `${marker.position}%` }}
-              >
-                <div className="w-[1px] h-2 bg-slate-700 transition-colors" />
-                {labelsToShow.has(i) && (
-                  <span className="mt-1 text-[12px] md:text-[12px] mono text-slate-400 font-medium transition-colors">
-                    {marker.label}
-                  </span>
-                )}
-              </div>
-            ))}
+            {hourlyMarkers.map((marker, i) => {
+              // Apply scroll offset: dragging right should shift markers right
+              const offsetPercent = (scrollOffset / totalProcessMins) * 100;
+              const adjustedLeft = marker.position + offsetPercent;
+              
+              return (
+                <div
+                  key={i}
+                  className="absolute top-0 flex flex-col items-center -translate-x-1/2"
+                  style={{ left: `${adjustedLeft}%` }}
+                >
+                  <div className="w-[1px] h-2 bg-slate-700 transition-colors" />
+                  {labelsToShow.has(i) && (
+                    <span className="mt-1 text-[12px] md:text-[12px] mono text-slate-400 font-medium transition-colors">
+                      {marker.label}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
