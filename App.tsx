@@ -129,8 +129,8 @@ const App: React.FC = () => {
       <main className="flex-1 flex flex-col relative overflow-hidden">
         {/* Secondary tabs (fixed at top when in planning) */}
         {activeTab === 'planning' && (
-          <div className="fixed top-0 left-0 right-0 z-40 bg-slate-950/95 border-b border-slate-800">
-            <div className="max-w-7xl mx-auto px-4 py-3 flex justify-center">
+          <div className="fixed top-0 left-0 right-0 z-40 bg-slate-950/95 border-b border-slate-800 h-14">
+            <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-center">
               <div className="inline-flex bg-slate-800/80 rounded-full p-1 gap-1 border border-slate-700/50">
                 <button 
                   onClick={() => setSecondaryTab('timing')} 
@@ -157,43 +157,50 @@ const App: React.FC = () => {
           </div>
         )}
 
-        <div className={`flex-1 overflow-y-auto pb-24 ${activeTab === 'planning' ? 'pt-20' : ''}`}>
+        <div className={`flex-1 overflow-y-auto pb-24 ${activeTab === 'planning' ? 'pt-[192px]' : ''}`}>
           {activeTab === 'planning' && (
-            <div className="relative overflow-hidden">
-              <div className="flex w-[200%] transition-transform duration-300 ease-in-out" style={{ transform: secondaryTab === 'timing' ? 'translateX(0%)' : 'translateX(-50%)' }}>
-                <div className="w-1/2">
-                  <ProductionTimeline
-                    scheduleWithTimes={scheduleWithTimes}
-                    sessionStartTime={sessionStartTime}
-                    sessionEndTime={sessionEndTime}
-                    hourlyMarkers={hourlyMarkers}
-                    totalProcessMins={totalProcessMins}
-                    workLabel={t('work')}
-                    coldLabel={t('cold')}
-                    productionWorkflowLabel={t('productionWorkflow')}
-                    planningMode={planningMode}
-                    onShiftMinutes={handleShiftMinutes}
-                  />
+            <> 
+              {/* Fixed timeline so it never scrolls out of view */}
+              <div className="fixed top-14 left-0 right-0 z-30 transition-transform duration-300 ease-in-out" style={{ transform: secondaryTab === 'timing' ? 'translateX(0%)' : 'translateX(-100%)' }}>
+                <ProductionTimeline
+                  scheduleWithTimes={scheduleWithTimes}
+                  sessionStartTime={sessionStartTime}
+                  sessionEndTime={sessionEndTime}
+                  hourlyMarkers={hourlyMarkers}
+                  totalProcessMins={totalProcessMins}
+                  workLabel={t('work')}
+                  coldLabel={t('cold')}
+                  productionWorkflowLabel={t('productionWorkflow')}
+                  planningMode={planningMode}
+                  onShiftMinutes={handleShiftMinutes}
+                />
+              </div>
 
-                  {/* Planning View Content */}
-                  <PlanningView
-                    config={session.config}
-                    status={session.status}
-                    startTimeStr={startTimeStr}
-                    planningMode={planningMode}
-                    onUpdateConfig={updateConfig}
-                    onUpdateStartTime={setStartTimeStr}
-                    onUpdatePlanningMode={setPlanningMode}
-                    onStartProcess={handleNextStage}
-                  />
-                </div>
-                <div className="w-1/2">
-                  <div className="max-w-7xl mx-auto px-4 py-8">
-                    <div className="text-slate-400 italic">{t('amounts')}</div>
+              <div className="relative overflow-hidden">
+                <div className="flex w-[200%] transition-transform duration-300 ease-in-out" style={{ transform: secondaryTab === 'timing' ? 'translateX(0%)' : 'translateX(-50%)' }}>
+                  <div className="w-1/2">
+                    {/* Planning View Content */}
+                    <div className="max-w-7xl mx-auto px-4 py-8">
+                      <PlanningView
+                        config={session.config}
+                        status={session.status}
+                        startTimeStr={startTimeStr}
+                        planningMode={planningMode}
+                        onUpdateConfig={updateConfig}
+                        onUpdateStartTime={setStartTimeStr}
+                        onUpdatePlanningMode={setPlanningMode}
+                        onStartProcess={handleNextStage}
+                      />
+                    </div>
+                  </div>
+                  <div className="w-1/2">
+                    <div className="max-w-7xl mx-auto px-4 py-8">
+                      <div className="text-slate-400 italic">{t('amounts')}</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </>
           )}
 
           {activeTab === 'active' && session.status === 'active' && (
