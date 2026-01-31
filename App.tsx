@@ -190,12 +190,53 @@ const App: React.FC = () => {
                         onUpdateStartTime={setStartTimeStr}
                         onUpdatePlanningMode={setPlanningMode}
                         onStartProcess={handleNextStage}
+                        onOpenAmounts={() => setSecondaryTab('amounts')}
                       />
                     </div>
                   </div>
                   <div className="w-1/2">
                     <div className="max-w-7xl mx-auto px-4 py-8">
-                      <div className="text-slate-400 italic">{t('amounts')}</div>
+                      <div className="grid grid-cols-1 lg:grid-cols-10 gap-6 items-start">
+                        <Card variant="default" className="lg:col-span-3 w-full">
+                          <h3 className="text-[12px] font-bold text-slate-400 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('doughSettings')}</h3>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <label className="text-[12px] text-slate-400 mono uppercase block mb-1">{t('totalFlour')}</label>
+                              <input type="number" value={session.config.totalFlour} onChange={e => updateConfig({ totalFlour: +e.target.value })} className="bg-slate-950 border border-slate-800 p-3 rounded-xl text-xl font-bold w-full outline-none focus:border-cyan-500 mono" />
+                            </div>
+                            <div>
+                              <label className="text-[12px] text-slate-400 mono uppercase block mb-1">{t('hydration')}</label>
+                              <input type="number" value={session.config.hydration} onChange={e => updateConfig({ hydration: +e.target.value })} className="bg-slate-950 border border-slate-800 p-3 rounded-xl text-xl font-bold w-full outline-none focus:border-cyan-500 mono" />
+                            </div>
+                          </div>
+                        </Card>
+
+                        <Card variant="default" className="lg:col-span-7 w-full">
+                          <h3 className="text-[12px] font-bold text-emerald-500 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('recipeComponents')}</h3>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+                              <span className="text-[12px] text-slate-400 mono block uppercase">{t('flour')}</span>
+                              <span className="text-2xl font-black text-white mono">{session.config.totalFlour}g</span>
+                            </div>
+                            <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+                              <span className="text-[12px] text-slate-400 mono block uppercase">{t('water')}</span>
+                              <span className="text-2xl font-black text-cyan-400 mono">{Math.round(session.config.totalFlour * session.config.hydration / 100)}g</span>
+                            </div>
+                            <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+                              <span className="text-[12px] text-slate-400 mono block uppercase">{t('yeast')} ({session.config.yeast.toFixed(2)}%)</span>
+                              <span className="text-2xl font-black text-emerald-400 mono">{(session.config.totalFlour * session.config.yeast / 100).toFixed(2)}g</span>
+                            </div>
+                            <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+                              <span className="text-[12px] text-slate-400 mono block uppercase">{t('salt')} ({session.config.salt}%)</span>
+                              <span className="text-2xl font-black text-amber-400 mono">{(session.config.totalFlour * session.config.salt / 100).toFixed(1)}g</span>
+                            </div>
+                          </div>
+                          <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-xs mono text-slate-400">
+                            <span className="uppercase tracking-widest">{t('totalBatchWeight')}</span>
+                            <span className="text-slate-300 text-lg">{(session.config.totalFlour * (1 + (session.config.hydration + session.config.yeast + session.config.salt) / 100)).toFixed(0)}g</span>
+                          </div>
+                        </Card>
+                      </div>
                     </div>
                   </div>
                 </div>

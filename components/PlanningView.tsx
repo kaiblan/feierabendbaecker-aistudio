@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { BakerConfig } from '../types';
-import { ICONS, Language } from '../constants';
+// imports
 import { useBakeSchedule } from '../hooks/useBakeSchedule';
 import { sliderValueToDuration, durationToSliderValue, formatDurationDisplay, formatMinutesDisplay, roundDuration } from '../utils/coldFermentationUtils';
 import { Card } from './Card';
@@ -14,6 +14,7 @@ interface PlanningViewProps {
   onUpdateStartTime: (time: string) => void;
   onUpdatePlanningMode: (mode: 'forward' | 'backward') => void;
   onStartProcess: () => void;
+  onOpenAmounts?: () => void;
 }
 
 import { useLanguage } from './LanguageContext';
@@ -27,6 +28,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
   onUpdateStartTime,
   onUpdatePlanningMode,
   onStartProcess,
+  onOpenAmounts,
 }) => {
   const { t } = useLanguage();
 
@@ -43,7 +45,6 @@ const PlanningView: React.FC<PlanningViewProps> = ({
     translateFn: t,
   });
 
-  const isRecipeStage = status === 'recipe';
 
   const bulkPercent = Math.floor(60 + (config.fermentationBalance / 100) * 30);
   const proofPercent = 100 - bulkPercent;
@@ -107,18 +108,13 @@ const PlanningView: React.FC<PlanningViewProps> = ({
       <div className="flex-1 px-4 lg:px-8 py-8 space-y-8 animate-fade-in">
         <header className="max-w-7xl mx-auto w-full">
           <div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">
-              {isRecipeStage ? t('recipeDetails') : t('bakingSchedule')}
-            </h2>
-            <p className="text-slate-400 text-sm">
-              {isRecipeStage ? t('adjustWeights') : t('planYourBake')}
-            </p>
+            <h2 className="text-2xl font-bold text-white tracking-tight">{t('bakingSchedule')}</h2>
+            <p className="text-slate-400 text-sm">{t('planYourBake')}</p>
           </div>
         </header>
 
         <div className="max-w-7xl mx-auto w-full flex flex-col lg:grid lg:grid-cols-10 gap-6 items-start">
-          {!isRecipeStage ? (
-            <>
+          {/* Main planning UI */}
               <Card variant="default" className="order-1 lg:order-3 lg:col-span-2 w-full p-4 flex flex-col space-y-3">
                 <div className="flex justify-between items-center">
                   <h3 className="text-[12px] font-bold text-emerald-500 mono uppercase tracking-widest">{t('sessionTiming')}</h3>
@@ -296,62 +292,17 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   </div>
                 </div>
               </Card>
-            </>
-          ) : (
-            <>
-              <Card variant="default" className="lg:col-span-3 w-full">
-                <h3 className="text-[12px] font-bold text-slate-400 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('doughSettings')}</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-[12px] text-slate-400 mono uppercase block mb-1">{t('totalFlour')}</label>
-                    <input type="number" value={config.totalFlour} onChange={e => onUpdateConfig({ totalFlour: +e.target.value })} className="bg-slate-950 border border-slate-800 p-3 rounded-xl text-xl font-bold w-full outline-none focus:border-cyan-500 mono" />
-                  </div>
-                  <div>
-                    <label className="text-[12px] text-slate-400 mono uppercase block mb-1">{t('hydration')}</label>
-                    <input type="number" value={config.hydration} onChange={e => onUpdateConfig({ hydration: +e.target.value })} className="bg-slate-950 border border-slate-800 p-3 rounded-xl text-xl font-bold w-full outline-none focus:border-cyan-500 mono" />
-                  </div>
-                </div>
-              </Card>
-              <Card variant="default" className="lg:col-span-7 w-full">
-                <h3 className="text-[12px] font-bold text-emerald-500 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('recipeComponents')}</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                    <span className="text-[12px] text-slate-400 mono block uppercase">{t('flour')}</span>
-                    <span className="text-2xl font-black text-white mono">{config.totalFlour}g</span>
-                  </div>
-                  <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                    <span className="text-[12px] text-slate-400 mono block uppercase">{t('water')}</span>
-                    <span className="text-2xl font-black text-cyan-400 mono">{(config.totalFlour * config.hydration / 100).toFixed(0)}g</span>
-                  </div>
-                  <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                    <span className="text-[12px] text-slate-400 mono block uppercase">{t('yeast')} ({config.yeast.toFixed(2)}%)</span>
-                    <span className="text-2xl font-black text-emerald-400 mono">{(config.totalFlour * config.yeast / 100).toFixed(2)}g</span>
-                  </div>
-                  <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                    <span className="text-[12px] text-slate-400 mono block uppercase">{t('salt')} ({config.salt}%)</span>
-                    <span className="text-2xl font-black text-amber-400 mono">{(config.totalFlour * config.salt / 100).toFixed(1)}g</span>
-                  </div>
-                </div>
-                <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-xs mono text-slate-400">
-                  <span className="uppercase tracking-widest">{t('totalBatchWeight')}</span>
-                  <span className="text-slate-300 text-lg">{(config.totalFlour * (1 + (config.hydration + config.yeast + config.salt) / 100)).toFixed(0)}g</span>
-                </div>
-              </Card>
-            </>
-          )}
         </div>
 
         {/* Action Button */}
         <div className="flex justify-center max-w-7xl mx-auto w-full pt-4">
           <button
-            onClick={onStartProcess}
-            className={`group relative px-10 md:px-16 py-5 md:py-6 text-white font-black rounded-3xl transition-all shadow-2xl active:scale-95 flex items-center space-x-6 overflow-hidden z-10
-                  ${isRecipeStage ? 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-900/40' : 'bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40'}
-              `}
+            onClick={() => { if (onOpenAmounts) { onOpenAmounts(); } else { onStartProcess(); } }}
+            className={`group relative px-10 md:px-16 py-4 text-white font-black rounded-3xl transition-all shadow-2xl active:scale-95 flex items-center space-x-6 overflow-hidden z-10 bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40`}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
             <span className="relative tracking-[0.2em] uppercase text-xs md:text-sm">
-              {isRecipeStage ? t('commenceTracking') : t('confirmTimeline')}
+              {t('confirmTimeline')}
             </span>
             <svg className="w-5 h-5 md:w-6 md:h-6 relative group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
