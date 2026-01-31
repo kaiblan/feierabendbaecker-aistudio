@@ -39,6 +39,7 @@ const App: React.FC = () => {
   );
 
   const [activeTab, setActiveTab] = useState<'planning' | 'active' | 'history' | 'starter' | 'knowledge'>('planning');
+  const [secondaryTab, setSecondaryTab] = useState<'timing'|'amounts'>('timing');
   const [startTimeStr, setStartTimeStr] = useState('08:00');
   const [planningMode, setPlanningMode] = useState<'forward' | 'backward'>('backward');
   const [selectedStageIdx, setSelectedStageIdx] = useState(0);
@@ -126,50 +127,73 @@ const App: React.FC = () => {
       </nav>
 
       <main className="flex-1 flex flex-col relative overflow-hidden">
-        <header className="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950 backdrop-blur-xl z-10">
-          <div>
-            <h1 className="text-lg font-bold text-white tracking-tight">{session.name}</h1>
+        {/* Secondary tabs (fixed at top when in planning) */}
+        {activeTab === 'planning' && (
+          <div className="fixed top-0 left-0 right-0 z-40 bg-slate-950/95 border-b border-slate-800">
+            <div className="max-w-7xl mx-auto px-4 py-3 flex justify-center">
+              <div className="inline-flex bg-slate-800/80 rounded-full p-1 gap-1 border border-slate-700/50">
+                <button 
+                  onClick={() => setSecondaryTab('timing')} 
+                  className={`w-32 py-1.5 rounded-full text-sm font-medium transition-all text-center ${
+                    secondaryTab === 'timing' 
+                      ? 'bg-gradient-to-br from-cyan-600 to-cyan-700 text-white shadow-lg shadow-cyan-900/50' 
+                      : 'text-slate-400 hover:text-slate-300'
+                  }`}
+                >
+                  {t('timing')}
+                </button>
+                <button 
+                  onClick={() => setSecondaryTab('amounts')} 
+                  className={`w-32 py-1.5 rounded-full text-sm font-medium transition-all text-center ${
+                    secondaryTab === 'amounts' 
+                      ? 'bg-gradient-to-br from-cyan-600 to-cyan-700 text-white shadow-lg shadow-cyan-900/50' 
+                      : 'text-slate-400 hover:text-slate-300'
+                  }`}
+                >
+                  {t('amounts')}
+                </button>
+              </div>
+            </div>
           </div>
-          {/* Mobile language selector */}
-          <div className="lg:hidden">
-            <LanguageSelector size="sm" />
-          </div>
-          <div className="text-right">
-            <div className="text-[12px] mono text-slate-400 uppercase tracking-widest">Phase</div>
-            <div className="text-sm font-bold text-slate-300 mono">{session.status.toUpperCase()}</div>
-          </div>
-        </header>
+        )}
 
-        {/* This div is the scrollable container. 
-            The PlanningView inside it now handles its own sticky footer logic. */}
-        <div className="flex-1 overflow-y-auto">
+        <div className={`flex-1 overflow-y-auto pb-24 ${activeTab === 'planning' ? 'pt-20' : ''}`}>
           {activeTab === 'planning' && (
-            <>
-              <ProductionTimeline
-                scheduleWithTimes={scheduleWithTimes}
-                sessionStartTime={sessionStartTime}
-                sessionEndTime={sessionEndTime}
-                hourlyMarkers={hourlyMarkers}
-                totalProcessMins={totalProcessMins}
-                workLabel={t('work')}
-                coldLabel={t('cold')}
-                productionWorkflowLabel={t('productionWorkflow')}
-                planningMode={planningMode}
-                onShiftMinutes={handleShiftMinutes}
-              />
+            <div className="relative overflow-hidden">
+              <div className="flex w-[200%] transition-transform duration-300 ease-in-out" style={{ transform: secondaryTab === 'timing' ? 'translateX(0%)' : 'translateX(-50%)' }}>
+                <div className="w-1/2">
+                  <ProductionTimeline
+                    scheduleWithTimes={scheduleWithTimes}
+                    sessionStartTime={sessionStartTime}
+                    sessionEndTime={sessionEndTime}
+                    hourlyMarkers={hourlyMarkers}
+                    totalProcessMins={totalProcessMins}
+                    workLabel={t('work')}
+                    coldLabel={t('cold')}
+                    productionWorkflowLabel={t('productionWorkflow')}
+                    planningMode={planningMode}
+                    onShiftMinutes={handleShiftMinutes}
+                  />
 
-              {/* Planning View Content */}
-              <PlanningView
-                config={session.config}
-                status={session.status}
-                startTimeStr={startTimeStr}
-                planningMode={planningMode}
-                onUpdateConfig={updateConfig}
-                onUpdateStartTime={setStartTimeStr}
-                onUpdatePlanningMode={setPlanningMode}
-                onStartProcess={handleNextStage}
-              />
-            </>
+                  {/* Planning View Content */}
+                  <PlanningView
+                    config={session.config}
+                    status={session.status}
+                    startTimeStr={startTimeStr}
+                    planningMode={planningMode}
+                    onUpdateConfig={updateConfig}
+                    onUpdateStartTime={setStartTimeStr}
+                    onUpdatePlanningMode={setPlanningMode}
+                    onStartProcess={handleNextStage}
+                  />
+                </div>
+                <div className="w-1/2">
+                  <div className="max-w-7xl mx-auto px-4 py-8">
+                    <div className="text-slate-400 italic">{t('amounts')}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
 
           {activeTab === 'active' && session.status === 'active' && (
@@ -234,6 +258,21 @@ const App: React.FC = () => {
               </section>
             </div>
           )}
+
+          {activeTab === 'starter' && (
+            <div className="max-w-4xl mx-auto px-6 py-8 space-y-8 animate-fade-in pb-24">
+              <Card variant="default" className="p-6">
+                <h2 className="text-xl font-bold text-white mb-2">{t('settings')}</h2>
+                <p className="text-sm text-slate-400 mb-4">{t('appSettingsDescription') || 'Application settings'}</p>
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm text-slate-400 block mb-2">{t('language')}</label>
+                    <LanguageSelector />
+                  </div>
+                </div>
+              </Card>
+            </div>
+          )}
         </div>
 
         <div className={`fixed inset-y-0 right-0 w-full md:w-96 bg-slate-900 shadow-2xl z-[60] transform transition-transform duration-500 ease-out border-l border-slate-800 ${isPanelOpen ? 'translate-x-0' : 'translate-x-full'}`}>
@@ -260,6 +299,32 @@ const App: React.FC = () => {
         </div>
         {isPanelOpen && <div onClick={() => setIsPanelOpen(false)} className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[55]" />}
       </main>
+      {/* Bottom navigation for small screens */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-slate-950/95 border-t border-slate-800 z-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-4 gap-2">
+            <button onClick={() => setActiveTab('planning')} className={`py-2 flex flex-col items-center justify-center text-xs ${activeTab === 'planning' ? 'text-cyan-400' : 'text-slate-400'}`}>
+              <svg className="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+              <span>{t('planning')}</span>
+            </button>
+
+            <button onClick={() => setActiveTab('active')} className={`py-2 flex flex-col items-center justify-center text-xs ${activeTab === 'active' ? 'text-cyan-400' : 'text-slate-400'}`}>
+              <ICONS.Active className="w-6 h-6 mb-1" />
+              <span>{t('baking')}</span>
+            </button>
+
+            <button onClick={() => setActiveTab('history')} className={`py-2 flex flex-col items-center justify-center text-xs ${activeTab === 'history' ? 'text-cyan-400' : 'text-slate-400'}`}>
+              <ICONS.History className="w-6 h-6 mb-1" />
+              <span>{t('history')}</span>
+            </button>
+
+            <button onClick={() => setActiveTab('starter')} className={`py-2 flex flex-col items-center justify-center text-xs ${activeTab === 'starter' ? 'text-cyan-400' : 'text-slate-400'}`}>
+              <ICONS.Knowledge className="w-6 h-6 mb-1" />
+              <span>{t('settings')}</span>
+            </button>
+          </div>
+        </div>
+      </nav>
     </div>
     </LanguageContext.Provider>
   );
