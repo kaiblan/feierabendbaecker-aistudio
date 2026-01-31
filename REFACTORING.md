@@ -121,8 +121,7 @@ src/
 │   └── useBakeSchedule.ts (Custom hook for scheduling)
 ├── components/
 │   ├── PlanningView.tsx  (Refactored, uses useBakeSchedule)
-│   ├── Timeline.tsx      (Unchanged)
-│   └── StageDetail.tsx   (Unchanged)
+│   └── Timeline.tsx      (Unchanged)
 ├── App.tsx               (Refactored, uses custom hooks)
 ├── types.ts              (Unchanged)
 ├── constants.tsx         (Unchanged)

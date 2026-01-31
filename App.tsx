@@ -3,7 +3,6 @@ import { ICONS, TRANSLATIONS, Language } from './constants';
 import { BakerConfig } from './types';
 import Timeline from './components/Timeline';
 import { ProductionTimeline } from './components/ProductionTimeline';
-import StageDetail from './components/StageDetail';
 import PlanningView from './components/PlanningView';
 import { LanguageSelector } from './components/LanguageSelector';
 import { LanguageContext, createTranslator } from './components/LanguageContext';
@@ -322,18 +321,7 @@ const App: React.FC = () => {
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </Button>
             </header>
-            <div className="flex-1 overflow-y-auto">
-              {session.stages[selectedStageIdx] && (
-                <StageDetail
-                  stage={session.stages[selectedStageIdx]}
-                  onUpdate={(updates) => {
-                    const newStages = [...session.stages];
-                    newStages[selectedStageIdx] = { ...newStages[selectedStageIdx], ...updates };
-                    setSession({ ...session, stages: newStages });
-                  }}
-                />
-              )}
-            </div>
+            <div className="flex-1 overflow-y-auto" />
           </div>
         </div>
         {isPanelOpen && <div onClick={() => setIsPanelOpen(false)} className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[55]" />}
