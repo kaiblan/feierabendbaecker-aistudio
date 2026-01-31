@@ -4,6 +4,7 @@ import { BakerConfig } from '../types';
 import { useBakeSchedule } from '../hooks/useBakeSchedule';
 import { sliderValueToDuration, durationToSliderValue, formatDurationDisplay, formatMinutesDisplay, roundDuration } from '../utils/coldFermentationUtils';
 import { Card } from './Card';
+import Slider from './Slider';
 
 interface PlanningViewProps {
   config: BakerConfig;
@@ -172,13 +173,27 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       <label className="text-[12px] text-slate-400 mono uppercase">{t('yeastPercentage')}</label>
                       <span className="text-xl font-bold text-emerald-400 mono tracking-tighter">{config.yeast.toFixed(2)}%</span>
                     </div>
-                    <input type="range" min="0.01" max="2.00" step="0.01" value={config.yeast} onChange={e => onUpdateConfig({ yeast: parseFloat(e.target.value) })} className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500" />
+                    <Slider
+                      min={0.01}
+                      max={2}
+                      step={0.01}
+                      value={config.yeast}
+                      onChange={(v) => onUpdateConfig({ yeast: v })}
+                      accent="accent-cyan-500"
+                    />
 
                     <div className="flex justify-between items-end">
                       <label className="text-[12px] text-slate-400 mono uppercase">{t('doughTemperature')}</label>
                       <span className="text-xl font-bold text-amber-400 mono tracking-tighter">{config.targetTemp.toFixed(1)}°C</span>
                     </div>
-                    <input type="range" min="18" max="32" step="0.5" value={config.targetTemp} onChange={e => onUpdateConfig({ targetTemp: parseFloat(e.target.value) })} className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500" />
+                    <Slider
+                      min={18}
+                      max={32}
+                      step={0.5}
+                      value={config.targetTemp}
+                      onChange={(v) => onUpdateConfig({ targetTemp: v })}
+                      accent="accent-amber-500"
+                    />
                   </div>
                 </div>
               </Card>
@@ -197,19 +212,18 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       />
                     </div>
                     {config.autolyseEnabled && (
-                      <div className="space-y-3 pt-2 border-t border-slate-800/50">
+                        <div className="space-y-3 pt-2 border-t border-slate-800/50">
                         <div className="flex justify-between items-end">
                           <label className="text-[12px] text-slate-400 mono uppercase">{t('autolyse')}</label>
                           <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatMinutesDisplay(config.autolyseDurationMinutes || 0)}</span>
                         </div>
-                        <input
-                          type="range"
+                        <Slider
                           min={5}
                           max={120}
                           step={5}
                           value={config.autolyseDurationMinutes || 5}
-                          onChange={e => onUpdateConfig({ autolyseDurationMinutes: parseInt(e.target.value) })}
-                          className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                          onChange={v => onUpdateConfig({ autolyseDurationMinutes: parseInt(String(v)) })}
+                          accent="accent-cyan-400"
                         />
                       </div>
                     )}
@@ -225,14 +239,13 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                           <label className="text-[12px] text-slate-400 mono uppercase">Cold Bulk Duration</label>
                           <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldBulkDurationHours)}</span>
                         </div>
-                        <input
-                          type="range"
-                          min="0"
-                          max="100"
-                          step="1"
+                        <Slider
+                          min={0}
+                          max={100}
+                          step={1}
                           value={durationToSliderValue(config.coldBulkDurationHours)}
-                          onChange={e => onUpdateConfig({ coldBulkDurationHours: roundDuration(sliderValueToDuration(parseFloat(e.target.value))) })}
-                          className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                          onChange={v => onUpdateConfig({ coldBulkDurationHours: roundDuration(sliderValueToDuration(v)) })}
+                          accent="accent-cyan-400"
                         />
                       </div>
                     )}
@@ -248,14 +261,13 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                           <label className="text-[12px] text-slate-400 mono uppercase">Cold Proof Duration</label>
                           <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldProofDurationHours)}</span>
                         </div>
-                        <input
-                          type="range"
-                          min="0"
-                          max="100"
-                          step="1"
+                        <Slider
+                          min={0}
+                          max={100}
+                          step={1}
                           value={durationToSliderValue(config.coldProofDurationHours)}
-                          onChange={e => onUpdateConfig({ coldProofDurationHours: roundDuration(sliderValueToDuration(parseFloat(e.target.value))) })}
-                          className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                          onChange={v => onUpdateConfig({ coldProofDurationHours: roundDuration(sliderValueToDuration(v)) })}
+                          accent="accent-cyan-400"
                         />
                       </div>
                     )}
@@ -285,7 +297,14 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                         <label className="text-[12px] text-slate-400 mono uppercase">{t('fridgeTemperature')}</label>
                         <span className="text-xl font-bold text-cyan-400 mono tracking-tighter">{config.fridgeTemp.toFixed(1)}°C</span>
                       </div>
-                      <input type="range" min="0" max="10" step="0.5" value={config.fridgeTemp} onChange={e => onUpdateConfig({ fridgeTemp: parseFloat(e.target.value) })} className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400" />
+                      <Slider
+                        min={0}
+                        max={10}
+                        step={0.5}
+                        value={config.fridgeTemp}
+                        onChange={v => onUpdateConfig({ fridgeTemp: v })}
+                        accent="accent-cyan-400"
+                      />
                     </div>
                   </div>
                 </div>

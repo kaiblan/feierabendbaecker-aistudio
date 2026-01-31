@@ -217,7 +217,7 @@ const App: React.FC = () => {
                   {/* Amounts tab content */}
                   <div className="w-1/2 h-full">
                     <div className="max-w-7xl mx-auto px-4 pb-24 overflow-y-auto h-full" style={{ paddingTop: 'var(--header-height)' }}>
-                      <div className="grid grid-cols-1 lg:grid-cols-10 gap-6 items-start">
+                      <div className="grid grid-cols-1 lg:grid-cols-10 gap-6 items-start pt-4">
                         <Card variant="default" className="lg:col-span-3 w-full">
                           <h3 className="text-[12px] font-bold text-slate-400 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('doughSettings')}</h3>
                           <div className="grid grid-cols-2 gap-4">
