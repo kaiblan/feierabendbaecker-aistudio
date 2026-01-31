@@ -103,7 +103,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
   return (
     <div className="flex flex-col min-h-full">
       {/* Scrollable Content Area */}
-      <div className="flex-1 px-4 lg:px-8 py-8 space-y-8 animate-fade-in">
+      <div className="flex-1 px-4 lg:px-8 space-y-6 animate-fade-in">
         <header className="max-w-7xl mx-auto w-full">
           <div>
             <h2 className="text-2xl font-bold text-white tracking-tight">{t('bakingSchedule')}</h2>

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { ICONS, TRANSLATIONS, Language } from './constants';
 import { BakerConfig } from './types';
 import Timeline from './components/Timeline';
@@ -43,6 +43,34 @@ const App: React.FC = () => {
   const [planningMode, setPlanningMode] = useState<'forward' | 'backward'>('backward');
   const [selectedStageIdx, setSelectedStageIdx] = useState(0);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+
+  const headerRef = useRef<HTMLDivElement | null>(null);
+  const timelineRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const updateOffsets = () => {
+      const headerH = headerRef.current?.offsetHeight ?? 0;
+      const timelineH = timelineRef.current?.offsetHeight ?? 0;
+      const total = headerH + timelineH;
+      document.documentElement.style.setProperty('--planning-offset', `${total}px`);
+      document.documentElement.style.setProperty('--header-height', `${headerH}px`);
+    };
+
+    updateOffsets();
+
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined') {
+      ro = new ResizeObserver(updateOffsets);
+      if (headerRef.current) ro.observe(headerRef.current);
+      if (timelineRef.current) ro.observe(timelineRef.current);
+    }
+
+    window.addEventListener('resize', updateOffsets);
+    return () => {
+      if (ro) ro.disconnect();
+      window.removeEventListener('resize', updateOffsets);
+    };
+  }, [secondaryTab]);
 
   const { session, updateConfig, transitionToRecipe, transitionToActive, advanceStage, setSession } = useSession({
     initialConfig: DEFAULT_CONFIG,
@@ -120,7 +148,7 @@ const App: React.FC = () => {
       <main className="flex-1 flex flex-col relative overflow-hidden">
         {/* Secondary tabs (fixed at top when in planning) */}
         {activeTab === 'planning' && (
-          <div className="fixed top-0 left-0 right-0 z-40 bg-slate-950/95 border-b border-slate-800 h-14">
+          <div ref={headerRef} className="fixed top-0 left-0 right-0 z-40 bg-slate-950/95 border-b border-slate-800">
             <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-center">
               <div className="inline-flex bg-slate-800/80 rounded-full p-1 gap-1 border border-slate-700/50">
                 <button 
@@ -148,11 +176,11 @@ const App: React.FC = () => {
           </div>
         )}
 
-        <div className={`flex-1 overflow-y-auto pb-24 ${activeTab === 'planning' ? 'pt-[192px]' : ''}`}>
+        <div className="flex-1 pb-24" style={activeTab === 'planning' ? { overflow: 'hidden' } : { overflowY: 'auto' }}>
           {activeTab === 'planning' && (
             <> 
-              {/* Fixed timeline so it never scrolls out of view */}
-              <div className="fixed top-14 left-0 right-0 z-30 transition-transform duration-300 ease-in-out" style={{ transform: secondaryTab === 'timing' ? 'translateX(0%)' : 'translateX(-100%)' }}>
+              {/* Fixed timeline - only visible on timing tab */}
+              <div ref={timelineRef} className="fixed left-0 right-0 z-30 transition-transform duration-300 ease-in-out" style={{ top: 'var(--header-height)', transform: secondaryTab === 'timing' ? 'translateX(0%)' : 'translateX(-100%)' }}>
                 <ProductionTimeline
                   scheduleWithTimes={scheduleWithTimes}
                   sessionStartTime={sessionStartTime}
@@ -167,11 +195,12 @@ const App: React.FC = () => {
                 />
               </div>
 
-              <div className="relative overflow-hidden">
-                <div className="flex w-[200%] transition-transform duration-300 ease-in-out" style={{ transform: secondaryTab === 'timing' ? 'translateX(0%)' : 'translateX(-50%)' }}>
-                  <div className="w-1/2">
-                    {/* Planning View Content */}
-                    <div className="max-w-7xl mx-auto px-4 py-8">
+              {/* Container for sliding panels */}
+              <div className="relative w-full h-screen overflow-hidden">
+                <div className="absolute inset-0 flex w-[200%] transition-transform duration-300 ease-in-out" style={{ transform: secondaryTab === 'timing' ? 'translateX(0%)' : 'translateX(-50%)' }}>
+                  {/* Timing tab content */}
+                  <div className="w-1/2 h-full">
+                    <div className="max-w-7xl mx-auto px-4 pb-24 overflow-y-auto h-full" style={{ paddingTop: 'calc(var(--planning-offset) + 2rem)' }}>
                       <PlanningView
                         config={session.config}
                         status={session.status}
@@ -184,8 +213,10 @@ const App: React.FC = () => {
                       />
                     </div>
                   </div>
-                  <div className="w-1/2">
-                    <div className="max-w-7xl mx-auto px-4 py-8">
+
+                  {/* Amounts tab content */}
+                  <div className="w-1/2 h-full">
+                    <div className="max-w-7xl mx-auto px-4 pb-24 overflow-y-auto h-full" style={{ paddingTop: 'var(--header-height)' }}>
                       <div className="grid grid-cols-1 lg:grid-cols-10 gap-6 items-start">
                         <Card variant="default" className="lg:col-span-3 w-full">
                           <h3 className="text-[12px] font-bold text-slate-400 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('doughSettings')}</h3>
