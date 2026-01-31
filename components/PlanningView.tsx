@@ -13,7 +13,6 @@ interface PlanningViewProps {
   onUpdateConfig: (updates: Partial<BakerConfig>) => void;
   onUpdateStartTime: (time: string) => void;
   onUpdatePlanningMode: (mode: 'forward' | 'backward') => void;
-  onStartProcess: () => void;
   onOpenAmounts?: () => void;
 }
 
@@ -27,7 +26,6 @@ const PlanningView: React.FC<PlanningViewProps> = ({
   onUpdateConfig,
   onUpdateStartTime,
   onUpdatePlanningMode,
-  onStartProcess,
   onOpenAmounts,
 }) => {
   const { t } = useLanguage();
@@ -297,7 +295,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
         {/* Action Button */}
         <div className="flex justify-center max-w-7xl mx-auto w-full pt-4">
           <button
-            onClick={() => { if (onOpenAmounts) { onOpenAmounts(); } else { onStartProcess(); } }}
+            onClick={() => onOpenAmounts?.()}
             className={`group relative px-10 md:px-16 py-4 text-white font-black rounded-3xl transition-all shadow-2xl active:scale-95 flex items-center space-x-6 overflow-hidden z-10 bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40`}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />

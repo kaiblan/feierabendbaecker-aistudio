@@ -90,15 +90,7 @@ const App: React.FC = () => {
 
 
 
-  const handleNextStage = useCallback(() => {
-    if (session.status === 'planning') {
-      transitionToRecipe();
-    } else if (session.status === 'recipe') {
-      transitionToActive();
-      setActiveTab('active');
-      setTimeLeft(session.stages[0]?.durationMinutes * 60 || 0);
-    }
-  }, [session.status, session.stages, transitionToRecipe, transitionToActive, setTimeLeft]);
+  // handleNextStage removed — recipe flow button now opens Amounts tab instead
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t: createTranslator(language) }}>
@@ -189,7 +181,6 @@ const App: React.FC = () => {
                         onUpdateConfig={updateConfig}
                         onUpdateStartTime={setStartTimeStr}
                         onUpdatePlanningMode={setPlanningMode}
-                        onStartProcess={handleNextStage}
                         onOpenAmounts={() => setSecondaryTab('amounts')}
                       />
                     </div>
