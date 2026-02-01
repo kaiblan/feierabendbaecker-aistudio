@@ -9,6 +9,8 @@ import { LanguageContext, createTranslator } from './components/LanguageContext'
 import { Button } from './components/Button';
 import { useSession } from './hooks/useSession';
 import { useTimer } from './hooks/useTimer';
+import { useBakeSchedule } from './hooks/useBakeSchedule';
+import { addMinutesToDate, formatDateAsTime } from './utils/timeUtils';
 
 const DEFAULT_CONFIG: BakerConfig = {
   totalFlour: 1000,
@@ -78,6 +80,13 @@ const App: React.FC = () => {
   const { timeLeft, setTimeLeft } = useTimer({
     isActive: isActiveSessionRunning && !session.stages[session.activeStageIndex]?.completed,
     durationMinutes: session.stages[session.activeStageIndex]?.durationMinutes || 0,
+  });
+
+  const { totalProcessMins } = useBakeSchedule({
+    config: session.config,
+    startTimeStr,
+    planningMode,
+    translateFn: t,
   });
 
   const roundDateTo5Minutes = (date: Date) => {

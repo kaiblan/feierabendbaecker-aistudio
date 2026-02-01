@@ -40,7 +40,7 @@ export interface BakerConfig {
   fermentationBalance: number; // 0-100: 0 = 90% bulk / 10% proof, 100 = 60% bulk / 40% proof
 }
 
-export interface Session {
+export interface BakerSession {
   id: string;
   name: string;
   startTime: Date;
