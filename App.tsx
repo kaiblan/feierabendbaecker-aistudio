@@ -8,7 +8,7 @@ import { LanguageSelector } from './components/LanguageSelector';
 import { LanguageContext, createTranslator } from './components/LanguageContext';
 import { Button } from './components/Button';
 import { Card } from './components/Card';
-import Slider from './components/Slider';
+import RangeField from './components/RangeField';
 import { useSession } from './hooks/useSession';
 import { useTimer } from './hooks/useTimer';
 import { useBakeSchedule } from './hooks/useBakeSchedule';
@@ -223,35 +223,56 @@ const App: React.FC = () => {
                           <h3 className="text-[12px] font-bold text-emerald-500 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('bakerPercentages')}</h3>
                           <div className="space-y-6">
                             <div>
-                              <div className="flex justify-between items-center mb-2">
-                                <label className="text-[12px] text-slate-400 mono uppercase">{t('totalFlour')}</label>
-                                <div className="text-xl font-black mono">{Math.round(session.config.totalFlour)}g</div>
-                              </div>
-                              <Slider min={500} max={3000} step={50} value={session.config.totalFlour} onChange={(v) => updateConfig({ totalFlour: Math.round(v) })} accent="accent-cyan-400" />
+                              <RangeField
+                                label={t('totalFlour')}
+                                value={session.config.totalFlour}
+                                min={500}
+                                max={3000}
+                                step={50}
+                                onChange={(v) => updateConfig({ totalFlour: Math.round(v) })}
+                                accent="accent-cyan-400"
+                                valueFormatter={(v) => Math.round(v) + 'g'}
+                              />
                             </div>
 
                             <div>
-                              <div className="flex justify-between items-center mb-2">
-                                <label className="text-[12px] text-slate-400 mono uppercase">{t('hydration')}</label>
-                                <div className="text-xl font-black mono">{Math.round(session.config.hydration)}%</div>
-                              </div>
-                              <Slider min={30} max={90} step={1} value={session.config.hydration} onChange={(v) => updateConfig({ hydration: Math.round(v) })} accent="accent-cyan-400" />
+                              <RangeField
+                                label={t('hydration')}
+                                value={session.config.hydration}
+                                min={30}
+                                max={90}
+                                step={1}
+                                onChange={(v) => updateConfig({ hydration: Math.round(v) })}
+                                accent="accent-cyan-400"
+                                valueFormatter={(v) => Math.round(v) + '%'}
+                              />
                             </div>
 
                             <div>
-                              <div className="flex justify-between items-center mb-2">
-                                <label className="text-[12px] text-slate-400 mono uppercase">{t('yeast')}</label>
-                                <div className="text-xl font-black mono">🔒 {session.config.yeast.toFixed(2)}%</div>
-                              </div>
-                              <Slider readOnly min={0} max={2} step={0.01} value={session.config.yeast} onChange={(v) => updateConfig({ yeast: Number(v.toFixed(2)) })} accent="accent-emerald-400" />
+                              <RangeField
+                                label={t('yeast')}
+                                value={session.config.yeast}
+                                min={0}
+                                max={2}
+                                step={0.01}
+                                onChange={(v) => updateConfig({ yeast: Number(v.toFixed(2)) })}
+                                accent="accent-emerald-400"
+                                readOnly={true}
+                                valueFormatter={(v) => `🔒 ${v.toFixed(2)}%`}
+                              />
                             </div>
 
                             <div>
-                              <div className="flex justify-between items-center mb-2">
-                                <label className="text-[12px] text-slate-400 mono uppercase">{t('salt')}</label>
-                                <div className="text-xl font-black mono">{session.config.salt}%</div>
-                              </div>
-                              <Slider min={0} max={5} step={0.1} value={session.config.salt} onChange={(v) => updateConfig({ salt: Number(v.toFixed(1)) })} accent="accent-amber-400" />
+                              <RangeField
+                                label={t('salt')}
+                                value={session.config.salt}
+                                min={0}
+                                max={5}
+                                step={0.1}
+                                onChange={(v) => updateConfig({ salt: Number(v.toFixed(1)) })}
+                                accent="accent-amber-400"
+                                valueFormatter={(v) => v.toFixed(1) + '%'}
+                              />
                             </div>
 
                           </div>

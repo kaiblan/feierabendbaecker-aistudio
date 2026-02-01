@@ -5,6 +5,7 @@ import { useBakeSchedule } from '../hooks/useBakeSchedule';
 import { sliderValueToDuration, durationToSliderValue, formatDurationDisplay, formatMinutesDisplay, roundDuration } from '../utils/coldFermentationUtils';
 import { Card } from './Card';
 import Slider from './Slider';
+import RangeField from './RangeField';
 
 interface PlanningViewProps {
   config: BakerConfig;
@@ -169,30 +170,28 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                 <h3 className="text-[12px] font-bold text-cyan-500 mono uppercase tracking-widest border-b border-slate-800 pb-3">{t('basicFactors')}</h3>
                 <div className="grid grid-cols-1 gap-8 items-start">
                   <div className="space-y-4">
-                    <div className="flex justify-between items-end">
-                      <label className="text-[12px] text-slate-400 mono uppercase">{t('yeastPercentage')}</label>
-                      <span className="text-xl font-bold text-emerald-400 mono tracking-tighter">{config.yeast.toFixed(2)}%</span>
-                    </div>
-                    <Slider
+                    <RangeField
+                      label={t('yeastPercentage')}
+                      value={config.yeast}
                       min={0.01}
                       max={2}
                       step={0.01}
-                      value={config.yeast}
                       onChange={(v) => onUpdateConfig({ yeast: v })}
                       accent="accent-cyan-500"
+                      valueFormatter={(v) => v.toFixed(2) + '%'}
+                      valueClassName="text-emerald-400"
                     />
 
-                    <div className="flex justify-between items-end">
-                      <label className="text-[12px] text-slate-400 mono uppercase">{t('doughTemperature')}</label>
-                      <span className="text-xl font-bold text-amber-400 mono tracking-tighter">{config.targetTemp.toFixed(1)}°C</span>
-                    </div>
-                    <Slider
+                    <RangeField
+                      label={t('doughTemperature')}
+                      value={config.targetTemp}
                       min={18}
                       max={32}
                       step={0.5}
-                      value={config.targetTemp}
                       onChange={(v) => onUpdateConfig({ targetTemp: v })}
                       accent="accent-amber-500"
+                      valueFormatter={(v) => v.toFixed(1) + '°C'}
+                      valueClassName="text-amber-400"
                     />
                   </div>
                 </div>
@@ -293,17 +292,16 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       </div>
                     </div>
                     <div className="space-y-4 mt-4">
-                      <div className="flex justify-between items-end">
-                        <label className="text-[12px] text-slate-400 mono uppercase">{t('fridgeTemperature')}</label>
-                        <span className="text-xl font-bold text-cyan-400 mono tracking-tighter">{config.fridgeTemp.toFixed(1)}°C</span>
-                      </div>
-                      <Slider
+                      <RangeField
+                        label={t('fridgeTemperature')}
+                        value={config.fridgeTemp}
                         min={0}
                         max={10}
                         step={0.5}
-                        value={config.fridgeTemp}
                         onChange={v => onUpdateConfig({ fridgeTemp: v })}
                         accent="accent-cyan-400"
+                        valueFormatter={(v) => v.toFixed(1) + '°C'}
+                        valueClassName="text-cyan-400"
                       />
                     </div>
                   </div>
