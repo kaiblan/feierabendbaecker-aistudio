@@ -51,15 +51,16 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     fridgeTemperature: 'Fridge Temperature',
     // Dough Settings
     doughSettings: 'Dough Settings',
-    totalFlour: 'Total Flour (g)',
-    hydration: 'Hydration (%)',
+    totalFlour: 'Flour',
+    hydration: 'Hydration',
+    bakerPercentages: "Baker's Percentages",
     // Recipe Components
     recipeComponents: 'Recipe Components',
     flour: 'Flour',
     water: 'Water',
     yeast: 'Yeast',
     salt: 'Salt',
-    totalBatchWeight: 'Total Batch Weight:',
+    totalBatchWeight: 'Total Batch Weight',
     // Production Workflow
     productionWorkflow: 'Timeline',
     work: 'Work',
@@ -111,15 +112,16 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     fridgeTemperature: 'Kühlschrank-Temperatur',
     // Dough Settings
     doughSettings: 'Teigzusammensetzung',
-    totalFlour: 'Mehl Gesamt (g)',
-    hydration: 'Hydration (%)',
+    totalFlour: 'Mehl',
+    hydration: 'Hydration',
+    bakerPercentages: 'Bäckerprozente',
     // Recipe Components
     recipeComponents: 'Zutaten',
     flour: 'Mehl',
     water: 'Wasser',
     yeast: 'Hefe',
     salt: 'Salz',
-    totalBatchWeight: 'Teiggewicht:',
+    totalBatchWeight: 'Teiggewicht',
     // Production Workflow
     productionWorkflow: 'Zeitplan',
     work: 'Arbeit',

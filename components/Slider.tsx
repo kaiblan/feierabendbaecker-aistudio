@@ -9,9 +9,13 @@ interface SliderProps {
   className?: string;
   accent?: string; // tailwind accent class like 'accent-cyan-500'
   ariaLabel?: string;
+  readOnly?: boolean;
 }
 
-export const Slider: React.FC<SliderProps> = ({ min = 0, max = 100, step = 1, value, onChange, className = '', accent = '', ariaLabel }) => {
+export const Slider: React.FC<SliderProps> = ({ min = 0, max = 100, step = 1, value, onChange, className = '', accent = '', ariaLabel, readOnly = false }) => {
+  const base = `w-full h-1.5 rounded-lg appearance-none bg-slate-700 ${readOnly ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`;
+  const accentClass = readOnly ? 'accent-slate-500' : accent;
+
   return (
     <input
       type="range"
@@ -20,8 +24,9 @@ export const Slider: React.FC<SliderProps> = ({ min = 0, max = 100, step = 1, va
       step={step}
       value={value}
       aria-label={ariaLabel}
+      disabled={readOnly}
       onChange={(e) => onChange(parseFloat(e.target.value))}
-      className={`w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-slate-700 ${accent} ${className}`}
+      className={`${base} ${accentClass} ${className}`}
     />
   );
 };

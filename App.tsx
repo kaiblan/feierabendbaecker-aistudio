@@ -8,6 +8,7 @@ import { LanguageSelector } from './components/LanguageSelector';
 import { LanguageContext, createTranslator } from './components/LanguageContext';
 import { Button } from './components/Button';
 import { Card } from './components/Card';
+import Slider from './components/Slider';
 import { useSession } from './hooks/useSession';
 import { useTimer } from './hooks/useTimer';
 import { useBakeSchedule } from './hooks/useBakeSchedule';
@@ -217,39 +218,65 @@ const App: React.FC = () => {
                   {/* Amounts tab content */}
                   <div className="w-1/2 h-full">
                     <div className="max-w-7xl mx-auto px-4 pb-24 overflow-y-auto h-full" style={{ paddingTop: 'var(--header-height)' }}>
-                      <div className="grid grid-cols-1 lg:grid-cols-10 gap-6 items-start pt-4">
-                        <Card variant="default" className="lg:col-span-3 w-full">
-                          <h3 className="text-[12px] font-bold text-slate-400 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('doughSettings')}</h3>
-                          <div className="grid grid-cols-2 gap-4">
+                      <div className="w-full max-w-3xl mx-auto space-y-6">
+                        <Card variant="default" className="w-full p-6 mt-4">
+                          <h3 className="text-[12px] font-bold text-emerald-500 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('bakerPercentages')}</h3>
+                          <div className="space-y-6">
                             <div>
-                              <label className="text-[12px] text-slate-400 mono uppercase block mb-1">{t('totalFlour')}</label>
-                              <input type="number" value={session.config.totalFlour} onChange={e => updateConfig({ totalFlour: +e.target.value })} className="bg-slate-950 border border-slate-800 p-3 rounded-xl text-xl font-bold w-full outline-none focus:border-cyan-500 mono" />
+                              <div className="flex justify-between items-center mb-2">
+                                <label className="text-[12px] text-slate-400 mono uppercase">{t('totalFlour')}</label>
+                                <div className="text-xl font-black mono">{Math.round(session.config.totalFlour)}g</div>
+                              </div>
+                              <Slider min={500} max={3000} step={50} value={session.config.totalFlour} onChange={(v) => updateConfig({ totalFlour: Math.round(v) })} accent="accent-cyan-400" />
                             </div>
+
                             <div>
-                              <label className="text-[12px] text-slate-400 mono uppercase block mb-1">{t('hydration')}</label>
-                              <input type="number" value={session.config.hydration} onChange={e => updateConfig({ hydration: +e.target.value })} className="bg-slate-950 border border-slate-800 p-3 rounded-xl text-xl font-bold w-full outline-none focus:border-cyan-500 mono" />
+                              <div className="flex justify-between items-center mb-2">
+                                <label className="text-[12px] text-slate-400 mono uppercase">{t('hydration')}</label>
+                                <div className="text-xl font-black mono">{Math.round(session.config.hydration)}%</div>
+                              </div>
+                              <Slider min={30} max={90} step={1} value={session.config.hydration} onChange={(v) => updateConfig({ hydration: Math.round(v) })} accent="accent-cyan-400" />
                             </div>
+
+                            <div>
+                              <div className="flex justify-between items-center mb-2">
+                                <label className="text-[12px] text-slate-400 mono uppercase">{t('yeast')}</label>
+                                <div className="text-xl font-black mono">🔒 {session.config.yeast.toFixed(2)}%</div>
+                              </div>
+                              <Slider readOnly min={0} max={2} step={0.01} value={session.config.yeast} onChange={(v) => updateConfig({ yeast: Number(v.toFixed(2)) })} accent="accent-emerald-400" />
+                            </div>
+
+                            <div>
+                              <div className="flex justify-between items-center mb-2">
+                                <label className="text-[12px] text-slate-400 mono uppercase">{t('salt')}</label>
+                                <div className="text-xl font-black mono">{session.config.salt}%</div>
+                              </div>
+                              <Slider min={0} max={5} step={0.1} value={session.config.salt} onChange={(v) => updateConfig({ salt: Number(v.toFixed(1)) })} accent="accent-amber-400" />
+                            </div>
+
                           </div>
                         </Card>
+                        <Card variant="subtle" className="w-full p-6">
+                          <h3 className="text-[12px] font-bold text-slate-400 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('amounts')}</h3>
+                          <div className="space-y-4">
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-slate-400 mono uppercase">{t('totalFlour')}</span>
+                              <span className="text-lg font-black mono">{Math.round(session.config.totalFlour)}g</span>
+                            </div>
 
-                        <Card variant="default" className="lg:col-span-7 w-full">
-                          <h3 className="text-[12px] font-bold text-emerald-500 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('recipeComponents')}</h3>
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                              <span className="text-[12px] text-slate-400 mono block uppercase">{t('flour')}</span>
-                              <span className="text-2xl font-black text-white mono">{session.config.totalFlour}g</span>
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-slate-400 mono uppercase">{t('water')}</span>
+                              <span className="text-lg font-black mono">{Math.round(session.config.totalFlour * session.config.hydration / 100)}g</span>
                             </div>
-                            <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                              <span className="text-[12px] text-slate-400 mono block uppercase">{t('water')}</span>
-                              <span className="text-2xl font-black text-cyan-400 mono">{Math.round(session.config.totalFlour * session.config.hydration / 100)}g</span>
+
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-slate-400 mono uppercase">{t('yeast')}</span>
+                              <span className="text-lg font-black mono">{(session.config.totalFlour * (session.config.yeast / 100)).toFixed(1)}g</span>
                             </div>
-                            <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                              <span className="text-[12px] text-slate-400 mono block uppercase">{t('yeast')} ({session.config.yeast.toFixed(2)}%)</span>
-                              <span className="text-2xl font-black text-emerald-400 mono">{(session.config.totalFlour * session.config.yeast / 100).toFixed(2)}g</span>
-                            </div>
-                            <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                              <span className="text-[12px] text-slate-400 mono block uppercase">{t('salt')} ({session.config.salt}%)</span>
-                              <span className="text-2xl font-black text-amber-400 mono">{(session.config.totalFlour * session.config.salt / 100).toFixed(1)}g</span>
+
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-slate-400 mono uppercase">{t('salt')}</span>
+                              <span className="text-lg font-black mono">{(session.config.totalFlour * (session.config.salt / 100)).toFixed(1)}g</span>
                             </div>
                           </div>
                           <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-xs mono text-slate-400">
