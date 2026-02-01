@@ -38,7 +38,7 @@ const App: React.FC = () => {
     [language]
   );
 
-  const [activeTab, setActiveTab] = useState<'planning' | 'active' | 'history' | 'starter' | 'knowledge'>('planning');
+  const [activeTab, setActiveTab] = useState<'planning' | 'active' | 'history' | 'knowledge'>('planning');
   const [secondaryTab, setSecondaryTab] = useState<'timing'|'amounts'>('timing');
   const [startTimeStr, setStartTimeStr] = useState('08:00');
   const [planningMode, setPlanningMode] = useState<'forward' | 'backward'>('backward');
@@ -353,20 +353,7 @@ const App: React.FC = () => {
             </div>
           )}
 
-          {activeTab === 'starter' && (
-            <div className="max-w-4xl mx-auto px-6 py-8 space-y-8 animate-fade-in pb-24">
-              <Card variant="default" className="p-6">
-                <h2 className="text-xl font-bold text-white mb-2">{t('settings')}</h2>
-                <p className="text-sm text-slate-400 mb-4">{t('appSettingsDescription') || 'Application settings'}</p>
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm text-slate-400 block mb-2">{t('language')}</label>
-                    <LanguageSelector />
-                  </div>
-                </div>
-              </Card>
-            </div>
-          )}
+
         </div>
 
         <div className={`fixed inset-y-0 right-0 w-full md:w-96 bg-slate-900 shadow-2xl z-[60] transform transition-transform duration-500 ease-out border-l border-slate-800 ${isPanelOpen ? 'translate-x-0' : 'translate-x-full'}`}>
@@ -401,10 +388,7 @@ const App: React.FC = () => {
               <span>{t('history')}</span>
             </button>
 
-            <button onClick={() => setActiveTab('starter')} className={`py-2 flex flex-col items-center justify-center text-xs ${activeTab === 'starter' ? 'text-cyan-400' : 'text-slate-400'}`}>
-              <ICONS.Knowledge className="w-6 h-6 mb-1" />
-              <span>{t('settings')}</span>
-            </button>
+
           </div>
         </div>
       </nav>
