@@ -1,19 +1,14 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { ICONS, TRANSLATIONS, Language } from './constants';
 import { BakerConfig } from './types';
-import Timeline from './components/Timeline';
-import { ProductionTimeline } from './components/ProductionTimeline';
-import PlanningView from './components/PlanningView';
 import Navigation from './components/Navigation';
-import { LanguageSelector } from './components/LanguageSelector';
+import PlanningTab from './components/PlanningTab';
+import ActiveTab from './components/ActiveTab';
+import SettingsTab from './components/SettingsTab';
 import { LanguageContext, createTranslator } from './components/LanguageContext';
 import { Button } from './components/Button';
-import { Card } from './components/Card';
-import RangeField from './components/RangeField';
 import { useSession } from './hooks/useSession';
 import { useTimer } from './hooks/useTimer';
-import { useBakeSchedule } from './hooks/useBakeSchedule';
-import { formatTime, formatDateAsTime, addMinutesToDate } from './utils/timeUtils';
 
 const DEFAULT_CONFIG: BakerConfig = {
   totalFlour: 1000,
@@ -85,13 +80,6 @@ const App: React.FC = () => {
     durationMinutes: session.stages[session.activeStageIndex]?.durationMinutes || 0,
   });
 
-  const { scheduleWithTimes, sessionStartTime, sessionEndTime, hourlyMarkers, totalProcessMins } = useBakeSchedule({
-    config: session.config,
-    startTimeStr,
-    planningMode,
-    translateFn: t,
-  });
-
   const roundDateTo5Minutes = (date: Date) => {
     const stepMs = 5 * 60 * 1000;
     return new Date(Math.round(date.getTime() / stepMs) * stepMs);
@@ -157,217 +145,33 @@ const App: React.FC = () => {
 
         <div className="flex-1 pb-24" style={activeTab === 'planning' ? { overflow: 'hidden' } : { overflowY: 'auto' }}>
           {activeTab === 'planning' && (
-            <> 
-              {/* Fixed timeline - only visible on timing tab */}
-              <div ref={timelineRef} className="fixed left-0 right-0 z-30 transition-transform duration-300 ease-in-out" style={{ top: 'var(--header-height)', transform: secondaryTab === 'timing' ? 'translateX(0%)' : 'translateX(-100%)' }}>
-                <ProductionTimeline
-                  scheduleWithTimes={scheduleWithTimes}
-                  sessionStartTime={sessionStartTime}
-                  sessionEndTime={sessionEndTime}
-                  hourlyMarkers={hourlyMarkers}
-                  totalProcessMins={totalProcessMins}
-                  workLabel={t('work')}
-                  coldLabel={t('cold')}
-                  productionWorkflowLabel={t('productionWorkflow')}
-                  planningMode={planningMode}
-                  onShiftMinutes={handleShiftMinutes}
-                />
-              </div>
-
-              {/* Container for sliding panels */}
-              <div className="relative w-full h-screen overflow-hidden">
-                <div className="absolute inset-0 flex w-[200%] transition-transform duration-300 ease-in-out" style={{ transform: secondaryTab === 'timing' ? 'translateX(0%)' : 'translateX(-50%)' }}>
-                  {/* Timing tab content */}
-                  <div className="w-1/2 h-full">
-                    <div className="max-w-7xl mx-auto px-4 pb-24 overflow-y-auto h-full" style={{ paddingTop: 'calc(var(--planning-offset) + 2rem)' }}>
-                      <PlanningView
-                        config={session.config}
-                        status={session.status}
-                        startTimeStr={startTimeStr}
-                        planningMode={planningMode}
-                        onUpdateConfig={updateConfig}
-                        onUpdateStartTime={setStartTimeStr}
-                        onUpdatePlanningMode={setPlanningMode}
-                        onOpenAmounts={() => setSecondaryTab('amounts')}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Amounts tab content */}
-                  <div className="w-1/2 h-full">
-                    <div className="max-w-7xl mx-auto px-4 pb-24 overflow-y-auto h-full" style={{ paddingTop: 'var(--header-height)' }}>
-                      <div className="w-full max-w-3xl mx-auto space-y-6">
-                        <Card variant="default" className="w-full p-6 mt-4">
-                          <h3 className="text-[12px] font-bold text-emerald-500 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('bakerPercentages')}</h3>
-                          <div className="space-y-6">
-                            <div>
-                              <RangeField
-                                label={t('totalFlour')}
-                                value={session.config.totalFlour}
-                                min={500}
-                                max={3000}
-                                step={50}
-                                onChange={(v) => updateConfig({ totalFlour: Math.round(v) })}
-                                accent="accent-cyan-400"
-                                valueFormatter={(v) => Math.round(v) + 'g'}
-                              />
-                            </div>
-
-                            <div>
-                              <RangeField
-                                label={t('hydration')}
-                                value={session.config.hydration}
-                                min={30}
-                                max={90}
-                                step={1}
-                                onChange={(v) => updateConfig({ hydration: Math.round(v) })}
-                                accent="accent-cyan-400"
-                                valueFormatter={(v) => Math.round(v) + '%'}
-                              />
-                            </div>
-
-                            <div>
-                              <RangeField
-                                label={t('yeast')}
-                                value={session.config.yeast}
-                                min={0}
-                                max={2}
-                                step={0.01}
-                                onChange={(v) => updateConfig({ yeast: Number(v.toFixed(2)) })}
-                                accent="accent-emerald-400"
-                                readOnly={true}
-                                valueFormatter={(v) => `🔒 ${v.toFixed(2)}%`}
-                              />
-                            </div>
-
-                            <div>
-                              <RangeField
-                                label={t('salt')}
-                                value={session.config.salt}
-                                min={0}
-                                max={5}
-                                step={0.1}
-                                onChange={(v) => updateConfig({ salt: Number(v.toFixed(1)) })}
-                                accent="accent-amber-400"
-                                valueFormatter={(v) => v.toFixed(1) + '%'}
-                              />
-                            </div>
-
-                          </div>
-                        </Card>
-                        <Card variant="subtle" className="w-full p-6">
-                          <h3 className="text-[12px] font-bold text-slate-400 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('amounts')}</h3>
-                          <div className="space-y-4">
-                            <div className="flex justify-between items-center">
-                              <span className="text-sm text-slate-400 mono uppercase">{t('totalFlour')}</span>
-                              <span className="text-lg font-black mono">{Math.round(session.config.totalFlour)}g</span>
-                            </div>
-
-                            <div className="flex justify-between items-center">
-                              <span className="text-sm text-slate-400 mono uppercase">{t('water')}</span>
-                              <span className="text-lg font-black mono">{Math.round(session.config.totalFlour * session.config.hydration / 100)}g</span>
-                            </div>
-
-                            <div className="flex justify-between items-center">
-                              <span className="text-sm text-slate-400 mono uppercase">{t('yeast')}</span>
-                              <span className="text-lg font-black mono">{(session.config.totalFlour * (session.config.yeast / 100)).toFixed(1)}g</span>
-                            </div>
-
-                            <div className="flex justify-between items-center">
-                              <span className="text-sm text-slate-400 mono uppercase">{t('salt')}</span>
-                              <span className="text-lg font-black mono">{(session.config.totalFlour * (session.config.salt / 100)).toFixed(1)}g</span>
-                            </div>
-                          </div>
-                          <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-xs mono text-slate-400">
-                            <span className="uppercase tracking-widest">{t('totalBatchWeight')}</span>
-                            <span className="text-slate-300 text-lg">{(session.config.totalFlour * (1 + (session.config.hydration + session.config.yeast + session.config.salt) / 100)).toFixed(0)}g</span>
-                          </div>
-                        </Card>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
+            <PlanningTab
+              session={session}
+              startTimeStr={startTimeStr}
+              planningMode={planningMode}
+              secondaryTab={secondaryTab}
+              updateConfig={updateConfig}
+              setStartTimeStr={setStartTimeStr}
+              setPlanningMode={setPlanningMode}
+              setSecondaryTab={setSecondaryTab}
+              onShiftMinutes={handleShiftMinutes}
+              headerRef={headerRef}
+              timelineRef={timelineRef}
+            />
           )}
 
           {activeTab === 'active' && session.status === 'active' && (
-            <div className="max-w-4xl mx-auto px-6 py-8 space-y-8 animate-fade-in pb-32">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card variant="highlight" className="md:col-span-2 p-8 flex flex-col justify-center items-center text-center relative overflow-hidden">
-                  <div className={`absolute top-0 left-0 w-full h-1 ${session.stages[session.activeStageIndex]?.isActive ? 'bg-cyan-500' : 'bg-slate-700'}`} />
-                  <div className="text-[12px] mono text-cyan-500 mb-2 uppercase tracking-[0.3em] font-bold">
-                    {session.stages[session.activeStageIndex]?.isActive ? 'ACTIVE WORK PHASE' : 'PASSIVE FERMENTATION'}
-                  </div>
-                  <h2 className="text-4xl font-black mb-6 tracking-tight">{session.stages[session.activeStageIndex]?.label}</h2>
-                  <div className="text-7xl mono font-bold text-white tracking-tighter mb-4 tabular-nums">
-                    {formatTime(timeLeft)}
-                  </div>
-                  <div className="w-full bg-slate-700/50 h-2 rounded-full overflow-hidden mt-4">
-                    <div
-                      className={`h-full transition-all duration-1000 ${session.stages[session.activeStageIndex]?.isActive ? 'bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]' : 'bg-slate-400 opacity-50'}`}
-                      style={{ width: `${(1 - timeLeft / ((session.stages[session.activeStageIndex]?.durationMinutes || 1) * 60)) * 100}%` }}
-                    />
-                  </div>
-                </Card>
-
-                <Card variant="subtle" className="flex flex-col justify-between">
-                  <div>
-                    <div className="text-[12px] mono text-slate-500 mb-4 uppercase tracking-widest">UPCOMING</div>
-                    <div className="text-lg font-bold text-slate-200">{session.stages[session.activeStageIndex + 1]?.label || 'SESSION END'}</div>
-                  </div>
-                  <div className="space-y-2">
-                    <Button
-                      onClick={() => {
-                        const nextIdx = session.activeStageIndex + 1;
-                        if (nextIdx < session.stages.length) {
-                          setSession({ ...session, activeStageIndex: nextIdx });
-                          setTimeLeft(session.stages[nextIdx].durationMinutes * 60);
-                        }
-                      }}
-                      variant="primary"
-                      size="lg"
-                      className="w-full uppercase tracking-widest text-xs"
-                    >
-                      COMPLETE & ADVANCE
-                    </Button>
-                  </div>
-                </Card>
-              </div>
-
-              <section className="space-y-4">
-                <div className="flex justify-between items-center px-1">
-                  <h3 className="text-[12px] font-bold text-slate-500 mono uppercase tracking-[0.3em]">Session Progress</h3>
-                </div>
-                <div className="rounded-2xl border border-slate-800 bg-slate-900/80 overflow-hidden">
-                  <Timeline
-                    stages={session.stages}
-                    activeIndex={session.activeStageIndex}
-                    orientation="horizontal"
-                    onSelectStage={(idx) => {
-                      setSelectedStageIdx(idx);
-                      setIsPanelOpen(true);
-                    }}
-                  />
-                </div>
-              </section>
-            </div>
+            <ActiveTab
+              session={session}
+              timeLeft={timeLeft}
+              setSession={setSession}
+              setTimeLeft={setTimeLeft}
+              setSelectedStageIdx={setSelectedStageIdx}
+              setIsPanelOpen={setIsPanelOpen}
+            />
           )}
 
-          {activeTab === 'settings' && (
-            <div className="max-w-4xl mx-auto px-6 py-8 space-y-8 animate-fade-in pb-24">
-              <Card variant="default" className="p-6">
-                <h2 className="text-xl font-bold text-white mb-2">{t('settings')}</h2>
-                <p className="text-sm text-slate-400 mb-4">{t('appSettingsDescription') || 'Application settings'}</p>
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm text-slate-400 block mb-2">{t('language')}</label>
-                    <LanguageSelector />
-                  </div>
-                </div>
-              </Card>
-            </div>
-          )}
+          {activeTab === 'settings' && <SettingsTab />}
 
 
         </div>
