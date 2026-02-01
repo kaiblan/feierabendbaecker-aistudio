@@ -17,6 +17,7 @@ interface PlanningTabProps {
   setPlanningMode: (mode: 'forward' | 'backward') => void;
   setSecondaryTab: (tab: 'timing' | 'amounts') => void;
   onShiftMinutes: (minutes: number) => void;
+  onStartNow: () => void;
   headerRef: React.RefObject<HTMLDivElement>;
   timelineRef: React.RefObject<HTMLDivElement>;
 }
@@ -31,6 +32,7 @@ const PlanningTab: React.FC<PlanningTabProps> = ({
   setPlanningMode,
   setSecondaryTab,
   onShiftMinutes,
+  onStartNow,
   timelineRef,
 }) => {
   const { t } = useLanguage();
@@ -81,6 +83,7 @@ const PlanningTab: React.FC<PlanningTabProps> = ({
                 onUpdateStartTime={setStartTimeStr}
                 onUpdatePlanningMode={setPlanningMode}
                 onOpenAmounts={() => setSecondaryTab('amounts')}
+                onStartNow={onStartNow}
               />
             </div>
           </div>
@@ -175,6 +178,23 @@ const PlanningTab: React.FC<PlanningTabProps> = ({
                     <span className="text-slate-300 text-lg">{(session.config.totalFlour * (1 + (session.config.hydration + session.config.yeast + session.config.salt) / 100)).toFixed(0)}g</span>
                   </div>
                 </Card>
+                
+                {/* Start Now Button */}
+                <div className="flex justify-center w-full pt-6">
+                  <button
+                    onClick={onStartNow}
+                    className="group relative px-10 md:px-16 py-4 text-white font-black rounded-3xl transition-all shadow-2xl active:scale-95 flex items-center space-x-6 overflow-hidden z-10 bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
+                    <span className="relative tracking-[0.2em] uppercase text-xs md:text-sm">
+                      {t('start')}
+                    </span>
+                    <svg className="w-5 h-5 md:w-6 md:h-6 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

@@ -66,6 +66,8 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     // Buttons & Actions
     confirmTimeline: 'Confirm Timeline & Recipe',
     commenceTracking: 'Commence Real-Time Tracking',
+    startNow: 'Start Now',
+    start: 'Start Now',
     scheduleDetails: 'Schedule Details',
     timing: 'Timing',
     amounts: 'Amounts',
@@ -126,6 +128,8 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     // Buttons & Actions
     confirmTimeline: 'Mengen planen',
     commenceTracking: 'Backverlauf Starten',
+    startNow: 'Direkt Starten',
+    start: 'Starten',
     scheduleDetails: 'Zeitplan Details',
     appSettingsDescription: 'Anwendungseinstellungen',
     language: 'Sprache',

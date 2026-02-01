@@ -114,6 +114,11 @@ const App: React.FC = () => {
     }
   };
 
+  const handleStartNow = () => {
+    transitionToActive();
+    setActiveTab('active');
+  };
+
 
 
   return (
@@ -164,6 +169,7 @@ const App: React.FC = () => {
               setPlanningMode={setPlanningMode}
               setSecondaryTab={setSecondaryTab}
               onShiftMinutes={handleShiftMinutes}
+              onStartNow={handleStartNow}
               headerRef={headerRef}
               timelineRef={timelineRef}
             />

@@ -16,6 +16,7 @@ interface PlanningViewProps {
   onUpdateStartTime: (time: string) => void;
   onUpdatePlanningMode: (mode: 'forward' | 'backward') => void;
   onOpenAmounts?: () => void;
+  onStartNow?: () => void;
 }
 
 import { useLanguage } from './LanguageContext';
@@ -29,6 +30,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
   onUpdateStartTime,
   onUpdatePlanningMode,
   onOpenAmounts,
+  onStartNow,
 }) => {
   const { t } = useLanguage();
 
@@ -309,8 +311,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
               </Card>
         </div>
 
-        {/* Action Button */}
-        <div className="flex justify-center max-w-7xl mx-auto w-full pt-4">
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-7xl mx-auto w-full pt-4">
           <button
             onClick={() => onOpenAmounts?.()}
             className={`group relative px-10 md:px-16 py-4 text-white font-black rounded-3xl transition-all shadow-2xl active:scale-95 flex items-center space-x-6 overflow-hidden z-10 bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40`}
@@ -322,6 +324,13 @@ const PlanningView: React.FC<PlanningViewProps> = ({
             <svg className="w-5 h-5 md:w-6 md:h-6 relative group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
             </svg>
+          </button>
+          
+          <button
+            onClick={() => onStartNow?.()}
+            className="px-8 md:px-12 py-4 text-slate-300 font-bold rounded-3xl transition-all active:scale-95 border-2 border-slate-700 hover:border-slate-600 hover:bg-slate-800/50 tracking-[0.2em] uppercase text-xs md:text-sm"
+          >
+            {t('startNow')}
           </button>
         </div>
       </div>
