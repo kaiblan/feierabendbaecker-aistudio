@@ -5,6 +5,7 @@ import Timeline from './components/Timeline';
 import { ProductionTimeline } from './components/ProductionTimeline';
 import PlanningView from './components/PlanningView';
 import Navigation from './components/Navigation';
+import { LanguageSelector } from './components/LanguageSelector';
 import { LanguageContext, createTranslator } from './components/LanguageContext';
 import { Button } from './components/Button';
 import { Card } from './components/Card';
@@ -38,7 +39,7 @@ const App: React.FC = () => {
     [language]
   );
 
-  const [activeTab, setActiveTab] = useState<'planning' | 'active' | 'history' | 'knowledge'>('planning');
+  const [activeTab, setActiveTab] = useState<'planning' | 'active' | 'history' | 'settings'>('planning');
   const [secondaryTab, setSecondaryTab] = useState<'timing'|'amounts'>('timing');
   const [startTimeStr, setStartTimeStr] = useState('08:00');
   const [planningMode, setPlanningMode] = useState<'forward' | 'backward'>('backward');
@@ -353,6 +354,21 @@ const App: React.FC = () => {
             </div>
           )}
 
+          {activeTab === 'settings' && (
+            <div className="max-w-4xl mx-auto px-6 py-8 space-y-8 animate-fade-in pb-24">
+              <Card variant="default" className="p-6">
+                <h2 className="text-xl font-bold text-white mb-2">{t('settings')}</h2>
+                <p className="text-sm text-slate-400 mb-4">{t('appSettingsDescription') || 'Application settings'}</p>
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm text-slate-400 block mb-2">{t('language')}</label>
+                    <LanguageSelector />
+                  </div>
+                </div>
+              </Card>
+            </div>
+          )}
+
 
         </div>
 
@@ -386,6 +402,11 @@ const App: React.FC = () => {
             <button onClick={() => setActiveTab('history')} className={`py-2 flex flex-col items-center justify-center text-xs ${activeTab === 'history' ? 'text-cyan-400' : 'text-slate-400'}`}>
               <ICONS.History className="w-6 h-6 mb-1" />
               <span>{t('history')}</span>
+            </button>
+
+            <button onClick={() => setActiveTab('settings')} className={`py-2 flex flex-col items-center justify-center text-xs ${activeTab === 'settings' ? 'text-cyan-400' : 'text-slate-400'}`}>
+              <ICONS.Settings className="w-6 h-6 mb-1" />
+              <span>{t('settings')}</span>
             </button>
 
 
