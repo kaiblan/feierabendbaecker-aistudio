@@ -67,7 +67,7 @@ const App: React.FC = () => {
       if (ro) ro.disconnect();
       window.removeEventListener('resize', updateOffsets);
     };
-  }, [secondaryTab]);
+  }, [secondaryTab, activeTab]);
 
   const { session, updateConfig, transitionToRecipe, transitionToActive, advanceStage, setSession } = useSession({
     initialConfig: DEFAULT_CONFIG,
