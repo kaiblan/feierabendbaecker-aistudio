@@ -77,8 +77,12 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
               onClick={() => {
                 const nextIdx = session.activeStageIndex + 1;
                 if (nextIdx < session.stages.length) {
-                  setSession({ ...session, activeStageIndex: nextIdx });
-                  setTimeLeft(session.stages[nextIdx].durationMinutes * 60);
+                  const now = new Date();
+                  const nextStage = session.stages[nextIdx];
+                  const endTime = new Date(now.getTime() + nextStage.durationMinutes * 60 * 1000);
+                  const updatedStages = [...session.stages];
+                  updatedStages[nextIdx] = { ...nextStage, startTime: now, stageEndTime: endTime };
+                  setSession({ ...session, stages: updatedStages, activeStageIndex: nextIdx });
                 }
               }}
               variant="primary"

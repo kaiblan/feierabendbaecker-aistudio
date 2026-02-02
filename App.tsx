@@ -74,10 +74,10 @@ const App: React.FC = () => {
     translateFn: t,
   });
 
-  const isActiveSessionRunning = session.status === 'active' && activeTab === 'active';
+  const currentStage = session.stages[session.activeStageIndex];
   const { timeLeft, setTimeLeft } = useTimer({
-    isActive: isActiveSessionRunning && !session.stages[session.activeStageIndex]?.completed,
-    durationMinutes: session.stages[session.activeStageIndex]?.durationMinutes || 0,
+    isActive: session.status === 'active' && !currentStage?.completed,
+    endTime: currentStage?.stageEndTime || null,
   });
 
   const { totalProcessMins } = useBakeSchedule({
@@ -113,6 +113,15 @@ const App: React.FC = () => {
   };
 
   const handleStartNow = () => {
+    // Initialize the first stage with an end time
+    const now = new Date();
+    const firstStage = session.stages[0];
+    if (firstStage) {
+      const endTime = new Date(now.getTime() + firstStage.durationMinutes * 60 * 1000);
+      const updatedStages = [...session.stages];
+      updatedStages[0] = { ...firstStage, startTime: now, stageEndTime: endTime };
+      setSession({ ...session, stages: updatedStages });
+    }
     transitionToActive();
     setActiveTab('active');
   };

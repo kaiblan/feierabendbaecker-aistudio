@@ -1,28 +1,39 @@
 /**
  * useTimer - Custom hook for managing bake session timer
+ * Uses timestamps to ensure timers continue running even when browser is closed
  */
 
 import { useEffect, useState } from 'react';
 
 interface UseTimerProps {
   isActive: boolean;
-  durationMinutes: number;
+  endTime: Date | null; // Target end timestamp for the current stage
 }
 
-export const useTimer = ({ isActive, durationMinutes }: UseTimerProps) => {
-  const [timeLeft, setTimeLeft] = useState(durationMinutes * 60);
+export const useTimer = ({ isActive, endTime }: UseTimerProps) => {
+  const calculateTimeLeft = () => {
+    if (!endTime) return 0;
+    const now = new Date().getTime();
+    const target = new Date(endTime).getTime();
+    const secondsLeft = Math.floor((target - now) / 1000);
+    return Math.max(0, secondsLeft);
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
-    if (!isActive) return;
+    if (!isActive || !endTime) return;
 
+    // Update immediately
+    setTimeLeft(calculateTimeLeft());
+
+    // Then update every second
     const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+      setTimeLeft(calculateTimeLeft());
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isActive]);
+  }, [isActive, endTime]);
 
-  const reset = () => setTimeLeft(durationMinutes * 60);
-
-  return { timeLeft, setTimeLeft, reset };
+  return { timeLeft, setTimeLeft };
 };

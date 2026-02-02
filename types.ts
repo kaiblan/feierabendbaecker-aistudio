@@ -20,6 +20,7 @@ export interface Stage {
   completed: boolean;
   isActive: boolean; // Distinction between work and waiting
   startTime?: Date;
+  stageEndTime?: Date; // Timestamp when this stage should end
   notes?: string;
 }
 
