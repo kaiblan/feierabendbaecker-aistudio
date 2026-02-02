@@ -11,8 +11,7 @@ interface ActiveTabProps {
   timeLeft: number;
   setSession: (session: BakerSession) => void;
   setTimeLeft: (time: number) => void;
-  setSelectedStageIdx: (idx: number) => void;
-  setIsPanelOpen: (open: boolean) => void;
+  onNavigatePlanning: () => void;
 }
 
 const ActiveTab: React.FC<ActiveTabProps> = ({
@@ -20,13 +19,32 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
   timeLeft,
   setSession,
   setTimeLeft,
-  setSelectedStageIdx,
-  setIsPanelOpen,
+  onNavigatePlanning,
 }) => {
   const { t } = useLanguage();
 
   if (session.status !== 'active') {
-    return null;
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="text-center space-y-8 px-6 max-w-lg">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-200 tracking-tight">
+            {t('noActiveProcess')}
+          </h2>
+          <button
+            onClick={onNavigatePlanning}
+            className="group relative px-10 md:px-16 py-4 text-white font-black rounded-3xl transition-all shadow-2xl active:scale-95 flex items-center justify-center space-x-6 overflow-hidden z-10 bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40 mx-auto"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
+            <span className="relative tracking-[0.2em] uppercase text-xs md:text-sm">
+              {t('planning')}
+            </span>
+            <svg className="w-5 h-5 md:w-6 md:h-6 relative group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -82,10 +100,6 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
             stages={session.stages}
             activeIndex={session.activeStageIndex}
             orientation="horizontal"
-            onSelectStage={(idx) => {
-              setSelectedStageIdx(idx);
-              setIsPanelOpen(true);
-            }}
           />
         </div>
       </section>

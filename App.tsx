@@ -40,8 +40,6 @@ const App: React.FC = () => {
   const [secondaryTab, setSecondaryTab] = useState<'timing'|'amounts'>('timing');
   const [startTimeStr, setStartTimeStr] = useState('08:00');
   const [planningMode, setPlanningMode] = useState<'forward' | 'backward'>('backward');
-  const [selectedStageIdx, setSelectedStageIdx] = useState(0);
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   const headerRef = useRef<HTMLDivElement | null>(null);
   const timelineRef = useRef<HTMLDivElement | null>(null);
@@ -175,14 +173,13 @@ const App: React.FC = () => {
             />
           )}
 
-          {activeTab === 'active' && session.status === 'active' && (
+          {activeTab === 'active' && (
             <ActiveTab
               session={session}
               timeLeft={timeLeft}
               setSession={setSession}
               setTimeLeft={setTimeLeft}
-              setSelectedStageIdx={setSelectedStageIdx}
-              setIsPanelOpen={setIsPanelOpen}
+              onNavigatePlanning={() => setActiveTab('planning')}
             />
           )}
 
@@ -190,19 +187,6 @@ const App: React.FC = () => {
 
 
         </div>
-
-        <div className={`fixed inset-y-0 right-0 w-full md:w-96 bg-slate-900 shadow-2xl z-[60] transform transition-transform duration-500 ease-out border-l border-slate-800 ${isPanelOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-          <div className="h-full flex flex-col">
-            <header className="p-6 border-b border-slate-800 flex justify-between items-center">
-              <span className="text-[12px] font-bold text-slate-500 mono uppercase tracking-[0.2em]">Parameter Log</span>
-              <Button onClick={() => setIsPanelOpen(false)} variant="ghost" size="sm" className="p-2">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-              </Button>
-            </header>
-            <div className="flex-1 overflow-y-auto" />
-          </div>
-        </div>
-        {isPanelOpen && <div onClick={() => setIsPanelOpen(false)} className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[55]" />}
       </main>
       {/* Bottom navigation for small screens */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-slate-950/95 border-t border-slate-800 z-50">
