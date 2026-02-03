@@ -84,6 +84,14 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     complete: 'Complete',
     nextStage: 'Next',
     sessionComplete: 'Baking session complete!',
+    // Active Tab
+    activeWorkPhase: 'Active Work Phase',
+    passiveFermentation: 'Passive Fermentation',
+    upcoming: 'Upcoming',
+    sessionEnd: 'Session End',
+    completeAndAdvance: 'Complete & Advance',
+    sessionProgress: 'Session Progress',
+    until: 'until',
   },
   de: {
     // Navigation
@@ -153,5 +161,13 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     complete: 'Abgeschlossen',
     nextStage: 'Weiter',
     sessionComplete: 'Backvorgang abgeschlossen!',
+    // Active Tab
+    activeWorkPhase: 'Aktive Arbeitsphase',
+    passiveFermentation: 'Passive Gärung',
+    upcoming: 'Als Nächstes',
+    sessionEnd: 'Sitzung Ende',
+    completeAndAdvance: 'Abschließen & Weiter',
+    sessionProgress: 'Sitzungsfortschritt',
+    until: 'bis',
   },
 };

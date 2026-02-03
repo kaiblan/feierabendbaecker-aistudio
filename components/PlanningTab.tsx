@@ -151,7 +151,6 @@ const PlanningTab: React.FC<PlanningTabProps> = ({
                   </div>
                 </Card>
                 <Card variant="subtle" className="w-full p-6">
-                  <h3 className="text-[12px] font-bold text-slate-400 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('amounts')}</h3>
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-slate-400 mono uppercase">{t('totalFlour')}</span>
