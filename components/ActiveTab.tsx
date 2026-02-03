@@ -3,7 +3,7 @@ import { BakerSession } from '../types';
 import { Button } from './Button';
 import { Card } from './Card';
 import ActiveTimeline from './ActiveTimeline';
-import { formatTime } from '../utils/timeUtils';
+import { formatTime, formatDateAsTime } from '../utils/timeUtils';
 import { useLanguage } from './LanguageContext';
 
 interface ActiveTabProps {
@@ -101,21 +101,37 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
         <Card variant="subtle" className="flex flex-col justify-between">
           <div>
             <div className="text-[12px] mono text-slate-500 mb-4 uppercase tracking-widest">{t('upcoming').toUpperCase()}</div>
-            <div className="text-lg font-bold text-slate-200">{session.stages[session.activeStageIndex + 1]?.label || t('sessionEnd')}</div>
+              <div className="text-lg font-bold text-slate-200">
+                {(() => {
+                  const next = session.stages[session.activeStageIndex + 1];
+                  if (!next) return t('sessionEnd');
+                  // determine start time if available
+                  let start: Date | null = null;
+                  if (next.startTime) start = new Date(next.startTime);
+                  else if (next.stageEndTime) start = new Date(new Date(next.stageEndTime).getTime() - next.durationMinutes * 60000);
+                  if (start) return `${t('nextAt')} ${formatDateAsTime(start)}`;
+                  return next.label;
+                })()}
+              </div>
           </div>
           <div className="space-y-2">
             <Button
               onClick={() => {
-                const nextIdx = session.activeStageIndex + 1;
-                if (nextIdx < session.stages.length) {
-                  const now = new Date();
-                  const nextStage = session.stages[nextIdx];
-                  const endTime = new Date(now.getTime() + nextStage.durationMinutes * 60 * 1000);
-                  const updatedStages = [...session.stages];
-                  updatedStages[nextIdx] = { ...nextStage, startTime: now, stageEndTime: endTime };
-                  setSession({ ...session, stages: updatedStages, activeStageIndex: nextIdx });
-                }
-              }}
+                  const currentIdx = session.activeStageIndex;
+                  const nextIdx = currentIdx + 1;
+                  const updatedStages = session.stages.map((s, i) => i === currentIdx ? { ...s, completed: true, isActive: false } : s);
+
+                  if (nextIdx < session.stages.length) {
+                    const now = new Date();
+                    const nextStage = updatedStages[nextIdx];
+                    const endTime = new Date(now.getTime() + nextStage.durationMinutes * 60 * 1000);
+                    updatedStages[nextIdx] = { ...nextStage, startTime: now, stageEndTime: endTime, isActive: true };
+                    setSession({ ...session, stages: updatedStages, activeStageIndex: nextIdx });
+                  } else {
+                    // No next stage — mark session complete
+                    setSession({ ...session, stages: updatedStages, status: 'completed' });
+                  }
+                }}
               variant="primary"
               size="lg"
               className="w-full uppercase tracking-widest text-xs"

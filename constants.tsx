@@ -83,6 +83,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     // Notifications
     complete: 'Complete',
     nextStage: 'Next',
+    nextAt: 'Next at',
     sessionComplete: 'Baking session complete!',
     // Active Tab
     activeWorkPhase: 'Active Work Phase',
@@ -160,6 +161,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     // Notifications
     complete: 'Abgeschlossen',
     nextStage: 'Weiter',
+    nextAt: 'Als Nächstes um',
     sessionComplete: 'Backvorgang abgeschlossen!',
     // Active Tab
     activeWorkPhase: 'Aktive Arbeitsphase',

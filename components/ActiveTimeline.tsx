@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Stage } from '../types';
 import ActiveTimelineCard from './ActiveTimelineCard';
 
@@ -68,6 +68,24 @@ const ActiveTimeline: React.FC<TimelineProps> = ({ stages, activeIndex, orientat
     isDown.current = false;
     setDragging(false);
   };
+
+  // Center the active stage in the viewport when activeIndex changes
+  useEffect(() => {
+    if (orientation !== 'horizontal') return;
+    const el = sliderRef.current;
+    if (!el) return;
+    const idx = Math.max(0, Math.min(activeIndex, stages.length - 1));
+    const child = el.children[idx] as HTMLElement | undefined;
+    if (!child) return;
+    const childCenter = child.offsetLeft + child.offsetWidth / 2;
+    const containerCenter = el.clientWidth / 2;
+    const target = Math.max(0, childCenter - containerCenter);
+    try {
+      el.scrollTo({ left: target, behavior: 'smooth' });
+    } catch {
+      el.scrollLeft = target;
+    }
+  }, [activeIndex, orientation, stages.length]);
   return (
     <div
       ref={sliderRef}
