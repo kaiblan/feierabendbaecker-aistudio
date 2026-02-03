@@ -120,8 +120,9 @@ src/
 │   ├── useTimer.ts       (Custom hook for countdown)
 │   └── useBakeSchedule.ts (Custom hook for scheduling)
 ├── components/
-│   ├── PlanningView.tsx  (Refactored, uses useBakeSchedule)
-│   └── Timeline.tsx      (Unchanged)
+│   ├── PlanningView.tsx      (Refactored, uses useBakeSchedule)
+│   ├── ActiveTimeline.tsx    (Refactored - active session timeline)
+│   └── PlanningTimeline.tsx  (Renamed from ProductionTimeline)
 ├── App.tsx               (Refactored, uses custom hooks)
 ├── types.ts              (Unchanged)
 ├── constants.tsx         (Unchanged)

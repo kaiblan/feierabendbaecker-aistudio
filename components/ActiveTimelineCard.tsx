@@ -3,14 +3,14 @@ import { Stage } from '../types';
 import { formatDateAsTime, addMinutesToDate } from '../utils/timeUtils';
 import { useLanguage } from './LanguageContext';
 
-interface TimelineCardProps {
+interface ActiveTimelineCardProps {
   stage: Stage;
   isActive: boolean;
   isCompleted: boolean;
   orientation: 'horizontal' | 'vertical';
 }
 
-const TimelineCard: React.FC<TimelineCardProps> = ({ stage, isActive, isCompleted, orientation }) => {
+const ActiveTimelineCard: React.FC<ActiveTimelineCardProps> = ({ stage, isActive, isCompleted, orientation }) => {
   const { t } = useLanguage();
 
   const end = stage.stageEndTime ?? (stage.startTime ? addMinutesToDate(new Date(stage.startTime), stage.durationMinutes) : null);
@@ -39,4 +39,4 @@ const TimelineCard: React.FC<TimelineCardProps> = ({ stage, isActive, isComplete
   );
 };
 
-export default TimelineCard;
+export default ActiveTimelineCard;

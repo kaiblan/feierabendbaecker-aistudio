@@ -1,7 +1,6 @@
-
 import React, { useRef, useState } from 'react';
 import { Stage } from '../types';
-import TimelineCard from './TimelineCard';
+import ActiveTimelineCard from './ActiveTimelineCard';
 
 interface TimelineProps {
   stages: Stage[];
@@ -10,7 +9,7 @@ interface TimelineProps {
   onSelectStage?: (index: number) => void;
 }
 
-const Timeline: React.FC<TimelineProps> = ({ stages, activeIndex, orientation, onSelectStage }) => {
+const ActiveTimeline: React.FC<TimelineProps> = ({ stages, activeIndex, orientation, onSelectStage }) => {
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const isDown = useRef(false);
   const startX = useRef(0);
@@ -24,7 +23,6 @@ const Timeline: React.FC<TimelineProps> = ({ stages, activeIndex, orientation, o
     setDragging(true);
     startX.current = e.pageX - el.offsetLeft;
     scrollLeft.current = el.scrollLeft;
-    // prevent text selection while dragging
     document.body.style.userSelect = 'none';
   };
 
@@ -45,11 +43,10 @@ const Timeline: React.FC<TimelineProps> = ({ stages, activeIndex, orientation, o
     if (!isDown.current || !el) return;
     e.preventDefault();
     const x = e.pageX - el.offsetLeft;
-    const walk = (x - startX.current) * 1; // scroll-fast multiplier
+    const walk = (x - startX.current) * 1;
     el.scrollLeft = scrollLeft.current - walk;
   };
 
-  // Touch support
   const onTouchStart = (e: React.TouchEvent) => {
     const el = sliderRef.current;
     if (!el) return;
@@ -88,7 +85,7 @@ const Timeline: React.FC<TimelineProps> = ({ stages, activeIndex, orientation, o
         const isCompleted = stage.completed;
 
         return (
-          <TimelineCard
+          <ActiveTimelineCard
             key={stage.id}
             stage={stage}
             isActive={isActive}
@@ -101,4 +98,4 @@ const Timeline: React.FC<TimelineProps> = ({ stages, activeIndex, orientation, o
   );
 };
 
-export default Timeline;
+export default ActiveTimeline;

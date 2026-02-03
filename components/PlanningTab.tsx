@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { BakerConfig, BakerSession } from '../types';
-import { ProductionTimeline } from './ProductionTimeline';
+import { PlanningTimeline } from './PlanningTimeline';
 import PlanningView from './PlanningView';
 import { Card } from './Card';
 import RangeField from './RangeField';
@@ -53,8 +53,8 @@ const PlanningTab: React.FC<PlanningTabProps> = ({
   return (
     <>
       {/* Fixed timeline - only visible on timing tab */}
-      <div ref={timelineRef} className="fixed left-0 right-0 z-30 transition-transform duration-300 ease-in-out" style={{ top: 'var(--header-height)', transform: secondaryTab === 'timing' ? 'translateX(0%)' : 'translateX(-100%)' }}>
-        <ProductionTimeline
+        <div ref={timelineRef} className="fixed left-0 right-0 z-30 transition-transform duration-300 ease-in-out" style={{ top: 'var(--header-height)', transform: secondaryTab === 'timing' ? 'translateX(0%)' : 'translateX(-100%)' }}>
+        <PlanningTimeline
           scheduleWithTimes={scheduleWithTimes}
           sessionStartTime={sessionStartTime}
           sessionEndTime={sessionEndTime}

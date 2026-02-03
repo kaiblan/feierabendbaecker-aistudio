@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { BakerSession } from '../types';
 import { Button } from './Button';
 import { Card } from './Card';
-import Timeline from './Timeline';
+import ActiveTimeline from './ActiveTimeline';
 import { formatTime } from '../utils/timeUtils';
 import { useLanguage } from './LanguageContext';
 
@@ -131,7 +131,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
           <h3 className="text-[12px] font-bold text-slate-500 mono uppercase tracking-[0.3em]">{t('sessionProgress').toUpperCase()}</h3>
         </div>
         <div className="rounded-2xl border border-slate-800 bg-slate-900/80 overflow-hidden">
-          <Timeline
+          <ActiveTimeline
             stages={session.stages}
             activeIndex={session.activeStageIndex}
             orientation="horizontal"
