@@ -113,13 +113,22 @@ const App: React.FC = () => {
   };
 
   const handleStartNow = () => {
-    // Initialize the first stage with an end time
+    // Compute consecutive start/end times for all stages beginning now
     const now = new Date();
-    const firstStage = session.stages[0];
-    if (firstStage) {
-      const endTime = new Date(now.getTime() + firstStage.durationMinutes * 60 * 1000);
-      const updatedStages = [...session.stages];
-      updatedStages[0] = { ...firstStage, startTime: now, stageEndTime: endTime };
+    const computeSequential = (stages: typeof session.stages, startIdx: number, base: Date) => {
+      const out = stages.map((s) => ({ ...s }));
+      let cursor = new Date(base);
+      for (let i = startIdx; i < out.length; i++) {
+        const dur = out[i].durationMinutes || 0;
+        out[i].startTime = new Date(cursor);
+        out[i].stageEndTime = new Date(cursor.getTime() + dur * 60000);
+        cursor = new Date(out[i].stageEndTime as Date);
+      }
+      return out;
+    };
+
+    if (session.stages.length > 0) {
+      const updatedStages = computeSequential(session.stages, 0, now);
       setSession({ ...session, stages: updatedStages });
     }
     transitionToActive();

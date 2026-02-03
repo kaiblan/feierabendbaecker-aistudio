@@ -116,16 +116,33 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
           </div>
           <div className="space-y-2">
             <Button
-              onClick={() => {
+                onClick={() => {
                   const currentIdx = session.activeStageIndex;
                   const nextIdx = currentIdx + 1;
-                  const updatedStages = session.stages.map((s, i) => i === currentIdx ? { ...s, completed: true, isActive: false } : s);
+                  const now = new Date();
+
+                  // mark current completed and set its end time to now
+                  let updatedStages = session.stages.map((s, i) => {
+                    if (i === currentIdx) return { ...s, completed: true, isActive: false, stageEndTime: now };
+                    return { ...s };
+                  });
+
+                  // helper to compute sequential start/end times from base time
+                  const computeSequential = (stages: typeof updatedStages, startIdx: number, base: Date) => {
+                    const out = stages.map((s) => ({ ...s }));
+                    let cursor = new Date(base);
+                    for (let i = startIdx; i < out.length; i++) {
+                      const dur = out[i].durationMinutes || 0;
+                      out[i].startTime = new Date(cursor);
+                      out[i].stageEndTime = new Date(cursor.getTime() + dur * 60000);
+                      out[i].isActive = i === startIdx;
+                      cursor = new Date(out[i].stageEndTime as Date);
+                    }
+                    return out;
+                  };
 
                   if (nextIdx < session.stages.length) {
-                    const now = new Date();
-                    const nextStage = updatedStages[nextIdx];
-                    const endTime = new Date(now.getTime() + nextStage.durationMinutes * 60 * 1000);
-                    updatedStages[nextIdx] = { ...nextStage, startTime: now, stageEndTime: endTime, isActive: true };
+                    updatedStages = computeSequential(updatedStages, nextIdx, now);
                     setSession({ ...session, stages: updatedStages, activeStageIndex: nextIdx });
                   } else {
                     // No next stage — mark session complete
