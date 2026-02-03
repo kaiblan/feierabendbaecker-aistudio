@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { BakerSession } from '../types';
 import { Button } from './Button';
 import { Card } from './Card';
@@ -22,6 +22,37 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
   onNavigatePlanning,
 }) => {
   const { t } = useLanguage();
+  const prevTimeLeft = useRef<number>(timeLeft);
+
+  // Request notification permission on mount
+  useEffect(() => {
+    if (session.status === 'active' && 'Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  }, [session.status]);
+
+  // Detect when timer reaches 0 and show notification
+  useEffect(() => {
+    if (session.status === 'active' && prevTimeLeft.current > 0 && timeLeft === 0) {
+      const currentStage = session.stages[session.activeStageIndex];
+      if (currentStage && 'Notification' in window && Notification.permission === 'granted') {
+        const nextStage = session.stages[session.activeStageIndex + 1];
+        const notificationTitle = `${currentStage.label} ${t('complete') || 'Complete'}!`;
+        const notificationBody = nextStage 
+          ? `${t('nextStage') || 'Next'}: ${nextStage.label}`
+          : t('sessionComplete') || 'Baking session complete!';
+        
+        new Notification(notificationTitle, {
+          body: notificationBody,
+          icon: '/favicon.ico',
+          badge: '/favicon.ico',
+          tag: 'bake-timer',
+          requireInteraction: true,
+        });
+      }
+    }
+    prevTimeLeft.current = timeLeft;
+  }, [timeLeft, session.status, session.activeStageIndex, session.stages, t]);
 
   if (session.status !== 'active') {
     return (

@@ -80,6 +80,10 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     shaping: 'Shaping',
     finalProof: 'Final Proof',
     baking: 'Baking',
+    // Notifications
+    complete: 'Complete',
+    nextStage: 'Next',
+    sessionComplete: 'Baking session complete!',
   },
   de: {
     // Navigation
@@ -145,5 +149,9 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     shaping: 'Formen',
     finalProof: 'Stückgare',
     baking: 'Backen',
+    // Notifications
+    complete: 'Abgeschlossen',
+    nextStage: 'Weiter',
+    sessionComplete: 'Backvorgang abgeschlossen!',
   },
 };
