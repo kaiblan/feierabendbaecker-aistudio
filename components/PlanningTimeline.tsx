@@ -195,7 +195,7 @@ export const PlanningTimeline: React.FC<PlanningTimelineProps> = ({
                     <div key={step.type} className={`p-4 rounded-lg border ${step.active ? 'bg-cyan-600/10 border-cyan-600/30' : step.cold ? 'bg-blue-900/10 border-blue-900/30' : 'bg-slate-800/30 border-slate-700/30'}`}>
                       <div className="flex items-center justify-between mb-2">
                         <span className={`font-bold uppercase text-sm tracking-wider ${step.active ? 'text-cyan-400' : step.cold ? 'text-blue-400' : 'text-slate-300'}`}>{step.label}</span>
-                        <span className="text-slate-400 text-sm mono">{step.min} min</span>
+                        <span className="text-slate-400 text-sm mono">{step.min} {t('minuteUnit')}</span>
                       </div>
                       <div className="flex items-center space-x-2 text-sm mono">
                         <span className="text-slate-200">{step.startStr}</span>

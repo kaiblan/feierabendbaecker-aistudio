@@ -40,12 +40,18 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     startsAt: 'Starts At',
     // Basic Factors
     basicFactors: 'Basic Factors',
+    fermentationBalance: 'Fermentation Balance',
     yeastPercentage: 'Yeast Percentage',
     doughTemperature: 'Dough Temperature',
     // Additional Steps
     additionalSteps: 'Additional Steps',
     coldBulk: 'Cold Bulk',
     coldProof: 'Cold Proof',
+    coldBulkDuration: 'Cold Bulk Duration',
+    coldProofDuration: 'Cold Proof Duration',
+    minuteUnit: 'mins',
+    bulk60: '60% Bulk',
+    bulk90: '90% Bulk',
     fridgeTemperature: 'Fridge Temperature',
     // Dough Settings
     doughSettings: 'Dough Settings',
@@ -116,12 +122,18 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     startsAt: 'Beginn Um',
     // Basic Factors
     basicFactors: 'Gärungsparameter',
+    fermentationBalance: 'Gärungsbalance',
     yeastPercentage: 'Hefe',
     doughTemperature: 'Teigtemperatur',
     // Additional Steps
     additionalSteps: 'Weitere Schritte',
     coldBulk: 'Kalte Stockgare',
     coldProof: 'Kalte Stückgare',
+    coldBulkDuration: 'Dauer der kalten Stockgare',
+    coldProofDuration: 'Dauer der kalten Stückgare',
+    minuteUnit: 'Min',
+    bulk60: '60% Stockgare',
+    bulk90: '90% Stockgare',
     fridgeTemperature: 'Kühlschrank-Temperatur',
     // Dough Settings
     doughSettings: 'Teigzusammensetzung',

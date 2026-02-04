@@ -108,13 +108,6 @@ const PlanningView: React.FC<PlanningViewProps> = ({
     <div className="flex flex-col min-h-full">
       {/* Scrollable Content Area */}
       <div className="flex-1 lg:px-8 space-y-6 animate-fade-in">
-        <header className="max-w-7xl mx-auto w-full">
-          <div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">{t('bakingSchedule')}</h2>
-            <p className="text-muted text-sm whitespace-pre-wrap">{t('planYourBake')}</p>
-          </div>
-        </header>
-
         <div className="max-w-7xl mx-auto w-full flex flex-col lg:grid lg:grid-cols-10 gap-6 items-start">
           {/* Main planning UI */}
               <Card variant="default" className="order-1 lg:order-3 lg:col-span-2 w-full p-4 flex flex-col space-y-3">
@@ -122,6 +115,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   <h3 className="text-sm font-bold text-primary mono uppercase tracking-widest">{t('sessionTiming')}</h3>
                   <span className="text-sm font-bold text-accent mono">{formatMinutesDisplay(totalProcessMins)}</span>
                 </div>
+                <p className="text-muted text-sm whitespace-pre-wrap">{t('planYourBake')}</p>
 
                 <div className="grid grid-cols-2 gap-3">
                   <button onClick={handleSelectForward} className={`rounded-lg border transition-all text-left ${planningMode === 'forward' ? 'border-emerald-500 bg-slate-900' : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 cursor-pointer'}`}>
@@ -237,7 +231,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                     {config.coldBulkEnabled && (
                       <div className="space-y-3 pt-2 border-t border-slate-800/50">
                         <div className="flex justify-between items-end">
-                          <label className="text-sm text-slate-400 mono uppercase">Cold Bulk Duration</label>
+                          <label className="text-sm text-slate-400 mono uppercase">{t('coldBulkDuration')}</label>
                           <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldBulkDurationHours)}</span>
                         </div>
                         <Slider
@@ -259,7 +253,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                     {config.coldProofEnabled && (
                       <div className="space-y-3 pt-2 border-t border-slate-800/50">
                         <div className="flex justify-between items-end">
-                          <label className="text-sm text-slate-400 mono uppercase">Cold Proof Duration</label>
+                          <label className="text-sm text-slate-400 mono uppercase">{t('coldProofDuration')}</label>
                           <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldProofDurationHours)}</span>
                         </div>
                         <Slider
@@ -276,7 +270,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   <div className="pt-3 border-t border-slate-700/50">
                     <div className="space-y-4">
                       <div className="flex justify-between items-end">
-                        <label className="text-sm text-slate-400 mono uppercase">Fermentation Balance</label>
+                        <label className="text-sm text-slate-400 mono uppercase">{t('fermentationBalance')}</label>
                         <span className="text-sm font-bold text-cyan-400 mono">{bulkPercent}% / {proofPercent}%</span>
                       </div>
                       <input
@@ -289,8 +283,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                         className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
                       />
                       <div className="flex justify-between text-xs text-slate-400 mono">
-                        <span>60% Bulk</span>
-                        <span>90% Bulk</span>
+                        <span>{t('bulk60')}</span>
+                        <span>{t('bulk90')}</span>
                       </div>
                     </div>
                     <div className="space-y-4 mt-4">
