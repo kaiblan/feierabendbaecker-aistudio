@@ -153,17 +153,17 @@ export const PlanningTimeline: React.FC<PlanningTimelineProps> = ({
     <div className="sticky top-0 bg-slate-900 backdrop-blur-xl border-b border-slate-800 shadow-lg z-40 px-4 md:px-8 pt-6 pb-4">
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-[12px] font-bold text-slate-400 mono uppercase tracking-[0.3em]">{productionWorkflowLabel}</h3>
+          <h3 className="text-sm font-bold text-slate-400 mono uppercase tracking-[0.3em]">{productionWorkflowLabel}</h3>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1.5">
               <div className="w-2.5 h-2.5 bg-cyan-500 rounded-sm"></div>
-              <span className="text-[12px] mono text-slate-400 uppercase">{workLabel}</span>
+              <span className="text-sm mono text-slate-400 uppercase">{workLabel}</span>
             </div>
             <div className="flex items-center space-x-1.5">
               <div className="w-2.5 h-2.5 bg-blue-800/70 rounded-sm"></div>
-              <span className="text-[12px] mono text-slate-400 uppercase">{coldLabel}</span>
+              <span className="text-sm mono text-slate-400 uppercase">{coldLabel}</span>
             </div>
-            <span className="text-[12px] mono text-slate-400 border-l border-slate-700 pl-4 ml-2">
+            <span className="text-sm mono text-slate-400 border-l border-slate-700 pl-4 ml-2">
               <span className="text-slate-100">{sessionStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
               {' — '}
               <span className="text-slate-100">{sessionEndTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
@@ -177,7 +177,7 @@ export const PlanningTimeline: React.FC<PlanningTimelineProps> = ({
               const width = (step.min / totalProcessMins) * 100;
               return (
                 <div key={step.type} style={{ width: `${width}%` }} onClick={() => setIsPopupOpen(true)} className={`h-full first:rounded-l last:rounded-r relative flex flex-col justify-center items-center px-0.5 transition-colors duration-700 border-r border-slate-950/20 cursor-pointer hover:brightness-110 ${step.active ? 'bg-cyan-600/80 shadow-[inset_0_0_15px_rgba(6,182,212,0.2)]' : step.cold ? 'bg-blue-900/50 shadow-[inset_0_0_15px_rgba(30,58,138,0.2)]' : 'bg-slate-800/60'}`}>
-                  <span className={`text-[9px] md:text-[12px] mono font-bold uppercase truncate max-w-full tracking-tighter ${step.active ? 'text-white' : 'text-slate-400'}`}>{step.label}</span>
+                  <span className={`text-xs md:text-sm mono font-bold uppercase truncate max-w-full tracking-tighter ${step.active ? 'text-white' : 'text-slate-400'}`}>{step.label}</span>
                 </div>
               );
             })}
@@ -195,7 +195,7 @@ export const PlanningTimeline: React.FC<PlanningTimelineProps> = ({
                     <div key={step.type} className={`p-4 rounded-lg border ${step.active ? 'bg-cyan-600/10 border-cyan-600/30' : step.cold ? 'bg-blue-900/10 border-blue-900/30' : 'bg-slate-800/30 border-slate-700/30'}`}>
                       <div className="flex items-center justify-between mb-2">
                         <span className={`font-bold uppercase text-sm tracking-wider ${step.active ? 'text-cyan-400' : step.cold ? 'text-blue-400' : 'text-slate-300'}`}>{step.label}</span>
-                        <span className="text-slate-400 text-xs mono">{step.min} min</span>
+                        <span className="text-slate-400 text-sm mono">{step.min} min</span>
                       </div>
                       <div className="flex items-center space-x-2 text-sm mono">
                         <span className="text-slate-200">{step.startStr}</span>
@@ -217,7 +217,7 @@ export const PlanningTimeline: React.FC<PlanningTimelineProps> = ({
                 <div key={i} className="absolute top-0 flex flex-col items-center -translate-x-1/2" style={{ left: `${adjustedLeft}%` }}>
                   <div className="w-[1px] h-2 bg-slate-700 transition-colors" />
                   {shouldShowLabel(marker.label) && (
-                    <span className="mt-1 text-[12px] md:text-[12px] mono text-slate-400 font-medium transition-colors">{marker.label}</span>
+                    <span className="mt-1 text-sm md:text-sm mono text-slate-400 font-medium transition-colors">{marker.label}</span>
                   )}
                 </div>
               );

@@ -26,7 +26,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
     <div className="bg-slate-950 p-1 rounded-lg flex border border-slate-800">
       <button 
         onClick={() => onLanguageChange('en')} 
-        className={`${sizeStyles} rounded text-xs font-bold transition-all ${
+        className={`${sizeStyles} rounded text-sm font-bold transition-all ${
           language === 'en' ? 'bg-slate-700 text-white' : 'text-slate-400'
         }`}
       >
@@ -34,7 +34,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
       </button>
       <button 
         onClick={() => onLanguageChange('de')} 
-        className={`${sizeStyles} rounded text-xs font-bold transition-all ${
+        className={`${sizeStyles} rounded text-sm font-bold transition-all ${
           language === 'de' ? 'bg-slate-700 text-white' : 'text-slate-400'
         }`}
       >

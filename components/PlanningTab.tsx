@@ -95,7 +95,7 @@ const PlanningTab: React.FC<PlanningTabProps> = ({
             <div className="max-w-7xl mx-auto px-4 pb-32 overflow-y-auto h-full" style={{ paddingTop: 'var(--header-height)' }}>
               <div className="w-full max-w-3xl mx-auto space-y-6">
                 <Card variant="default" className="w-full p-6 mt-4">
-                  <h3 className="text-[12px] font-bold text-emerald-500 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('bakerPercentages')}</h3>
+                  <h3 className="text-sm font-bold text-emerald-500 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('bakerPercentages')}</h3>
                   <div className="space-y-6">
                     <div>
                       <RangeField
@@ -174,7 +174,7 @@ const PlanningTab: React.FC<PlanningTabProps> = ({
                       <span className="text-lg font-black mono">{(session.config.totalFlour * (session.config.salt / 100)).toFixed(1)}g</span>
                     </div>
                   </div>
-                  <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-xs mono text-slate-400">
+                  <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-sm mono text-slate-400">
                     <span className="uppercase tracking-widest">{t('totalBatchWeight')}</span>
                     <span className="text-slate-300 text-lg">{(session.config.totalFlour * (1 + (session.config.hydration + session.config.yeast + session.config.salt) / 100)).toFixed(0)}g</span>
                   </div>
@@ -187,7 +187,7 @@ const PlanningTab: React.FC<PlanningTabProps> = ({
                     className="group relative px-10 md:px-16 py-4 text-white font-black rounded-3xl transition-all shadow-2xl active:scale-95 flex items-center space-x-6 overflow-hidden z-10 bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
-                    <span className="relative tracking-[0.2em] uppercase text-xs md:text-sm">
+                    <span className="relative tracking-[0.2em] uppercase text-sm md:text-sm">
                       {t('start')}
                     </span>
                     <svg className="w-5 h-5 md:w-6 md:h-6 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24">

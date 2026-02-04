@@ -66,7 +66,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
             className="group relative px-10 md:px-16 py-4 text-white font-black rounded-3xl transition-all shadow-2xl active:scale-95 flex items-center justify-center space-x-6 overflow-hidden z-10 bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40 mx-auto"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
-            <span className="relative tracking-[0.2em] uppercase text-xs md:text-sm">
+            <span className="relative tracking-[0.2em] uppercase text-sm md:text-sm">
               {t('planning')}
             </span>
             <svg className="w-5 h-5 md:w-6 md:h-6 relative group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -83,7 +83,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card variant="highlight" className="md:col-span-2 p-8 flex flex-col justify-center items-center text-center relative overflow-hidden">
           <div className={`absolute top-0 left-0 w-full h-1 ${session.stages[session.activeStageIndex]?.isActive ? 'bg-cyan-500' : 'bg-slate-700'}`} />
-          <div className="text-xs mono text-accent mb-2 uppercase tracking-[0.3em] font-bold">
+          <div className="text-sm mono text-accent mb-2 uppercase tracking-[0.3em] font-bold">
             {session.stages[session.activeStageIndex]?.isActive ? t('activeWorkPhase').toUpperCase() : t('passiveFermentation').toUpperCase()}
           </div>
           <h2 className="text-4xl font-black mb-6 tracking-tight">{session.stages[session.activeStageIndex]?.label}</h2>
@@ -100,7 +100,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
 
         <Card variant="subtle" className="flex flex-col justify-between">
           <div>
-            <div className="text-xs mono text-muted mb-4 uppercase tracking-widest">{t('upcoming').toUpperCase()}</div>
+            <div className="text-sm mono text-muted mb-4 uppercase tracking-widest">{t('upcoming').toUpperCase()}</div>
               <div className="text-lg font-bold text-white">
                 {(() => {
                   const next = session.stages[session.activeStageIndex + 1];
@@ -151,7 +151,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
                 }}
               variant="primary"
               size="lg"
-              className="w-full uppercase tracking-widest text-xs"
+              className="w-full uppercase tracking-widest text-s"
             >
               {t('completeAndAdvance').toUpperCase()}
             </Button>
@@ -161,7 +161,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
 
       <section className="space-y-4">
           <div className="flex justify-between items-center px-1">
-          <h3 className="text-xs font-bold text-muted mono uppercase tracking-[0.3em]">{t('sessionProgress').toUpperCase()}</h3>
+          <h3 className="text-sm font-bold text-muted mono uppercase tracking-[0.3em]">{t('sessionProgress').toUpperCase()}</h3>
         </div>
         <div className="rounded-2xl border border-slate-800 bg-slate-900/80 overflow-hidden">
           <ActiveTimeline

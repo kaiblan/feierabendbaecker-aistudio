@@ -17,7 +17,7 @@ const variantStyles: Record<ButtonVariant, string> = {
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: 'px-2 py-1 text-xs',
+  sm: 'px-2 py-1 text-s',
   md: 'px-4 py-2 text-sm',
   lg: 'px-6 py-4 text-base'
 };

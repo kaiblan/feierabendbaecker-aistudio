@@ -119,15 +119,15 @@ const PlanningView: React.FC<PlanningViewProps> = ({
           {/* Main planning UI */}
               <Card variant="default" className="order-1 lg:order-3 lg:col-span-2 w-full p-4 flex flex-col space-y-3">
                 <div className="flex justify-between items-center">
-                  <h3 className="text-xs font-bold text-primary mono uppercase tracking-widest">{t('sessionTiming')}</h3>
-                  <span className="text-xs font-bold text-accent mono">{formatMinutesDisplay(totalProcessMins)}</span>
+                  <h3 className="text-sm font-bold text-primary mono uppercase tracking-widest">{t('sessionTiming')}</h3>
+                  <span className="text-sm font-bold text-accent mono">{formatMinutesDisplay(totalProcessMins)}</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <button onClick={handleSelectForward} className={`rounded-lg border transition-all text-left ${planningMode === 'forward' ? 'border-emerald-500 bg-slate-900' : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 cursor-pointer'}`}>
-                    <div className={`w-full text-xs py-1.5 mono uppercase text-center transition-all ${planningMode === 'forward' ? 'text-white' : 'text-muted'}`}>{t('forward')}</div>
+                    <div className={`w-full text-sm py-1.5 mono uppercase text-center transition-all ${planningMode === 'forward' ? 'text-white' : 'text-muted'}`}>{t('forward')}</div>
                     <div className="px-2 pb-2">
-                      <div className="text-xs text-muted mono uppercase mb-1 text-center">{t('startTime')}</div>
+                      <div className="text-sm text-muted mono uppercase mb-1 text-center">{t('startTime')}</div>
                       <div className="relative">
                         <input
                           ref={startInputRef}
@@ -146,9 +146,9 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   </button>
                   
                   <button onClick={handleSelectBackward} className={`rounded-lg border transition-all text-left ${planningMode === 'backward' ? 'border-emerald-500 bg-slate-900' : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 cursor-pointer'}`}>
-                    <div className={`w-full text-xs py-1.5 mono uppercase text-center transition-all ${planningMode === 'backward' ? 'text-white' : 'text-muted'}`}>{t('backward')}</div>
+                    <div className={`w-full text-sm py-1.5 mono uppercase text-center transition-all ${planningMode === 'backward' ? 'text-white' : 'text-muted'}`}>{t('backward')}</div>
                     <div className="px-2 pb-2">
-                      <div className="text-xs text-muted mono uppercase mb-1 text-center">{t('readyTime')}</div>
+                      <div className="text-sm text-muted mono uppercase mb-1 text-center">{t('readyTime')}</div>
                       <div className="relative">
                         <input
                           ref={readyInputRef}
@@ -169,7 +169,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
               </Card>
 
               <Card variant="default" className="order-2 lg:order-1 lg:col-span-4 w-full space-y-6">
-                <h3 className="text-xs font-bold text-accent mono uppercase tracking-widest border-b border-slate-800 pb-3">{t('basicFactors')}</h3>
+                <h3 className="text-sm font-bold text-accent mono uppercase tracking-widest border-b border-slate-800 pb-3">{t('basicFactors')}</h3>
                 <div className="grid grid-cols-1 gap-8 items-start">
                   <div className="space-y-4">
                     <RangeField
@@ -200,7 +200,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
               </Card>
 
               <Card variant="default" className="order-3 lg:order-2 lg:col-span-4 w-full space-y-4">
-                <h3 className="text-[12px] font-bold text-blue-500 mono uppercase tracking-widest border-b border-slate-800 pb-3">{t('additionalSteps')}</h3>
+                <h3 className="text-sm font-bold text-blue-500 mono uppercase tracking-widest border-b border-slate-800 pb-3">{t('additionalSteps')}</h3>
                 <div className="space-y-3">
                   <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-3">
                     <div className="flex justify-between items-center">
@@ -215,7 +215,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                     {config.autolyseEnabled && (
                         <div className="space-y-3 pt-2 border-t border-slate-800/50">
                         <div className="flex justify-between items-end">
-                          <label className="text-xs text-muted mono uppercase">{t('autolyse')}</label>
+                          <label className="text-sm text-muted mono uppercase">{t('autolyse')}</label>
                           <span className="text-lg font-bold text-accent mono tracking-tighter">{formatMinutesDisplay(config.autolyseDurationMinutes || 0)}</span>
                         </div>
                         <Slider
@@ -237,7 +237,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                     {config.coldBulkEnabled && (
                       <div className="space-y-3 pt-2 border-t border-slate-800/50">
                         <div className="flex justify-between items-end">
-                          <label className="text-[12px] text-slate-400 mono uppercase">Cold Bulk Duration</label>
+                          <label className="text-sm text-slate-400 mono uppercase">Cold Bulk Duration</label>
                           <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldBulkDurationHours)}</span>
                         </div>
                         <Slider
@@ -259,7 +259,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                     {config.coldProofEnabled && (
                       <div className="space-y-3 pt-2 border-t border-slate-800/50">
                         <div className="flex justify-between items-end">
-                          <label className="text-[12px] text-slate-400 mono uppercase">Cold Proof Duration</label>
+                          <label className="text-sm text-slate-400 mono uppercase">Cold Proof Duration</label>
                           <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldProofDurationHours)}</span>
                         </div>
                         <Slider
@@ -276,7 +276,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   <div className="pt-3 border-t border-slate-700/50">
                     <div className="space-y-4">
                       <div className="flex justify-between items-end">
-                        <label className="text-[12px] text-slate-400 mono uppercase">Fermentation Balance</label>
+                        <label className="text-sm text-slate-400 mono uppercase">Fermentation Balance</label>
                         <span className="text-sm font-bold text-cyan-400 mono">{bulkPercent}% / {proofPercent}%</span>
                       </div>
                       <input
@@ -288,7 +288,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                         onChange={e => onUpdateConfig({ fermentationBalance: parseInt(e.target.value) })}
                         className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
                       />
-                      <div className="flex justify-between text-[9px] text-slate-400 mono">
+                      <div className="flex justify-between text-xs text-slate-400 mono">
                         <span>60% Bulk</span>
                         <span>90% Bulk</span>
                       </div>
@@ -318,7 +318,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
             className={`group relative px-10 md:px-16 py-4 text-white font-black rounded-3xl transition-all shadow-2xl active:scale-95 flex items-center space-x-6 overflow-hidden z-10 bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40`}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
-            <span className="relative tracking-[0.2em] uppercase text-xs md:text-sm">
+            <span className="relative tracking-[0.2em] uppercase text-sm md:text-sm">
               {t('confirmTimeline')}
             </span>
             <svg className="w-5 h-5 md:w-6 md:h-6 relative group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -328,7 +328,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
           
           <button
             onClick={() => onStartNow?.()}
-            className="px-8 md:px-12 py-4 text-slate-300 font-bold rounded-3xl transition-all active:scale-95 border-2 border-slate-700 hover:border-slate-600 hover:bg-slate-800/50 tracking-[0.2em] uppercase text-xs md:text-sm"
+            className="px-8 md:px-12 py-4 text-slate-300 font-bold rounded-3xl transition-all active:scale-95 border-2 border-slate-700 hover:border-slate-600 hover:bg-slate-800/50 tracking-[0.2em] uppercase text-sm md:text-sm"
           >
             {t('startNow')}
           </button>
