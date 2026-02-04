@@ -73,24 +73,26 @@ const PlanningTab: React.FC<PlanningTabProps> = ({
         <div className="absolute inset-0 flex w-[200%] transition-transform duration-300 ease-in-out" style={{ transform: secondaryTab === 'timing' ? 'translateX(0%)' : 'translateX(-50%)' }}>
           {/* Timing tab content */}
           <div className="w-1/2 h-full">
-            <div className="max-w-7xl mx-auto px-4 pb-24 overflow-y-auto h-full" style={{ paddingTop: 'calc(var(--planning-offset) + 2rem)' }}>
-              <PlanningView
-                config={session.config}
-                status={session.status}
-                startTimeStr={startTimeStr}
-                planningMode={planningMode}
-                onUpdateConfig={updateConfig}
-                onUpdateStartTime={setStartTimeStr}
-                onUpdatePlanningMode={setPlanningMode}
-                onOpenAmounts={() => setSecondaryTab('amounts')}
-                onStartNow={onStartNow}
-              />
+            <div className="max-w-7xl mx-auto px-4 pb-32 overflow-y-auto h-full" style={{ paddingTop: 'calc(var(--planning-offset) + 2rem)' }}>
+              <div className="w-full max-w-3xl mx-auto">
+                <PlanningView
+                  config={session.config}
+                  status={session.status}
+                  startTimeStr={startTimeStr}
+                  planningMode={planningMode}
+                  onUpdateConfig={updateConfig}
+                  onUpdateStartTime={setStartTimeStr}
+                  onUpdatePlanningMode={setPlanningMode}
+                  onOpenAmounts={() => setSecondaryTab('amounts')}
+                  onStartNow={onStartNow}
+                />
+              </div>
             </div>
           </div>
 
           {/* Amounts tab content */}
           <div className="w-1/2 h-full">
-            <div className="max-w-7xl mx-auto px-4 pb-24 overflow-y-auto h-full" style={{ paddingTop: 'var(--header-height)' }}>
+            <div className="max-w-7xl mx-auto px-4 pb-32 overflow-y-auto h-full" style={{ paddingTop: 'var(--header-height)' }}>
               <div className="w-full max-w-3xl mx-auto space-y-6">
                 <Card variant="default" className="w-full p-6 mt-4">
                   <h3 className="text-[12px] font-bold text-emerald-500 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('bakerPercentages')}</h3>

@@ -3,7 +3,7 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { Session, BakerConfig, StageType } from '../types';
+import { BakerSession, BakerConfig, StageType } from '../types';
 import { generateBakingStages } from '../services/bakerService';
 
 interface UseSessionProps {
@@ -12,7 +12,7 @@ interface UseSessionProps {
 }
 
 export const useSession = ({ initialConfig, translateFn }: UseSessionProps) => {
-  const [session, setSession] = useState<Session>({
+  const [session, setSession] = useState<BakerSession>({
     id: 'new-bake',
     name: 'Experimental Batch',
     startTime: new Date(),
