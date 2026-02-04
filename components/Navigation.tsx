@@ -21,7 +21,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, setActiveTab }) => {
             key={tab}
             onClick={() => setActiveTab(tab)}
             title={t(tab)}
-            className={`p-3 rounded-xl transition-all ${activeTab === tab ? 'text-cyan-400 bg-cyan-400/10 scale-110' : 'text-slate-500 hover:text-slate-300'}`}
+            className={`p-3 rounded-xl transition-all ${activeTab === tab ? 'text-accent bg-cyan-400/10 scale-110' : 'text-muted hover:text-slate-300'}`}
           >
             {tab === 'planning' && <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>}
             {tab === 'active' && <ICONS.Active />}

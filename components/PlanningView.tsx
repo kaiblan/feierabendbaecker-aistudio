@@ -111,7 +111,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
         <header className="max-w-7xl mx-auto w-full">
           <div>
             <h2 className="text-2xl font-bold text-white tracking-tight">{t('bakingSchedule')}</h2>
-            <p className="text-slate-400 text-sm whitespace-pre-wrap">{t('planYourBake')}</p>
+            <p className="text-muted text-sm whitespace-pre-wrap">{t('planYourBake')}</p>
           </div>
         </header>
 
@@ -119,15 +119,15 @@ const PlanningView: React.FC<PlanningViewProps> = ({
           {/* Main planning UI */}
               <Card variant="default" className="order-1 lg:order-3 lg:col-span-2 w-full p-4 flex flex-col space-y-3">
                 <div className="flex justify-between items-center">
-                  <h3 className="text-[12px] font-bold text-emerald-500 mono uppercase tracking-widest">{t('sessionTiming')}</h3>
-                  <span className="text-[12px] font-bold text-cyan-400 mono">{formatMinutesDisplay(totalProcessMins)}</span>
+                  <h3 className="text-xs font-bold text-primary mono uppercase tracking-widest">{t('sessionTiming')}</h3>
+                  <span className="text-xs font-bold text-accent mono">{formatMinutesDisplay(totalProcessMins)}</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <button onClick={handleSelectForward} className={`rounded-lg border transition-all text-left ${planningMode === 'forward' ? 'border-emerald-500 bg-slate-900' : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 cursor-pointer'}`}>
-                    <div className={`w-full text-[12px] py-1.5 mono uppercase text-center transition-all ${planningMode === 'forward' ? 'text-white' : 'text-slate-400'}`}>{t('forward')}</div>
+                    <div className={`w-full text-xs py-1.5 mono uppercase text-center transition-all ${planningMode === 'forward' ? 'text-white' : 'text-muted'}`}>{t('forward')}</div>
                     <div className="px-2 pb-2">
-                      <div className="text-[10px] text-slate-400 mono uppercase mb-1 text-center">{t('startTime')}</div>
+                      <div className="text-xs text-muted mono uppercase mb-1 text-center">{t('startTime')}</div>
                       <div className="relative">
                         <input
                           ref={startInputRef}
@@ -138,7 +138,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                           readOnly={planningMode !== 'forward'}
                           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-full opacity-0 z-10"
                         />
-                        <div className={`w-full p-1.5 text-[20px] font-bold text-center mono rounded ${planningMode === 'forward' ? 'bg-slate-950 border border-slate-700 text-white' : 'bg-slate-900/50 border border-slate-800/50 text-slate-400'}`}>
+                        <div className={`w-full p-1.5 text-[20px] font-bold text-center mono rounded ${planningMode === 'forward' ? 'bg-surface border border-surface text-white' : 'bg-slate-900/50 border border-slate-800/50 text-muted'}`}>
                           {startInputValue}
                         </div>
                       </div>
@@ -146,9 +146,9 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   </button>
                   
                   <button onClick={handleSelectBackward} className={`rounded-lg border transition-all text-left ${planningMode === 'backward' ? 'border-emerald-500 bg-slate-900' : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 cursor-pointer'}`}>
-                    <div className={`w-full text-[12px] py-1.5 mono uppercase text-center transition-all ${planningMode === 'backward' ? 'text-white' : 'text-slate-400'}`}>{t('backward')}</div>
+                    <div className={`w-full text-xs py-1.5 mono uppercase text-center transition-all ${planningMode === 'backward' ? 'text-white' : 'text-muted'}`}>{t('backward')}</div>
                     <div className="px-2 pb-2">
-                      <div className="text-[10px] text-slate-400 mono uppercase mb-1 text-center">{t('readyTime')}</div>
+                      <div className="text-xs text-muted mono uppercase mb-1 text-center">{t('readyTime')}</div>
                       <div className="relative">
                         <input
                           ref={readyInputRef}
@@ -159,7 +159,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                           readOnly={planningMode !== 'backward'}
                           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-full opacity-0 z-10"
                         />
-                        <div className={`w-full p-1.5 text-[20px] font-bold text-center mono rounded ${planningMode === 'backward' ? 'bg-slate-950 border border-slate-700 text-white' : 'bg-slate-900/50 border border-slate-800/50 text-slate-400'}`}>
+                        <div className={`w-full p-1.5 text-[20px] font-bold text-center mono rounded ${planningMode === 'backward' ? 'bg-surface border border-surface text-white' : 'bg-slate-900/50 border border-slate-800/50 text-muted'}`}>
                           {readyInputValue}
                         </div>
                       </div>
@@ -169,7 +169,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
               </Card>
 
               <Card variant="default" className="order-2 lg:order-1 lg:col-span-4 w-full space-y-6">
-                <h3 className="text-[12px] font-bold text-cyan-500 mono uppercase tracking-widest border-b border-slate-800 pb-3">{t('basicFactors')}</h3>
+                <h3 className="text-xs font-bold text-accent mono uppercase tracking-widest border-b border-slate-800 pb-3">{t('basicFactors')}</h3>
                 <div className="grid grid-cols-1 gap-8 items-start">
                   <div className="space-y-4">
                     <RangeField
@@ -215,8 +215,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                     {config.autolyseEnabled && (
                         <div className="space-y-3 pt-2 border-t border-slate-800/50">
                         <div className="flex justify-between items-end">
-                          <label className="text-[12px] text-slate-400 mono uppercase">{t('autolyse')}</label>
-                          <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatMinutesDisplay(config.autolyseDurationMinutes || 0)}</span>
+                          <label className="text-xs text-muted mono uppercase">{t('autolyse')}</label>
+                          <span className="text-lg font-bold text-accent mono tracking-tighter">{formatMinutesDisplay(config.autolyseDurationMinutes || 0)}</span>
                         </div>
                         <Slider
                           min={5}

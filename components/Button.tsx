@@ -10,10 +10,10 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: 'bg-cyan-600 text-white hover:bg-cyan-500 shadow-lg shadow-cyan-900/20',
-  secondary: 'bg-slate-700 text-white hover:bg-slate-600',
-  ghost: 'text-slate-400 hover:text-white hover:bg-slate-800',
-  outline: 'border border-slate-700 text-slate-300 hover:border-slate-600 hover:bg-slate-900'
+  primary: 'bg-primary text-white hover:brightness-110 shadow-lg',
+  secondary: 'bg-surface text-white hover:bg-slate-600',
+  ghost: 'text-muted hover:text-white hover:bg-slate-800',
+  outline: 'border border-surface text-muted hover:border-slate-600 hover:bg-slate-900'
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -31,7 +31,7 @@ export const Button: React.FC<ButtonProps> = ({
   ...props 
 }) => {
   const baseStyles = 'font-bold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed';
-  const disabledStyles = disabled ? 'bg-slate-800 text-slate-400 hover:bg-slate-800 shadow-none' : '';
+  const disabledStyles = disabled ? 'bg-surface text-muted hover:bg-surface shadow-none' : '';
   
   return (
     <button

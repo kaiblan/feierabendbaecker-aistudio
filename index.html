@@ -12,17 +12,37 @@
         href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <style>
+        :root {
+            --color-primary: #06b6d4; /* Cyan 500 */
+            --color-secondary: #64748b; /* Slate 500 */
+            --color-background: #0f172a; /* Slate 900 */
+            --color-surface: #1e293b; /* Slate 800 */
+            --color-accent: #10b981; /* Emerald 500 */
+            --color-muted: rgba(248,250,252,0.6); /* slate-50 at 60% */
+            --scroll-thumb: #334155;
+            --scroll-thumb-hover: #475569;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            /* Slate 900 */
+            background-color: var(--color-background);
             color: #f8fafc;
-            /* Slate 50 */
         }
 
         .mono {
             font-family: 'JetBrains Mono', monospace;
         }
+
+        /* Semantic theme helpers */
+        .text-primary { color: var(--color-primary); }
+        .text-accent { color: var(--color-accent); }
+        .text-muted { color: var(--color-muted); }
+        .bg-surface { background-color: var(--color-surface); }
+        .bg-primary { background-color: var(--color-primary); }
+        .bg-accent { background-color: var(--color-accent); }
+        .border-surface { border-color: var(--color-surface); }
+        .body-text { font-size: 1rem; line-height: 1.5; }
+        .heading { font-weight: 700; }
 
         /* Custom scrollbar for lab look */
         ::-webkit-scrollbar {
@@ -35,12 +55,12 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #334155;
+            background: var(--scroll-thumb);
             border-radius: 2px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #475569;
+            background: var(--scroll-thumb-hover);
         }
     </style>
     <script type="importmap">

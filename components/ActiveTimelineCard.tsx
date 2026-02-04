@@ -25,21 +25,21 @@ const ActiveTimelineCard: React.FC<ActiveTimelineCardProps> = ({ stage, isActive
         {/* Icon left-aligned with cosmetic margin */}
         <div className="absolute left-0 top-1/2 -translate-y-1/2">
           {isCompleted ? (
-            <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 text-emerald-500" aria-hidden>
+            <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 text-accent" aria-hidden>
               <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           ) : (
-            <div className={`w-2.5 h-2.5 rounded-full ${isActive ? 'bg-cyan-400 animate-pulse' : 'bg-slate-600'}`} />
+            <div className={`w-2.5 h-2.5 rounded-full ${isActive ? 'bg-primary animate-pulse' : 'bg-slate-600'}`} />
           )}
         </div>
 
         {/* Title centered across the full card, vertically aligned with icon */}
         <div className="h-10 flex items-center justify-center px-6">
-          <span className={`text-sm font-bold truncate ${isActive ? 'text-white' : 'text-slate-400'}`}>{stage.label}</span>
+          <span className={`text-sm font-bold truncate ${isActive ? 'text-white' : 'text-muted'}`}>{stage.label}</span>
         </div>
       </div>
 
-      <div className="flex justify-between items-end mt-2 text-[12px] mono text-slate-400">
+      <div className="flex justify-between items-end mt-2 text-xs mono text-muted">
         <div className="text-left">
           {stage.durationMinutes} MINS
         </div>
