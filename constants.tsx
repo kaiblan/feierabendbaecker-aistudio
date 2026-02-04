@@ -103,15 +103,15 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     // Headers
     bakingSchedule: 'Zeiten planen',
     recipeDetails: 'Rezeptdetails',
-    planYourBake: 'Planen Sie Ihren Backprozess basierend auf Timing und Temperatur.',
+    planYourBake: 'Du kannst entweder von einer Startzeit aus planen oder auf eine bestimmte Endzeit hin planen.',
     adjustWeights: 'Passen Sie die Gewichte für Ihre Teiggröße an.',
     totalDuration: 'Gesamtdauer',
     // Session Timing
     sessionTiming: 'Zeitplanung',
-    forward: 'Vorwärts',
-    backward: 'Rückwärts',
-    startTime: 'Startzeit',
-    readyTime: 'Endzeit',
+    forward: 'Startzeit vorgeben',
+    backward: 'Endzeit vorgeben',
+    startTime: ' ',
+    readyTime: ' ',
     readyBy: 'Fertig Um',
     startsAt: 'Beginn Um',
     // Basic Factors

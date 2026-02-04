@@ -111,7 +111,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
         <header className="max-w-7xl mx-auto w-full">
           <div>
             <h2 className="text-2xl font-bold text-white tracking-tight">{t('bakingSchedule')}</h2>
-            <p className="text-slate-400 text-sm">{t('planYourBake')}</p>
+            <p className="text-slate-400 text-sm whitespace-pre-wrap">{t('planYourBake')}</p>
           </div>
         </header>
 
