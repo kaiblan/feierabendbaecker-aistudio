@@ -150,7 +150,7 @@ export const PlanningTimeline: React.FC<PlanningTimelineProps> = ({
   const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => { try { (e.currentTarget as HTMLDivElement).releasePointerCapture(e.pointerId); } catch {} _endDrag(); };
 
   return (
-    <div className="sticky top-0 bg-slate-900 backdrop-blur-xl border-b border-slate-800 shadow-lg z-40 px-4 md:px-8 py-6">
+    <div className="sticky top-0 bg-slate-900 backdrop-blur-xl border-b border-slate-800 shadow-lg z-40 px-4 md:px-8 pt-6 pb-4">
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-[12px] font-bold text-slate-400 mono uppercase tracking-[0.3em]">{productionWorkflowLabel}</h3>
@@ -209,7 +209,7 @@ export const PlanningTimeline: React.FC<PlanningTimelineProps> = ({
             </div>, document.body
           )}
 
-          <div className="relative h-8 mt-2 w-full cursor-ew-resize overflow-hidden" onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={handlePointerUp} onPointerCancel={handlePointerUp} style={{ touchAction: 'pan-y', cursor: 'ew-resize' }}>
+          <div className="relative h-10 mt-2 w-full cursor-ew-resize overflow-hidden" onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={handlePointerUp} onPointerCancel={handlePointerUp} style={{ touchAction: 'pan-y', cursor: 'ew-resize' }}>
             {extendedMarkers.map((marker, i) => {
               const offsetPercent = (scrollOffset / totalProcessMins) * 100;
               const adjustedLeft = marker.position + offsetPercent;
