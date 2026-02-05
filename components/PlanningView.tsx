@@ -270,7 +270,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   <div className="pt-3 border-t border-slate-700/50">
                     <div className="space-y-4">
                       <div className="flex justify-between items-end">
-                        <label className="text-base text-slate-400 mono">{t('fermentationBalance')}</label>
+                        <label className="text-base text-slate-400">{t('fermentationBalance')}</label>
                         <span className="text-sm font-bold text-cyan-400 mono">{bulkPercent}% / {proofPercent}%</span>
                       </div>
                       <input

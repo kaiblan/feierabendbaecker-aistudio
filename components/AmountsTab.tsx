@@ -80,26 +80,26 @@ const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartN
           <Card variant="subtle" className="w-full p-6">
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-base text-slate-400 mono">{t('totalFlour')}</span>
+                <span className="text-base text-slate-400">{t('totalFlour')}</span>
                 <span className="text-lg font-black mono">{Math.round(session.config.totalFlour)}g</span>
               </div>
 
               <div className="flex justify-between items-center">
-                <span className="text-base text-slate-400 mono">{t('water')}</span>
+                <span className="text-base text-slate-400">{t('water')}</span>
                 <span className="text-lg font-black mono">{Math.round(session.config.totalFlour * session.config.hydration / 100)}g</span>
               </div>
 
               <div className="flex justify-between items-center">
-                <span className="text-base text-slate-400 mono">{t('yeast')}</span>
+                <span className="text-base text-slate-400">{t('yeast')}</span>
                 <span className="text-lg font-black mono">{(session.config.totalFlour * (session.config.yeast / 100)).toFixed(1)}g</span>
               </div>
 
               <div className="flex justify-between items-center">
-                <span className="text-base text-slate-400 mono">{t('salt')}</span>
+                <span className="text-base text-slate-400">{t('salt')}</span>
                 <span className="text-lg font-black mono">{(session.config.totalFlour * (session.config.salt / 100)).toFixed(1)}g</span>
               </div>
             </div>
-            <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-base mono text-slate-400">
+            <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-base text-slate-400">
               <span className="tracking-widest">{t('totalBatchWeight')}</span>
               <span className="text-lg font-black mono">{(session.config.totalFlour * (1 + (session.config.hydration + session.config.yeast + session.config.salt) / 100)).toFixed(0)}g</span>
             </div>
