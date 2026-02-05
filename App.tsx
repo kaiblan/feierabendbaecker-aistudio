@@ -150,7 +150,7 @@ const App: React.FC = () => {
               <div className="inline-flex bg-slate-800/80 rounded-full p-1 gap-1 border border-slate-700/50">
                 <button 
                   onClick={() => setSecondaryTab('timing')} 
-                  className={`w-32 py-1.5 rounded-full text-sm font-medium transition-all text-center ${
+                  className={`w-32 py-1.5 rounded-full text-base font-medium transition-all text-center ${
                     secondaryTab === 'timing' 
                       ? 'bg-gradient-to-br from-cyan-600 to-cyan-700 text-white shadow-lg shadow-cyan-900/50' 
                       : 'text-slate-400 hover:text-slate-300'
@@ -160,7 +160,7 @@ const App: React.FC = () => {
                 </button>
                 <button 
                   onClick={() => setSecondaryTab('amounts')} 
-                  className={`w-32 py-1.5 rounded-full text-sm font-medium transition-all text-center ${
+                  className={`w-32 py-1.5 rounded-full text-base font-medium transition-all text-center ${
                     secondaryTab === 'amounts' 
                       ? 'bg-gradient-to-br from-cyan-600 to-cyan-700 text-white shadow-lg shadow-cyan-900/50' 
                       : 'text-slate-400 hover:text-slate-300'

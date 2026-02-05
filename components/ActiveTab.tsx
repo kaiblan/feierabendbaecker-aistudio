@@ -84,9 +84,9 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card variant="highlight" className="md:col-span-2 p-8 flex flex-col justify-center items-center text-center relative overflow-hidden">
           <div className={`absolute top-0 left-0 w-full h-1 ${session.stages[session.activeStageIndex]?.isActive ? 'bg-cyan-500' : 'bg-slate-700'}`} />
-          <div className="text-sm mono text-accent mb-2 uppercase tracking-[0.3em] font-bold">
-            {session.stages[session.activeStageIndex]?.isActive ? t('activeWorkPhase').toUpperCase() : t('passiveFermentation').toUpperCase()}
-          </div>
+          <Headline color="text-accent" className="mb-2">
+            {session.stages[session.activeStageIndex]?.isActive ? t('activeWorkPhase') : t('passiveFermentation')}
+          </Headline>
           <h2 className="text-4xl font-black mb-6 tracking-tight">{session.stages[session.activeStageIndex]?.label}</h2>
           <div className="text-7xl mono font-bold text-white tracking-tighter mb-4 tabular-nums">
             {formatTime(timeLeft)}
@@ -101,7 +101,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
 
         <Card variant="subtle" className="flex flex-col justify-between">
           <div>
-            <div className="text-sm mono text-muted mb-4 uppercase tracking-widest">{t('upcoming').toUpperCase()}</div>
+            <Headline color="text-muted" className="mb-4">{t('upcoming')}</Headline>
               <div className="text-lg font-bold text-white">
                 {(() => {
                   const next = session.stages[session.activeStageIndex + 1];
@@ -162,7 +162,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
 
       <section className="space-y-4">
           <div className="flex justify-between items-center px-1">
-          <Headline color="text-muted">{t('sessionProgress').toUpperCase()}</Headline>
+          <Headline color="text-muted">{t('sessionProgress')}</Headline>
         </div>
         <div className="rounded-2xl border border-slate-800 bg-slate-900/80 overflow-hidden">
           <ActiveTimeline

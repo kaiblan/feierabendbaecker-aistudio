@@ -199,7 +199,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                 <div className="space-y-3">
                   <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-3">
                     <div className="flex justify-between items-center">
-                      <label className="text-sm text-slate-300">{t('autolyse')}</label>
+                      <label className="text-base text-slate-300">{t('autolyse')}</label>
                       <input
                         type="checkbox"
                         checked={config.autolyseEnabled}
@@ -210,7 +210,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                     {config.autolyseEnabled && (
                         <div className="space-y-3 pt-2 border-t border-slate-800/50">
                         <div className="flex justify-between items-end">
-                          <label className="text-sm text-muted mono">{t('autolyse')}</label>
+                          <label className="text-base text-muted mono">{t('autolyse')}</label>
                           <span className="text-lg font-bold text-accent mono tracking-tighter">{formatMinutesDisplay(config.autolyseDurationMinutes || 0)}</span>
                         </div>
                         <Slider
@@ -226,13 +226,13 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   </div>
                   <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-3">
                     <div className="flex justify-between items-center">
-                      <label className="text-sm text-slate-300">{t('coldBulk')}</label>
+                      <label className="text-base text-slate-300">{t('coldBulk')}</label>
                       <input type="checkbox" checked={config.coldBulkEnabled} onChange={e => onUpdateConfig({ coldBulkEnabled: e.target.checked })} className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer" />
                     </div>
                     {config.coldBulkEnabled && (
                       <div className="space-y-3 pt-2 border-t border-slate-800/50">
                         <div className="flex justify-between items-end">
-                          <label className="text-sm text-slate-400 mono">{t('coldBulkDuration')}</label>
+                          <label className="text-base text-slate-400 mono">{t('coldBulkDuration')}</label>
                           <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldBulkDurationHours)}</span>
                         </div>
                         <Slider
@@ -248,13 +248,13 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   </div>
                   <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-3">
                     <div className="flex justify-between items-center">
-                      <label className="text-sm text-slate-300">{t('coldProof')}</label>
+                      <label className="text-base text-slate-300">{t('coldProof')}</label>
                       <input type="checkbox" checked={config.coldProofEnabled} onChange={e => onUpdateConfig({ coldProofEnabled: e.target.checked })} className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer" />
                     </div>
                     {config.coldProofEnabled && (
                       <div className="space-y-3 pt-2 border-t border-slate-800/50">
                         <div className="flex justify-between items-end">
-                          <label className="text-sm text-slate-400 mono">{t('coldProofDuration')}</label>
+                          <label className="text-base text-slate-400 mono">{t('coldProofDuration')}</label>
                           <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldProofDurationHours)}</span>
                         </div>
                         <Slider
@@ -271,7 +271,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   <div className="pt-3 border-t border-slate-700/50">
                     <div className="space-y-4">
                       <div className="flex justify-between items-end">
-                        <label className="text-sm text-slate-400 mono">{t('fermentationBalance')}</label>
+                        <label className="text-base text-slate-400 mono">{t('fermentationBalance')}</label>
                         <span className="text-sm font-bold text-cyan-400 mono">{bulkPercent}% / {proofPercent}%</span>
                       </div>
                       <input
