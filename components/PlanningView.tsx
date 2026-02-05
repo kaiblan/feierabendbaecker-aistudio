@@ -310,10 +310,10 @@ const PlanningView: React.FC<PlanningViewProps> = ({
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-7xl mx-auto w-full pt-4">
           <button
             onClick={() => onOpenAmounts?.()}
-            className={`group relative px-10 md:px-16 py-4 text-white font-black rounded-3xl transition-all shadow-2xl active:scale-95 flex items-center space-x-6 overflow-hidden z-10 bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40`}
+            className={`group relative px-10 md:px-16 py-4 text-white font-bold rounded-3xl transition-all shadow-2xl active:scale-95 flex items-center space-x-6 overflow-hidden z-10 bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40`}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
-            <span className="relative tracking-[0.2em] text-sm md:text-sm">
+            <span className="relative tracking-[0.2em] text-base md:text-sm">
               {t('confirmTimeline')}
             </span>
             <svg className="w-5 h-5 md:w-6 md:h-6 relative group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -323,7 +323,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
           
           <button
             onClick={() => onStartNow?.()}
-            className="px-8 md:px-12 py-4 text-slate-300 font-bold rounded-3xl transition-all active:scale-95 border-2 border-slate-700 hover:border-slate-600 hover:bg-slate-800/50 tracking-[0.2em] text-sm md:text-sm"
+            className="px-8 md:px-12 py-4 text-slate-300 font-bold rounded-3xl transition-all active:scale-95 border-2 border-slate-700 hover:border-slate-600 hover:bg-slate-800/50 tracking-[0.2em] text-base md:text-base"
           >
             {t('startNow')}
           </button>

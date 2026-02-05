@@ -64,14 +64,14 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
           </h2>
           <button
             onClick={onNavigatePlanning}
-            className="group relative px-10 md:px-16 py-4 text-white font-black rounded-3xl transition-all shadow-2xl active:scale-95 flex items-center justify-center space-x-6 overflow-hidden z-10 bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40 mx-auto"
+            className="group relative px-10 md:px-16 py-4 text-white font-medium rounded-3xl transition-all shadow-2xl active:scale-95 flex items-center justify-center space-x-6 overflow-hidden z-10 bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40 mx-auto"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
-            <span className="relative tracking-[0.2em] text-sm md:text-sm">
+            <span className="relative tracking-[0.2em] text-base md:text-base">
               {t('planning')}
             </span>
             <svg className="w-5 h-5 md:w-6 md:h-6 relative group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
             </svg>
           </button>
         </div>
@@ -87,7 +87,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
           <Headline color="text-accent" className="mb-2">
             {session.stages[session.activeStageIndex]?.isActive ? t('activeWorkPhase') : t('passiveFermentation')}
           </Headline>
-          <h2 className="text-4xl font-black mb-6 tracking-tight">{session.stages[session.activeStageIndex]?.label}</h2>
+          <h2 className="text-4xl font-medium mb-6 tracking-tight">{session.stages[session.activeStageIndex]?.label}</h2>
           <div className="text-7xl mono font-bold text-white tracking-tighter mb-4 tabular-nums">
             {formatTime(timeLeft)}
           </div>
@@ -152,7 +152,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
                 }}
               variant="primary"
               size="lg"
-              className="w-full tracking-widest text-s"
+              className="w-full tracking-widest text-base"
             >
               {t('completeAndAdvance')}
             </Button>

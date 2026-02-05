@@ -156,28 +156,28 @@ const PlanningTab: React.FC<PlanningTabProps> = ({
                 <Card variant="subtle" className="w-full p-6">
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-slate-400 mono">{t('totalFlour')}</span>
+                      <span className="text-base text-slate-400 mono">{t('totalFlour')}</span>
                       <span className="text-lg font-black mono">{Math.round(session.config.totalFlour)}g</span>
                     </div>
 
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-slate-400 mono">{t('water')}</span>
+                      <span className="text-base text-slate-400 mono">{t('water')}</span>
                       <span className="text-lg font-black mono">{Math.round(session.config.totalFlour * session.config.hydration / 100)}g</span>
                     </div>
 
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-slate-400 mono">{t('yeast')}</span>
+                      <span className="text-base text-slate-400 mono">{t('yeast')}</span>
                       <span className="text-lg font-black mono">{(session.config.totalFlour * (session.config.yeast / 100)).toFixed(1)}g</span>
                     </div>
 
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-slate-400 mono">{t('salt')}</span>
+                      <span className="text-base text-slate-400 mono">{t('salt')}</span>
                       <span className="text-lg font-black mono">{(session.config.totalFlour * (session.config.salt / 100)).toFixed(1)}g</span>
                     </div>
                   </div>
-                  <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-sm mono text-slate-400">
+                  <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-base mono text-slate-400">
                     <span className="tracking-widest">{t('totalBatchWeight')}</span>
-                    <span className="text-slate-300 text-lg">{(session.config.totalFlour * (1 + (session.config.hydration + session.config.yeast + session.config.salt) / 100)).toFixed(0)}g</span>
+                    <span className="text-lg font-black mono">{(session.config.totalFlour * (1 + (session.config.hydration + session.config.yeast + session.config.salt) / 100)).toFixed(0)}g</span>
                   </div>
                 </Card>
                 
@@ -185,14 +185,14 @@ const PlanningTab: React.FC<PlanningTabProps> = ({
                 <div className="flex justify-center w-full pt-6">
                   <button
                     onClick={onStartNow}
-                    className="group relative px-10 md:px-16 py-4 text-white font-black rounded-3xl transition-all shadow-2xl active:scale-95 flex items-center space-x-6 overflow-hidden z-10 bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40"
+                    className="group relative px-10 md:px-16 py-4 text-white font-bold rounded-3xl transition-all shadow-2xl active:scale-95 flex items-center space-x-6 overflow-hidden z-10 bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
-                    <span className="relative tracking-[0.2em] text-sm md:text-sm">
+                    <span className="relative tracking-[0.2em] text-base md:text-base">
                       {t('start')}
                     </span>
                     <svg className="w-5 h-5 md:w-6 md:h-6 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </button>
