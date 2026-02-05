@@ -35,7 +35,7 @@ const RangeField: React.FC<RangeFieldProps> = ({
   return (
     <div className={className}>
       <div className="flex justify-between items-end">
-        <label className="text-base text-slate-400 mono">{label}</label>
+        <label className="text-base text-slate-400">{label}</label>
         <span className={`text-xl font-bold mono tracking-tighter ${valueClassName}`}>{formatted}</span>
       </div>
       <div className="mt-2">
