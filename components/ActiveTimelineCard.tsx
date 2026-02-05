@@ -41,7 +41,7 @@ const ActiveTimelineCard: React.FC<ActiveTimelineCardProps> = ({ stage, isActive
 
       <div className="flex justify-between items-end mt-2 text-sm mono text-muted">
         <div className="text-left">
-          {stage.durationMinutes} {t('minuteUnit').toUpperCase()}
+          {stage.durationMinutes} {t('minuteUnit')}
         </div>
         <div className="text-right">
           {end ? `${t('until')} ${formatDateAsTime(new Date(end))}` : ''}

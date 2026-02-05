@@ -157,11 +157,11 @@ export const PlanningTimeline: React.FC<PlanningTimelineProps> = ({
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1.5">
               <div className="w-2.5 h-2.5 bg-cyan-500 rounded-sm"></div>
-              <span className="text-sm mono text-slate-400 uppercase">{workLabel}</span>
+              <span className="text-sm mono text-slate-400">{workLabel}</span>
             </div>
             <div className="flex items-center space-x-1.5">
               <div className="w-2.5 h-2.5 bg-blue-800/70 rounded-sm"></div>
-              <span className="text-sm mono text-slate-400 uppercase">{coldLabel}</span>
+              <span className="text-sm mono text-slate-400">{coldLabel}</span>
             </div>
             <span className="text-sm mono text-slate-400 border-l border-slate-700 pl-4 ml-2">
               <span className="text-slate-100">{sessionStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
@@ -177,7 +177,7 @@ export const PlanningTimeline: React.FC<PlanningTimelineProps> = ({
               const width = (step.min / totalProcessMins) * 100;
               return (
                 <div key={step.type} style={{ width: `${width}%` }} onClick={() => setIsPopupOpen(true)} className={`h-full first:rounded-l last:rounded-r relative flex flex-col justify-center items-center px-0.5 transition-colors duration-700 border-r border-slate-950/20 cursor-pointer hover:brightness-110 ${step.active ? 'bg-cyan-600/80 shadow-[inset_0_0_15px_rgba(6,182,212,0.2)]' : step.cold ? 'bg-blue-900/50 shadow-[inset_0_0_15px_rgba(30,58,138,0.2)]' : 'bg-slate-800/60'}`}>
-                  <span className={`text-xs md:text-sm mono font-bold uppercase truncate max-w-full tracking-tighter ${step.active ? 'text-white' : 'text-slate-400'}`}>{step.label}</span>
+                  <span className={`text-xs md:text-sm mono font-bold truncate max-w-full tracking-tighter ${step.active ? 'text-white' : 'text-slate-400'}`}>{step.label}</span>
                 </div>
               );
             })}
@@ -194,7 +194,7 @@ export const PlanningTimeline: React.FC<PlanningTimelineProps> = ({
                   {scheduleWithTimes.map((step) => (
                     <div key={step.type} className={`p-4 rounded-lg border ${step.active ? 'bg-cyan-600/10 border-cyan-600/30' : step.cold ? 'bg-blue-900/10 border-blue-900/30' : 'bg-slate-800/30 border-slate-700/30'}`}>
                       <div className="flex items-center justify-between mb-2">
-                        <span className={`font-bold uppercase text-sm tracking-wider ${step.active ? 'text-cyan-400' : step.cold ? 'text-blue-400' : 'text-slate-300'}`}>{step.label}</span>
+                        <span className={`font-bold text-sm tracking-wider ${step.active ? 'text-cyan-400' : step.cold ? 'text-blue-400' : 'text-slate-300'}`}>{step.label}</span>
                         <span className="text-slate-400 text-sm mono">{step.min} {t('minuteUnit')}</span>
                       </div>
                       <div className="flex items-center space-x-2 text-sm mono">
