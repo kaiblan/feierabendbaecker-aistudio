@@ -84,8 +84,8 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card variant="highlight" className="md:col-span-2 p-8 flex flex-col justify-center items-center text-center relative overflow-hidden">
           <div className={`absolute top-0 left-0 w-full h-1 ${session.stages[session.activeStageIndex]?.isActive ? 'bg-cyan-500' : 'bg-slate-700'}`} />
-          <Headline color="text-accent" className="mb-2">
-            {session.stages[session.activeStageIndex]?.isActive ? t('activeWorkPhase') : t('passiveFermentation')}
+          <Headline className="mb-2">
+            {t('workingStep')}
           </Headline>
           <h2 className="text-4xl font-medium mb-6 tracking-tight">{session.stages[session.activeStageIndex]?.label}</h2>
           <div className="text-7xl mono font-bold text-white tracking-tighter mb-4 tabular-nums">

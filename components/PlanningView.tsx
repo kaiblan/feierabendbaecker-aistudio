@@ -114,7 +114,6 @@ const PlanningView: React.FC<PlanningViewProps> = ({
               <Card variant="default" className="order-1 lg:order-3 lg:col-span-2 w-full p-4 flex flex-col space-y-3">
                 <div className="flex justify-between items-center">
                   <Headline color="text-primary">{t('sessionTiming')}</Headline>
-                  <span className="text-sm font-bold text-accent mono">{formatMinutesDisplay(totalProcessMins)}</span>
                 </div>
                 <p className="text-muted text-sm whitespace-pre-wrap">{t('planYourBake')}</p>
 

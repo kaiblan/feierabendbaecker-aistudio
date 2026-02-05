@@ -52,23 +52,23 @@ export const roundDuration = (hours: number): number => {
 
 /**
  * Format duration for display as H:MMh
- * Examples: "0:30h", "1:00h", "12:00h", "15:30h"
+ * Examples: "0:30 h", "1:00 h", "12:00 h", "15:30 h"
  */
 export const formatDurationDisplay = (hours: number): string => {
   const rounded = roundDuration(hours);
   const wholeHours = Math.floor(rounded);
   const minutes = Math.round((rounded - wholeHours) * 60);
 
-  return `${wholeHours}:${minutes.toString().padStart(2, '0')}h`;
+  return `${wholeHours}:${minutes.toString().padStart(2, '0')} h`;
 };
 
 /**
  * Format a duration given in minutes as H:MMh without additional rounding.
- * Example: 5 -> "0:05h", 30 -> "0:30h", 90 -> "1:30h"
+ * Example: 5 -> "0:05 h", 30 -> "0:30 h", 90 -> "1:30 h"
  */
 export const formatMinutesDisplay = (minutesInput: number): string => {
   const mins = Math.max(0, Math.round(minutesInput));
   const hours = Math.floor(mins / 60);
   const minutes = mins % 60;
-  return `${hours}:${minutes.toString().padStart(2, '0')}h`;
+  return `${hours}:${minutes.toString().padStart(2, '0')} h`;
 };
