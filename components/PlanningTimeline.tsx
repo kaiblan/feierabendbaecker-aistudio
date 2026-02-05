@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom';
 import { ScheduleStep } from '../hooks/useBakeSchedule';
 import { formatDateAsTime } from '../utils/timeUtils';
 import { useLanguage } from './LanguageContext';
+import Headline from './Headline';
 import { Button } from './Button';
 
 interface PlanningTimelineProps {
@@ -153,7 +154,7 @@ export const PlanningTimeline: React.FC<PlanningTimelineProps> = ({
     <div className="sticky top-0 bg-slate-900 backdrop-blur-xl border-b border-slate-800 shadow-lg z-40 px-4 md:px-8 pt-6 pb-4">
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-sm font-bold text-slate-400 mono uppercase tracking-[0.3em]">{productionWorkflowLabel}</h3>
+          <Headline color="text-slate-400" className="tracking-[0.3em]">{productionWorkflowLabel}</Headline>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1.5">
               <div className="w-2.5 h-2.5 bg-cyan-500 rounded-sm"></div>
@@ -187,7 +188,7 @@ export const PlanningTimeline: React.FC<PlanningTimelineProps> = ({
             <div className="fixed inset-0 bg-slate-950 z-50 flex flex-col">
               <div className="flex-1 overflow-auto">
                 <div className="sticky top-0 bg-slate-900 border-b border-slate-700 px-6 py-4 flex items-center justify-between">
-                  <h3 className="text-lg font-bold text-slate-200 mono uppercase tracking-wider">{t('scheduleDetails')}</h3>
+                  <Headline color="text-slate-200" className="text-lg tracking-wider">{t('scheduleDetails')}</Headline>
                   <Button onClick={() => setIsPopupOpen(false)} variant="ghost" size="sm" className="text-2xl leading-none w-8 h-8 p-0">×</Button>
                 </div>
                 <div className="p-6 space-y-3">

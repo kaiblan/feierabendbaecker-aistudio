@@ -5,6 +5,7 @@ import PlanningView from './PlanningView';
 import { Card } from './Card';
 import RangeField from './RangeField';
 import { useLanguage } from './LanguageContext';
+import Headline from './Headline';
 import { useBakeSchedule } from '../hooks/useBakeSchedule';
 
 interface PlanningTabProps {
@@ -95,7 +96,7 @@ const PlanningTab: React.FC<PlanningTabProps> = ({
             <div className="max-w-7xl mx-auto px-4 pb-32 overflow-y-auto h-full" style={{ paddingTop: 'var(--header-height)' }}>
               <div className="w-full max-w-3xl mx-auto space-y-6">
                 <Card variant="default" className="w-full p-6 mt-4">
-                  <h3 className="text-sm font-bold text-emerald-500 mono uppercase tracking-widest border-b border-slate-800 pb-3 mb-4">{t('bakerPercentages')}</h3>
+                  <Headline color="text-emerald-500" className="border-b border-slate-800 pb-3 mb-4">{t('bakerPercentages')}</Headline>
                   <div className="space-y-6">
                     <div>
                       <RangeField

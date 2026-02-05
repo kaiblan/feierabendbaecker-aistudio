@@ -5,6 +5,7 @@ import { Card } from './Card';
 import ActiveTimeline from './ActiveTimeline';
 import { formatTime, formatDateAsTime } from '../utils/timeUtils';
 import { useLanguage } from './LanguageContext';
+import Headline from './Headline';
 
 interface ActiveTabProps {
   session: BakerSession;
@@ -161,7 +162,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
 
       <section className="space-y-4">
           <div className="flex justify-between items-center px-1">
-          <h3 className="text-sm font-bold text-muted mono uppercase tracking-[0.3em]">{t('sessionProgress').toUpperCase()}</h3>
+          <Headline color="text-muted">{t('sessionProgress').toUpperCase()}</Headline>
         </div>
         <div className="rounded-2xl border border-slate-800 bg-slate-900/80 overflow-hidden">
           <ActiveTimeline

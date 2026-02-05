@@ -20,6 +20,7 @@ interface PlanningViewProps {
 }
 
 import { useLanguage } from './LanguageContext';
+import Headline from './Headline';
 
 const PlanningView: React.FC<PlanningViewProps> = ({
   config,
@@ -112,7 +113,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
           {/* Main planning UI */}
               <Card variant="default" className="order-1 lg:order-3 lg:col-span-2 w-full p-4 flex flex-col space-y-3">
                 <div className="flex justify-between items-center">
-                  <h3 className="text-sm font-bold text-primary mono uppercase tracking-widest">{t('sessionTiming')}</h3>
+                  <Headline color="text-primary">{t('sessionTiming')}</Headline>
                   <span className="text-sm font-bold text-accent mono">{formatMinutesDisplay(totalProcessMins)}</span>
                 </div>
                 <p className="text-muted text-sm whitespace-pre-wrap">{t('planYourBake')}</p>
@@ -163,7 +164,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
               </Card>
 
               <Card variant="default" className="order-2 lg:order-1 lg:col-span-4 w-full space-y-6">
-                <h3 className="text-sm font-bold text-accent mono uppercase tracking-widest border-b border-slate-800 pb-3">{t('basicFactors')}</h3>
+                <Headline color="text-accent" className="border-b border-slate-800 pb-3">{t('basicFactors')}</Headline>
                 <div className="grid grid-cols-1 gap-8 items-start">
                   <div className="space-y-4">
                     <RangeField
@@ -194,7 +195,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
               </Card>
 
               <Card variant="default" className="order-3 lg:order-2 lg:col-span-4 w-full space-y-4">
-                <h3 className="text-sm font-bold text-blue-500 mono uppercase tracking-widest border-b border-slate-800 pb-3">{t('additionalSteps')}</h3>
+                <Headline color="text-blue-500" className="border-b border-slate-800 pb-3">{t('additionalSteps')}</Headline>
                 <div className="space-y-3">
                   <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-3">
                     <div className="flex justify-between items-center">
