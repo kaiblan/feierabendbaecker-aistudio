@@ -49,8 +49,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
   });
 
 
-  const bulkPercent = Math.floor(60 + (config.fermentationBalance / 100) * 30);
-  const proofPercent = 100 - bulkPercent;
+  const finalProofMinutes = Math.round(config.finalProofDurationMinutes || 90);
 
   const startInputRef = useRef<HTMLInputElement | null>(null);
   const readyInputRef = useRef<HTMLInputElement | null>(null);
@@ -269,23 +268,17 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   </div>
                   <div className="pt-3 border-t border-slate-700/50">
                     <div className="space-y-4">
-                      <div className="flex justify-between items-end">
-                        <label className="text-base text-slate-400">{t('fermentationBalance')}</label>
-                        <span className="text-sm font-bold text-cyan-400 mono">{bulkPercent}% / {proofPercent}%</span>
-                      </div>
-                      <input
-                        type="range"
-                        min="0"
-                        max="100"
-                        step="1"
-                        value={config.fermentationBalance}
-                        onChange={e => onUpdateConfig({ fermentationBalance: parseInt(e.target.value) })}
-                        className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                      <RangeField
+                        label={t('finalProof')}
+                        value={finalProofMinutes}
+                        min={30}
+                        max={180}
+                        step={5}
+                        onChange={(value) => onUpdateConfig({ finalProofDurationMinutes: Math.round(value) })}
+                        accent="accent-cyan-400"
+                        valueFormatter={(value) => formatMinutesDisplay(value)}
+                        valueClassName="text-cyan-400"
                       />
-                      <div className="flex justify-between text-xs text-slate-400 mono">
-                        <span>{t('bulk60')}</span>
-                        <span>{t('bulk90')}</span>
-                      </div>
                     </div>
                     <div className="space-y-4 mt-4">
                       <RangeField
