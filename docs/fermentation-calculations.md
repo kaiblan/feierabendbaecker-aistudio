@@ -4,7 +4,7 @@ This document explains how the baking session derives warm-proof, warm-bulk, and
 
 ## Warm fermentation targets
 
-The model starts with baseline warm fermentation durations that assume 0.5% yeast at 24 °C:
+The model starts with baseline warm fermentation durations that assume 0.2% yeast at 24 °C:
 
 - Bulk target: 300 minutes
 - Proof target: 180 minutes
@@ -12,7 +12,7 @@ The model starts with baseline warm fermentation durations that assume 0.5% yeas
 Yeast scales total time inversely: if the baker sets `yeast = y`, every warm target multiplies by the **yeast factor**
 
 $$
-	ext{yeastFactor} = \frac{0.5}{y}
+	ext{yeastFactor} = \frac{0.2}{y}
 $$
 
 Temperature adjustments use different exponential bases for bulk and proof (the `(T - 24)/2` exponent encodes a 2 °C step for each halving/doubling of the effect):

@@ -30,11 +30,11 @@ const coldEquivalenceFactor = (tempC: number): number => {
 /**
  * Deterministic fermentation time model
  *
- * Baseline (0.5% yeast @ 24°C):
+ * Baseline (0.2% yeast @ 24°C):
  * - Bulk target = 300 min
  * - Proof target = 180 min
  *
- * Yeast effect: time ∝ 1 / yeastPercent (yeastFactor = 0.5 / yeastPercent)
+ * Yeast effect: time ∝ 1 / yeastPercent (yeastFactor = 0.2 / yeastPercent)
  *
  * Temperature effect (exponential):
  * - Bulk:  bulkTempEffect  = 0.85 ^ ((tempC - 24) / 2)
@@ -49,7 +49,7 @@ const coldEquivalenceFactor = (tempC: number): number => {
  * - Warm remaining = max(0, warmTarget - coldMins × 0.07)
  */
 export const calculateFermentationTimes = (config: BakerConfig): { bulkMins: number; proofMins: number; coldBulkMins: number; coldProofMins: number } => {
-  const BASE_YEAST = 0.5;
+  const BASE_YEAST = 0.2;
 
   const yeastFactor = BASE_YEAST / (config.yeast || BASE_YEAST);
 
