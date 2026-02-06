@@ -36,21 +36,26 @@ export const generateBakingStages = (
     isActive: true,
   });
 
+  // Split bulkMins into folds and remaining bulk fermentation
+  const FOLDS_MINS = 45;
+  const warmFoldMins = Math.min(FOLDS_MINS, bulkMins);
+  const warmBulkRestMins = Math.max(0, bulkMins - warmFoldMins);
+
   stages.push({
     id: 'f1',
     type: StageType.STRETCH_AND_FOLD,
     label: translateFn('folds'),
-    durationMinutes: 45,
+    durationMinutes: warmFoldMins,
     completed: false,
     isActive: true,
   });
 
-  // Base bulk fermentation (room temp)
+  // Base bulk fermentation (room temp) - remaining after folds
   stages.push({
     id: 'b1',
     type: StageType.BULK_FERMENTATION,
     label: translateFn('bulkFerment'),
-    durationMinutes: bulkMins,
+    durationMinutes: warmBulkRestMins,
     completed: false,
     isActive: false,
   });

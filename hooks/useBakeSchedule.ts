@@ -57,10 +57,16 @@ export const useBakeSchedule = ({
       steps.push({ type: 'autolyse', label: translateFn('autolyse'), min: config.autolyseDurationMinutes || 0, active: false, cold: false });
     }
     steps.push({ type: 'mixing', label: translateFn('mixing'), min: 15, active: true, cold: false });
-    steps.push({ type: 'folds', label: translateFn('folds'), min: 45, active: true, cold: false });
 
-    // Base bulk fermentation (room temp)
-    steps.push({ type: 'bulkFerment', label: translateFn('bulkFerment'), min: bulkMins, active: false, cold: false });
+    // Split bulkMins into folds and remaining bulk fermentation
+    const FOLDS_MINS = 45;
+    const warmFoldMins = Math.min(FOLDS_MINS, bulkMins);
+    const warmBulkRestMins = Math.max(0, bulkMins - warmFoldMins);
+
+    steps.push({ type: 'folds', label: translateFn('folds'), min: warmFoldMins, active: true, cold: false });
+
+    // Base bulk fermentation (room temp) - remaining after folds
+    steps.push({ type: 'bulkFerment', label: translateFn('bulkFerment'), min: warmBulkRestMins, active: false, cold: false });
     // If cold bulk is enabled, append it after the normal bulk
     if (coldBulkMins > 0) {
       steps.push({ type: 'coldBulk', label: translateFn('coldBulk'), min: coldBulkMins, active: false, cold: true });

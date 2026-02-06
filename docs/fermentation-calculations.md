@@ -55,7 +55,7 @@ The UI exposes a `RangeField` (0–180 minutes, 5-minute steps) that writes to `
 
 1. Clamp the requested value to the slider’s range, so the code never tries to schedule a negative value or more than 180 min of room-temperature proof:
 	$$
-		ext{proofSetting} = \text{clamp}(30\text{ min}, \text{finalProofDurationMinutes}, 180\text{ min})
+		ext{proofSetting} = \text{clamp}(0\text{ min}, \text{finalProofDurationMinutes}, 180\text{ min})
 	$$
 2. The actual warm proof time is the minimum of that clamp and the remaining warm minutes:
 	$$
@@ -68,12 +68,14 @@ The UI exposes a `RangeField` (0–180 minutes, 5-minute steps) that writes to `
 
 Because the slider already steps in five-minute increments, the rounding operation merely echoes that precision. `proofMins` always represents the warm proof segment produced by this slider and never includes cold proof minutes.
 
+Note: The `bulkMins` includes time for stretch-and-fold (45 minutes), which is subtracted from the warm bulk budget when building the schedule stages. If `bulkMins < 45`, folds are truncated accordingly.
+
 ## Summary of outputs
 
 The hook returns these durations for the scheduler so downstream code can build stages and calculate the overall timeline:
 
-- `bulkMins`: warm room-temperature bulk minutes (after proof takes its share)
-- `proofMins`: warm final proof minutes (clamped to 30–180 min and separate from any cold proof)
+- `bulkMins`: total warm room-temperature bulk minutes (after proof takes its share), which includes time for stretch-and-fold (up to 45 minutes)
+- `proofMins`: warm final proof minutes (clamped to 0–180 min and separate from any cold proof)
 - `coldBulkMins`: cold bulk minutes (user-configured hours × 60)
 - `coldProofMins`: cold proof minutes (user-configured hours × 60)
 
