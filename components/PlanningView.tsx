@@ -48,9 +48,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
     translateFn: t,
   });
 
-
-  const finalProofMinutes = Math.round(config.finalProofDurationMinutes || 90);
-
+  const finalProofMinutes = Math.round(config.finalProofDurationMinutes ?? 90);
   const startInputRef = useRef<HTMLInputElement | null>(null);
   const readyInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -207,20 +205,19 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                     </div>
                     {config.autolyseEnabled && (
                         <div className="space-y-3 pt-2 border-t border-slate-800/50">
-                        <div className="flex justify-between items-end">
-                          <label className="text-base text-muted mono">{t('autolyse')}</label>
-                          <span className="text-lg font-bold text-accent mono tracking-tighter">{formatMinutesDisplay(config.autolyseDurationMinutes || 0)}</span>
+                          <RangeField
+                            label={t('autolyse')}
+                            value={config.autolyseDurationMinutes ?? 5}
+                            min={5}
+                            max={120}
+                            step={5}
+                            onChange={(value) => onUpdateConfig({ autolyseDurationMinutes: Math.round(value) })}
+                            accent="accent-cyan-400"
+                            valueFormatter={(value) => formatMinutesDisplay(value)}
+                            valueClassName="text-accent"
+                          />
                         </div>
-                        <Slider
-                          min={5}
-                          max={120}
-                          step={5}
-                          value={config.autolyseDurationMinutes || 5}
-                          onChange={v => onUpdateConfig({ autolyseDurationMinutes: parseInt(String(v)) })}
-                          accent="accent-cyan-400"
-                        />
-                      </div>
-                    )}
+                      )}
                   </div>
                   <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-3">
                     <div className="flex justify-between items-center">
@@ -229,17 +226,16 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                     </div>
                     {config.coldBulkEnabled && (
                       <div className="space-y-3 pt-2 border-t border-slate-800/50">
-                        <div className="flex justify-between items-end">
-                          <label className="text-base text-slate-400 mono">{t('coldBulkDuration')}</label>
-                          <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldBulkDurationHours)}</span>
-                        </div>
-                        <Slider
+                        <RangeField
+                          label={t('coldBulkDuration')}
+                          value={durationToSliderValue(config.coldBulkDurationHours)}
                           min={0}
                           max={100}
                           step={1}
-                          value={durationToSliderValue(config.coldBulkDurationHours)}
-                          onChange={v => onUpdateConfig({ coldBulkDurationHours: roundDuration(sliderValueToDuration(v)) })}
+                          onChange={(v) => onUpdateConfig({ coldBulkDurationHours: roundDuration(sliderValueToDuration(v)) })}
                           accent="accent-cyan-400"
+                          valueFormatter={(sliderVal) => formatDurationDisplay(sliderValueToDuration(sliderVal))}
+                          valueClassName="text-cyan-400"
                         />
                       </div>
                     )}
@@ -251,17 +247,16 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                     </div>
                     {config.coldProofEnabled && (
                       <div className="space-y-3 pt-2 border-t border-slate-800/50">
-                        <div className="flex justify-between items-end">
-                          <label className="text-base text-slate-400 mono">{t('coldProofDuration')}</label>
-                          <span className="text-lg font-bold text-cyan-400 mono tracking-tighter">{formatDurationDisplay(config.coldProofDurationHours)}</span>
-                        </div>
-                        <Slider
+                        <RangeField
+                          label={t('coldProofDuration')}
+                          value={durationToSliderValue(config.coldProofDurationHours)}
                           min={0}
                           max={100}
                           step={1}
-                          value={durationToSliderValue(config.coldProofDurationHours)}
-                          onChange={v => onUpdateConfig({ coldProofDurationHours: roundDuration(sliderValueToDuration(v)) })}
+                          onChange={(v) => onUpdateConfig({ coldProofDurationHours: roundDuration(sliderValueToDuration(v)) })}
                           accent="accent-cyan-400"
+                          valueFormatter={(sliderVal) => formatDurationDisplay(sliderValueToDuration(sliderVal))}
+                          valueClassName="text-cyan-400"
                         />
                       </div>
                     )}
@@ -271,7 +266,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       <RangeField
                         label={t('finalProof')}
                         value={finalProofMinutes}
-                        min={30}
+                        min={0}
                         max={180}
                         step={5}
                         onChange={(value) => onUpdateConfig({ finalProofDurationMinutes: Math.round(value) })}

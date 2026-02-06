@@ -76,8 +76,8 @@ export const calculateFermentationTimes = (config: BakerConfig): { bulkMins: num
   const totalWarmMins = bulkWarmRemaining + proofWarmRemaining;
 
   // Final proof duration slider (minutes) clamped to allowed range
-  const requestedProofMinutes = Math.round(config.finalProofDurationMinutes || 90);
-  const proofSetting = Math.min(180, Math.max(30, requestedProofMinutes));
+  const requestedProofMinutes = Math.round(config.finalProofDurationMinutes ?? 90);
+  const proofSetting = Math.min(180, Math.max(0, requestedProofMinutes));
   const proofMins = Math.min(totalWarmMins, proofSetting);
   const bulkMins = Math.max(0, totalWarmMins - proofMins);
 

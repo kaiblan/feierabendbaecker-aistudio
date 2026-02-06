@@ -51,9 +51,9 @@ This means each cold minute contributes a scaled amount of warm fermentation tim
 
 ## Final proof slider override
 
-The UI exposes a `RangeField` (30–180 minutes, 5-minute steps) that writes to `finalProofDurationMinutes`. The code rounds the stored value (which matches the slider’s own granularity) and clamps it to the inclusive range before computing how much of the warm budget is dedicated to proof. That process is:
+The UI exposes a `RangeField` (0–180 minutes, 5-minute steps) that writes to `finalProofDurationMinutes`. The code rounds the stored value (which matches the slider’s own granularity) and clamps it to the inclusive range before computing how much of the warm budget is dedicated to proof. That process is:
 
-1. Clamp the requested value to the slider’s range, so the code never tries to schedule less than 30 min or more than 180 min of room-temperature proof:
+1. Clamp the requested value to the slider’s range, so the code never tries to schedule a negative value or more than 180 min of room-temperature proof:
 	$$
 		ext{proofSetting} = \text{clamp}(30\text{ min}, \text{finalProofDurationMinutes}, 180\text{ min})
 	$$
