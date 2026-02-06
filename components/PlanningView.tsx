@@ -179,9 +179,9 @@ const PlanningView: React.FC<PlanningViewProps> = ({
 
                     <RangeField
                       label={t('doughTemperature')}
-                      value={config.targetTemp}
-                      min={18}
-                      max={32}
+                        value={config.targetTemp}
+                        min={18}
+                        max={27}
                       step={0.5}
                       onChange={(v) => onUpdateConfig({ targetTemp: v })}
                       accent="accent-amber-500"
