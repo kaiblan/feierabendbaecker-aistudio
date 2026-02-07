@@ -21,7 +21,7 @@ export const Slider: React.FC<SliderProps> = ({ min = 0, max = 100, step = 1, va
   const pct = max > min ? ((value - min) / (max - min)) * 100 : 0;
 
   return (
-    <div className={`relative flex items-center ${className}`}>
+    <div className={`relative flex items-center py-2 ${className}`}>
       <input
         type="range"
         min={min}
