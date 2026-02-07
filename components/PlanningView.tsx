@@ -111,13 +111,13 @@ const PlanningView: React.FC<PlanningViewProps> = ({
           {/* Main planning UI */}
               <Card variant="default" className="order-1 lg:order-3 lg:col-span-2 w-full p-4 flex flex-col space-y-3">
                 <div className="flex justify-between items-center">
-                  <Headline color="text-primary">{t('sessionTiming')}</Headline>
+                  <Headline color="text-white" className="text-xl">{t('sessionTiming')}</Headline>
                 </div>
                 <p className="text-muted text-sm whitespace-pre-wrap">{t('planYourBake')}</p>
 
                 <div className="grid grid-cols-2 gap-3">
                   <button onClick={handleSelectForward} className={`rounded-lg border transition-all text-left ${planningMode === 'forward' ? 'border-emerald-500 bg-slate-900' : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 cursor-pointer'}`}>
-                      <div className={`w-full text-sm py-1.5 mono text-center transition-all ${planningMode === 'forward' ? 'text-white' : 'text-muted'}`}>{t('forward')}</div>
+                      <div className={`w-full text-sm py-1.5 font-sans text-center transition-all ${planningMode === 'forward' ? 'text-white' : 'text-muted'}`}>{t('forward')}</div>
                     <div className="px-2 pb-2">
                       <div className="text-sm text-muted mono mb-1 text-center">{t('startTime')}</div>
                       <div className="relative">
@@ -138,7 +138,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   </button>
                   
                   <button onClick={handleSelectBackward} className={`rounded-lg border transition-all text-left ${planningMode === 'backward' ? 'border-emerald-500 bg-slate-900' : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 cursor-pointer'}`}>
-                    <div className={`w-full text-sm py-1.5 mono text-center transition-all ${planningMode === 'backward' ? 'text-white' : 'text-muted'}`}>{t('backward')}</div>
+                    <div className={`w-full text-sm py-1.5 font-sans text-center transition-all ${planningMode === 'backward' ? 'text-white' : 'text-muted'}`}>{t('backward')}</div>
                     <div className="px-2 pb-2">
                       <div className="text-sm text-muted mono mb-1 text-center">{t('readyTime')}</div>
                       <div className="relative">
@@ -160,8 +160,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                 </div>
               </Card>
 
-              <Card variant="default" className="order-2 lg:order-1 lg:col-span-4 w-full space-y-6">
-                <Headline color="text-accent" className="border-b border-slate-800 pb-3">{t('basicFactors')}</Headline>
+              <Card variant="default" className="order-2 lg:order-1 lg:col-span-4 w-full p-4 space-y-6">
+                <Headline color="text-white" className="text-xl border-b border-slate-800 pb-3">{t('basicFactors')}</Headline>
                 <div className="grid grid-cols-1 gap-8 items-start">
                   <div className="space-y-4">
                     <RangeField
@@ -203,7 +203,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
               </Card>
 
               <Card variant="default" className="order-3 lg:order-2 lg:col-span-4 w-full space-y-4">
-                <Headline color="text-blue-500" className="border-b border-slate-800 pb-3">{t('additionalSteps')}</Headline>
+                <Headline color="text-white" className="text-xl border-b border-slate-800 pb-3">{t('additionalSteps')}</Headline>
                 <div className="space-y-3">
                   <div className="bg-slate-950/60 px-3 pt-4 pb-2 rounded-xl border border-slate-800 space-y-2">
                     <div className="flex justify-between items-center">

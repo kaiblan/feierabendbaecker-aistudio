@@ -10,7 +10,7 @@ interface HeadlineProps {
 const Headline: React.FC<HeadlineProps> = ({ children, color = 'text-slate-400', className = '', as = 'h3' }) => {
   const Tag = as as any;
   return (
-    <Tag className={`text-base font-bold mono uppercase tracking-widest ${color} ${className}`.trim()}>
+    <Tag className={`text-base font-bold tracking-widest ${color} ${className}`.trim()}>
       {children}
     </Tag>
   );
