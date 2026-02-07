@@ -1,0 +1,31 @@
+input.custom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0;
+  height: 0;
+  background: transparent;
+  border: 0;
+}
+input.custom-range::-moz-range-thumb {
+  width: 0;
+  height: 0;
+  background: transparent;
+  border: 0;
+}
+input.custom-range::-ms-thumb {
+  width: 0;
+  height: 0;
+  background: transparent;
+  border: 0;
+}
+/* keep track accessible; ensure focus styles are subtle */
+input.custom-range:focus {
+  outline: none;
+}
+/* Ensure the input element is a block-level element so absolute thumb centers correctly */
+input.custom-range {
+  display: block;
+  padding: 0;
+  margin: 0;
+  background-repeat: no-repeat;
+}

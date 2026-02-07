@@ -39,16 +39,19 @@ const RangeField: React.FC<RangeFieldProps> = ({
         <span className={`text-xl font-bold mono tracking-tighter ${valueClassName}`}>{formatted}</span>
       </div>
       <div className="mt-2">
-        <Slider
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={onChange}
-          accent={accent}
-          ariaLabel={ariaLabel ?? label}
-          readOnly={readOnly}
-        />
+        <div className="relative">
+          <Slider
+            min={min}
+            max={max}
+            step={step}
+            value={value}
+            onChange={onChange}
+            accent={accent}
+            ariaLabel={ariaLabel ?? label}
+            readOnly={readOnly}
+          />
+          {/* thumb rendered by Slider component now */}
+        </div>
       </div>
     </div>
   );

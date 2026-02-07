@@ -60,12 +60,7 @@ const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartN
                   onChange={(v) => updateConfig({ yeast: Number(v.toFixed(2)) })}
                   accent="accent-emerald-400"
                   readOnly={true}
-                  valueFormatter={(v) => (
-                    <span className="inline-flex items-center">
-                      <LockIcon className="inline-block align-middle w-4 h-4 mr-2 text-slate-300" aria-hidden />
-                      {v.toFixed(2)}%
-                    </span>
-                  )}
+                  valueFormatter={(v) => `${v.toFixed(2)}%`}
                   valueClassName="text-white"
                 />
               </div>
