@@ -213,7 +213,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                         onChange={(value) => onUpdateConfig(value ? { autolyseEnabled: true, autolyseDurationMinutes: config.autolyseDurationMinutes || 5 } : { autolyseEnabled: false })}
                       />
                     </div>
-                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.autolyseEnabled ? 'max-h-96 pt-2 border-t border-slate-800/50 opacity-100' : 'max-h-0 opacity-0'}`}>
+                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.autolyseEnabled ? 'max-h-96 pt-2 border-t border-slate-800/50 opacity-100' : 'max-h-0 border-t border-transparent opacity-0'}`}>
                       <div className="space-y-3">
                         <RangeField
                           label={t('duration')}
@@ -237,7 +237,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                         onChange={(value) => onUpdateConfig({ coldBulkEnabled: value })}
                       />
                     </div>
-                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.coldBulkEnabled ? 'max-h-96 pt-2 border-t border-slate-800/50 opacity-100' : 'max-h-0 opacity-0'}`}>
+                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.coldBulkEnabled ? 'max-h-96 pt-2 border-t border-slate-800/50 opacity-100' : 'max-h-0 border-t border-transparent opacity-0'}`}>
                       <div className="space-y-3">
                         <RangeField
                           label={t('duration')}
@@ -261,7 +261,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                         onChange={(value) => onUpdateConfig({ coldProofEnabled: value })}
                       />
                     </div>
-                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.coldProofEnabled ? 'max-h-96 pt-2 border-t border-slate-800/50 opacity-100' : 'max-h-0 opacity-0'}`}>
+                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.coldProofEnabled ? 'max-h-96 pt-2 border-t border-slate-800/50 opacity-100' : 'max-h-0 border-t border-transparent opacity-0'}`}>
                       <div className="space-y-3">
                         <RangeField
                           label={t('duration')}
@@ -277,7 +277,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       </div>
                     </div>
                   </div>
-                  <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.coldBulkEnabled || config.coldProofEnabled ? 'max-h-48 pt-3 border-t border-slate-700/50 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.coldBulkEnabled || config.coldProofEnabled ? 'max-h-48 pt-3 border-t border-slate-700/50 opacity-100' : 'max-h-0 border-t border-transparent opacity-0'}`}>
                     <div className="space-y-4 mt-4">
                       <RangeField
                         label={t('fridgeTemperature')}
