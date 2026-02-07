@@ -50,6 +50,8 @@ export const useBakeSchedule = ({
     } else {
       start = new Date(anchorDate.getTime() - totalProcessMins * 60000);
     }
+    // Normalize start to the nearest minute to avoid fractional-second drift
+    start = new Date(Math.round(start.getTime() / 60000) * 60000);
 
     const steps: Array<{ type: string; label: string; min: number; active: boolean; cold: boolean }> = [];
 
@@ -89,14 +91,20 @@ export const useBakeSchedule = ({
       const stepEnd = addMinutesToDate(stepStart, step.min);
       currentCursor = stepEnd.getTime();
 
+      // Round step start/end to nearest minute for consistent display
+      const roundedStart = new Date(Math.round(stepStart.getTime() / 60000) * 60000);
+      const roundedEnd = new Date(Math.round(stepEnd.getTime() / 60000) * 60000);
+
       return {
         ...step,
-        startStr: formatDateAsTime(stepStart),
-        endStr: formatDateAsTime(stepEnd),
+        startStr: formatDateAsTime(roundedStart),
+        endStr: formatDateAsTime(roundedEnd),
       };
     });
 
-    const end = new Date(currentCursor);
+    let end = new Date(currentCursor);
+    // Normalize end to the nearest minute as well
+    end = new Date(Math.round(end.getTime() / 60000) * 60000);
 
     return {
       scheduleWithTimes: resultSteps,
