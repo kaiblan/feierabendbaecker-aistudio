@@ -173,7 +173,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       onChange={(v) => onUpdateConfig({ yeast: v })}
                       accent="accent-cyan-500"
                       valueFormatter={(v) => v.toFixed(2) + '%'}
-                      valueClassName="text-emerald-400"
+                      valueClassName="text-white"
                     />
 
                     <RangeField
@@ -196,7 +196,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       onChange={(value) => onUpdateConfig({ finalProofDurationMinutes: Math.round(value) })}
                       accent="accent-cyan-400"
                       valueFormatter={(value) => formatMinutesDisplay(value)}
-                      valueClassName="text-cyan-400"
+                      valueClassName="text-white"
                     />
                   </div>
                 </div>
@@ -224,7 +224,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                           onChange={(value) => onUpdateConfig({ autolyseDurationMinutes: Math.round(value) })}
                           accent="accent-cyan-400"
                           valueFormatter={(value) => formatMinutesDisplay(value)}
-                          valueClassName="text-accent"
+                          valueClassName="text-white"
                         />
                       </div>
                     </div>
@@ -248,7 +248,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                           onChange={(v) => onUpdateConfig({ coldBulkDurationHours: roundDuration(sliderValueToDuration(v)) })}
                           accent="accent-cyan-400"
                           valueFormatter={(sliderVal) => formatDurationDisplay(sliderValueToDuration(sliderVal))}
-                          valueClassName="text-cyan-400"
+                          valueClassName="text-white"
                         />
                       </div>
                     </div>
@@ -272,7 +272,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                           onChange={(v) => onUpdateConfig({ coldProofDurationHours: roundDuration(sliderValueToDuration(v)) })}
                           accent="accent-cyan-400"
                           valueFormatter={(sliderVal) => formatDurationDisplay(sliderValueToDuration(sliderVal))}
-                          valueClassName="text-cyan-400"
+                          valueClassName="text-white"
                         />
                       </div>
                     </div>

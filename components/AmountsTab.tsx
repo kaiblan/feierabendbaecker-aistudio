@@ -31,6 +31,7 @@ const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartN
                   onChange={(v) => updateConfig({ totalFlour: Math.round(v) })}
                   accent="accent-cyan-400"
                   valueFormatter={(v) => Math.round(v) + 'g'}
+                  valueClassName="text-white"
                 />
               </div>
 
@@ -44,6 +45,7 @@ const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartN
                   onChange={(v) => updateConfig({ hydration: Math.round(v) })}
                   accent="accent-cyan-400"
                   valueFormatter={(v) => Math.round(v) + '%'}
+                  valueClassName="text-white"
                 />
               </div>
 
@@ -58,6 +60,7 @@ const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartN
                   accent="accent-emerald-400"
                   readOnly={true}
                   valueFormatter={(v) => `🔒 ${v.toFixed(2)}%`}
+                  valueClassName="text-white"
                 />
               </div>
 
@@ -69,8 +72,9 @@ const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartN
                   max={5}
                   step={0.1}
                   onChange={(v) => updateConfig({ salt: Number(v.toFixed(1)) })}
-                  accent="accent-amber-400"
+                  accent="accent-cyan-400"
                   valueFormatter={(v) => v.toFixed(1) + '%'}
+                  valueClassName="text-white"
                 />
               </div>
 
@@ -81,27 +85,27 @@ const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartN
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-base text-slate-400">{t('totalFlour')}</span>
-                <span className="text-lg font-black mono">{Math.round(session.config.totalFlour)}g</span>
+                <span className="text-lg font-black mono text-white">{Math.round(session.config.totalFlour)}g</span>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-base text-slate-400">{t('water')}</span>
-                <span className="text-lg font-black mono">{Math.round(session.config.totalFlour * session.config.hydration / 100)}g</span>
+                <span className="text-lg font-black mono text-white">{Math.round(session.config.totalFlour * session.config.hydration / 100)}g</span>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-base text-slate-400">{t('yeast')}</span>
-                <span className="text-lg font-black mono">{(session.config.totalFlour * (session.config.yeast / 100)).toFixed(1)}g</span>
+                <span className="text-lg font-black mono text-white">{(session.config.totalFlour * (session.config.yeast / 100)).toFixed(1)}g</span>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-base text-slate-400">{t('salt')}</span>
-                <span className="text-lg font-black mono">{(session.config.totalFlour * (session.config.salt / 100)).toFixed(1)}g</span>
+                <span className="text-lg font-black mono text-white">{(session.config.totalFlour * (session.config.salt / 100)).toFixed(1)}g</span>
               </div>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-base text-slate-400">
               <span className="tracking-widest">{t('totalBatchWeight')}</span>
-              <span className="text-lg font-black mono">{(session.config.totalFlour * (1 + (session.config.hydration + session.config.yeast + session.config.salt) / 100)).toFixed(0)}g</span>
+              <span className="text-lg font-black mono text-white">{(session.config.totalFlour * (1 + (session.config.hydration + session.config.yeast + session.config.salt) / 100)).toFixed(0)}g</span>
             </div>
           </Card>
 
