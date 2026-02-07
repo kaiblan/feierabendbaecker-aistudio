@@ -6,6 +6,7 @@ import { sliderValueToDuration, durationToSliderValue, formatDurationDisplay, fo
 import { Card } from './Card';
 import Slider from './Slider';
 import RangeField from './RangeField';
+import ToggleSwitch from './ToggleSwitch';
 
 interface PlanningViewProps {
   config: BakerConfig;
@@ -207,11 +208,9 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   <div className="bg-slate-950/60 px-3 pt-4 pb-2 rounded-xl border border-slate-800 space-y-2">
                     <div className="flex justify-between items-center">
                       <label className="text-base text-slate-300">{t('autolyse')}</label>
-                      <input
-                        type="checkbox"
+                      <ToggleSwitch
                         checked={config.autolyseEnabled}
-                        onChange={e => onUpdateConfig(e.target.checked ? { autolyseEnabled: true, autolyseDurationMinutes: config.autolyseDurationMinutes || 5 } : { autolyseEnabled: false })}
-                        className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer"
+                        onChange={(value) => onUpdateConfig(value ? { autolyseEnabled: true, autolyseDurationMinutes: config.autolyseDurationMinutes || 5 } : { autolyseEnabled: false })}
                       />
                     </div>
                     <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.autolyseEnabled ? 'max-h-96 pt-2 border-t border-slate-800/50 opacity-100' : 'max-h-0 opacity-0'}`}>
@@ -233,7 +232,10 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   <div className="bg-slate-950/60 px-3 pt-4 pb-2 rounded-xl border border-slate-800 space-y-2">
                     <div className="flex justify-between items-center">
                       <label className="text-base text-slate-300">{t('coldBulk')}</label>
-                      <input type="checkbox" checked={config.coldBulkEnabled} onChange={e => onUpdateConfig({ coldBulkEnabled: e.target.checked })} className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer" />
+                      <ToggleSwitch
+                        checked={config.coldBulkEnabled}
+                        onChange={(value) => onUpdateConfig({ coldBulkEnabled: value })}
+                      />
                     </div>
                     <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.coldBulkEnabled ? 'max-h-96 pt-2 border-t border-slate-800/50 opacity-100' : 'max-h-0 opacity-0'}`}>
                       <div className="space-y-3">
@@ -254,7 +256,10 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                   <div className="bg-slate-950/60 px-3 pt-4 pb-2 rounded-xl border border-slate-800 space-y-2">
                     <div className="flex justify-between items-center">
                       <label className="text-base text-slate-300">{t('coldProof')}</label>
-                      <input type="checkbox" checked={config.coldProofEnabled} onChange={e => onUpdateConfig({ coldProofEnabled: e.target.checked })} className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer" />
+                      <ToggleSwitch
+                        checked={config.coldProofEnabled}
+                        onChange={(value) => onUpdateConfig({ coldProofEnabled: value })}
+                      />
                     </div>
                     <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.coldProofEnabled ? 'max-h-96 pt-2 border-t border-slate-800/50 opacity-100' : 'max-h-0 opacity-0'}`}>
                       <div className="space-y-3">
