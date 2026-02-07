@@ -11,7 +11,7 @@ interface RangeFieldProps {
   accent?: string;
   readOnly?: boolean;
   className?: string;
-  valueFormatter?: (v: number) => string;
+  valueFormatter?: (v: number) => React.ReactNode;
   valueClassName?: string;
   ariaLabel?: string;
 }
@@ -30,7 +30,7 @@ const RangeField: React.FC<RangeFieldProps> = ({
   valueClassName = 'text-emerald-400',
   ariaLabel,
 }) => {
-  const formatted = valueFormatter ? valueFormatter(value) : Number.isInteger(value) ? `${value}` : `${value}`;
+  const formatted: React.ReactNode = valueFormatter ? valueFormatter(value) : Number.isInteger(value) ? `${value}` : `${value}`;
 
   return (
     <div className={className}>
