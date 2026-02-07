@@ -40,7 +40,6 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     startsAt: 'Starts At',
     // Basic Factors
     basicFactors: 'Basic Factors',
-    fermentationBalance: 'Fermentation Balance',
     yeastPercentage: 'Yeast Percentage',
     doughTemperature: 'Dough Temperature',
     // Additional Steps
@@ -120,8 +119,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     readyBy: 'Fertig Um',
     startsAt: 'Beginn Um',
     // Basic Factors
-    basicFactors: 'Gärungsparameter',
-    fermentationBalance: 'Gärungsbalance',
+    basicFactors: 'Grundparameter',
     yeastPercentage: 'Hefe',
     doughTemperature: 'Teigtemperatur',
     // Additional Steps

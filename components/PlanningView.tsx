@@ -186,6 +186,17 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       valueFormatter={(v) => v.toFixed(1) + '°C'}
                       valueClassName="text-amber-400"
                     />
+                    <RangeField
+                      label={t('finalProof')}
+                      value={finalProofMinutes}
+                      min={0}
+                      max={180}
+                      step={5}
+                      onChange={(value) => onUpdateConfig({ finalProofDurationMinutes: Math.round(value) })}
+                      accent="accent-cyan-400"
+                      valueFormatter={(value) => formatMinutesDisplay(value)}
+                      valueClassName="text-cyan-400"
+                    />
                   </div>
                 </div>
               </Card>
@@ -261,34 +272,23 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       </div>
                     )}
                   </div>
-                  <div className="pt-3 border-t border-slate-700/50">
-                    <div className="space-y-4">
-                      <RangeField
-                        label={t('finalProof')}
-                        value={finalProofMinutes}
-                        min={0}
-                        max={180}
-                        step={5}
-                        onChange={(value) => onUpdateConfig({ finalProofDurationMinutes: Math.round(value) })}
-                        accent="accent-cyan-400"
-                        valueFormatter={(value) => formatMinutesDisplay(value)}
-                        valueClassName="text-cyan-400"
-                      />
+                  {(config.coldBulkEnabled || config.coldProofEnabled) && (
+                    <div className="pt-3 border-t border-slate-700/50">
+                      <div className="space-y-4 mt-4">
+                        <RangeField
+                          label={t('fridgeTemperature')}
+                          value={config.fridgeTemp}
+                          min={0}
+                          max={10}
+                          step={0.5}
+                          onChange={v => onUpdateConfig({ fridgeTemp: v })}
+                          accent="accent-cyan-400"
+                          valueFormatter={(v) => v.toFixed(1) + '°C'}
+                          valueClassName="text-cyan-400"
+                        />
+                      </div>
                     </div>
-                    <div className="space-y-4 mt-4">
-                      <RangeField
-                        label={t('fridgeTemperature')}
-                        value={config.fridgeTemp}
-                        min={0}
-                        max={10}
-                        step={0.5}
-                        onChange={v => onUpdateConfig({ fridgeTemp: v })}
-                        accent="accent-cyan-400"
-                        valueFormatter={(v) => v.toFixed(1) + '°C'}
-                        valueClassName="text-cyan-400"
-                      />
-                    </div>
-                  </div>
+                  )}
                 </div>
               </Card>
         </div>
