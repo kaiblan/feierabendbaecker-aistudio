@@ -204,7 +204,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
               <Card variant="default" className="order-3 lg:order-2 lg:col-span-4 w-full space-y-4">
                 <Headline color="text-blue-500" className="border-b border-slate-800 pb-3">{t('additionalSteps')}</Headline>
                 <div className="space-y-3">
-                  <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-3">
+                  <div className="bg-slate-950/60 px-3 pt-4 pb-2 rounded-xl border border-slate-800 space-y-2">
                     <div className="flex justify-between items-center">
                       <label className="text-base text-slate-300">{t('autolyse')}</label>
                       <input
@@ -214,31 +214,31 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                         className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer"
                       />
                     </div>
-                    {config.autolyseEnabled && (
-                        <div className="space-y-3 pt-2 border-t border-slate-800/50">
-                          <RangeField
-                            label={t('autolyse')}
-                            value={config.autolyseDurationMinutes ?? 5}
-                            min={5}
-                            max={120}
-                            step={5}
-                            onChange={(value) => onUpdateConfig({ autolyseDurationMinutes: Math.round(value) })}
-                            accent="accent-cyan-400"
-                            valueFormatter={(value) => formatMinutesDisplay(value)}
-                            valueClassName="text-accent"
-                          />
-                        </div>
-                      )}
+                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.autolyseEnabled ? 'max-h-96 pt-2 border-t border-slate-800/50 opacity-100' : 'max-h-0 opacity-0'}`}>
+                      <div className="space-y-3">
+                        <RangeField
+                          label={t('duration')}
+                          value={config.autolyseDurationMinutes ?? 5}
+                          min={5}
+                          max={120}
+                          step={5}
+                          onChange={(value) => onUpdateConfig({ autolyseDurationMinutes: Math.round(value) })}
+                          accent="accent-cyan-400"
+                          valueFormatter={(value) => formatMinutesDisplay(value)}
+                          valueClassName="text-accent"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-3">
+                  <div className="bg-slate-950/60 px-3 pt-4 pb-2 rounded-xl border border-slate-800 space-y-2">
                     <div className="flex justify-between items-center">
                       <label className="text-base text-slate-300">{t('coldBulk')}</label>
                       <input type="checkbox" checked={config.coldBulkEnabled} onChange={e => onUpdateConfig({ coldBulkEnabled: e.target.checked })} className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer" />
                     </div>
-                    {config.coldBulkEnabled && (
-                      <div className="space-y-3 pt-2 border-t border-slate-800/50">
+                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.coldBulkEnabled ? 'max-h-96 pt-2 border-t border-slate-800/50 opacity-100' : 'max-h-0 opacity-0'}`}>
+                      <div className="space-y-3">
                         <RangeField
-                          label={t('coldBulkDuration')}
+                          label={t('duration')}
                           value={durationToSliderValue(config.coldBulkDurationHours)}
                           min={0}
                           max={100}
@@ -249,17 +249,17 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                           valueClassName="text-cyan-400"
                         />
                       </div>
-                    )}
+                    </div>
                   </div>
-                  <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-3">
+                  <div className="bg-slate-950/60 px-3 pt-4 pb-2 rounded-xl border border-slate-800 space-y-2">
                     <div className="flex justify-between items-center">
                       <label className="text-base text-slate-300">{t('coldProof')}</label>
                       <input type="checkbox" checked={config.coldProofEnabled} onChange={e => onUpdateConfig({ coldProofEnabled: e.target.checked })} className="w-5 h-5 rounded border-slate-700 bg-slate-900 text-blue-500 cursor-pointer" />
                     </div>
-                    {config.coldProofEnabled && (
-                      <div className="space-y-3 pt-2 border-t border-slate-800/50">
+                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.coldProofEnabled ? 'max-h-96 pt-2 border-t border-slate-800/50 opacity-100' : 'max-h-0 opacity-0'}`}>
+                      <div className="space-y-3">
                         <RangeField
-                          label={t('coldProofDuration')}
+                          label={t('duration')}
                           value={durationToSliderValue(config.coldProofDurationHours)}
                           min={0}
                           max={100}
@@ -270,25 +270,23 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                           valueClassName="text-cyan-400"
                         />
                       </div>
-                    )}
-                  </div>
-                  {(config.coldBulkEnabled || config.coldProofEnabled) && (
-                    <div className="pt-3 border-t border-slate-700/50">
-                      <div className="space-y-4 mt-4">
-                        <RangeField
-                          label={t('fridgeTemperature')}
-                          value={config.fridgeTemp}
-                          min={0}
-                          max={10}
-                          step={0.5}
-                          onChange={v => onUpdateConfig({ fridgeTemp: v })}
-                          accent="accent-cyan-400"
-                          valueFormatter={(v) => v.toFixed(1) + '°C'}
-                          valueClassName="text-cyan-400"
-                        />
-                      </div>
                     </div>
-                  )}
+                  </div>
+                  <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.coldBulkEnabled || config.coldProofEnabled ? 'max-h-48 pt-3 border-t border-slate-700/50 opacity-100' : 'max-h-0 opacity-0'}`}>
+                    <div className="space-y-4 mt-4">
+                      <RangeField
+                        label={t('fridgeTemperature')}
+                        value={config.fridgeTemp}
+                        min={0}
+                        max={10}
+                        step={0.5}
+                        onChange={v => onUpdateConfig({ fridgeTemp: v })}
+                        accent="accent-cyan-400"
+                        valueFormatter={(v) => v.toFixed(1) + '°C'}
+                        valueClassName="text-cyan-400"
+                      />
+                    </div>
+                  </div>
                 </div>
               </Card>
         </div>
