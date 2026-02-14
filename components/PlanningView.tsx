@@ -203,6 +203,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
 
               <Card variant="default" className="order-3 lg:order-2 lg:col-span-4 w-full space-y-4">
                 <Headline color="text-white" className="text-xl border-b border-slate-800 pb-3">{t('additionalSteps')}</Headline>
+                <p className="text-muted text-sm whitespace-pre-wrap">Aktiviere zusätzliche Verarbeitungsschritte, um noch flexibler zu planen.</p>
                 <div className="space-y-3">
                   <div className="bg-slate-950/60 px-3 pt-4 pb-2 rounded-xl border border-slate-800 space-y-2">
                     <div className="flex justify-between items-center">
