@@ -41,9 +41,9 @@ export const getStageDefinitions = (
   }
 
   stages.push({
-    type: 'mixing',
-    stageType: StageType.MIXING,
-    label: translateFn('mixing'),
+    type: 'kneading',
+    stageType: StageType.KNEADING,
+    label: translateFn('kneading'),
     durationMinutes: 15,
     isActive: true,
     isCold: false,

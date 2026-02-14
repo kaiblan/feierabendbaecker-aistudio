@@ -79,7 +79,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     amounts: 'Amounts',
     // Stage Names
     autolyse: 'Autolyse',
-    mixing: 'Mixing',
+    kneading: 'Kneading',
     folds: 'Folds',
     bulkFerment: 'Bulk Ferment',
     shaping: 'Shaping',
@@ -169,7 +169,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     amounts: 'Mengen',
     // Stage Names
     autolyse: 'Autolyse',
-    mixing: 'Mischen',
+    kneading: 'Kneten',
     folds: 'Dehnen & Falten',
     bulkFerment: 'Stockgare',
     shaping: 'Formen',
