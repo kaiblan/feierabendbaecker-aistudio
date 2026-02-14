@@ -12,7 +12,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary: 'group relative px-10 md:px-16 py-4 text-white font-bold bg-cyan-600 hover:bg-cyan-500 shadow-2xl active:scale-95 flex items-center space-x-6 overflow-hidden z-10 shadow-cyan-900/40 tracking-[0.2em]',
-  secondary: 'px-8 md:px-12 py-4 text-slate-300 font-bold border-2 border-slate-700 hover:border-slate-600 hover:bg-slate-800/50 tracking-[0.2em]',
+  secondary: 'px-8 md:px-12 py-4 text-slate-300 font-bold border-2 border-slate-700 hover:border-slate-600 hover:bg-slate-800/50 active:scale-95 active:bg-slate-800/60 active:border-slate-600 tracking-[0.2em]',
   ghost: 'text-muted hover:text-white hover:bg-slate-800',
   outline: 'border border-surface text-muted hover:border-slate-600 hover:bg-slate-900'
 };
