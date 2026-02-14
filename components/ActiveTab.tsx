@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { BakerSession } from '../types';
 import { Button } from './Button';
 import { Card } from './Card';
@@ -24,6 +25,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
 }) => {
   const { t } = useLanguage();
   const prevTimeLeft = useRef<number>(timeLeft);
+  const [isCancelOpen, setIsCancelOpen] = useState(false);
 
   // Request notification permission on mount
   useEffect(() => {
@@ -141,7 +143,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
           </div>
         </Card>
 
-        <Card variant="subtle" className="flex flex-col justify-between">
+        <Card variant="subtle" className="flex flex-col justify-center items-center text-center px-8 py-6">
           <div>
             <Headline color="text-muted" className="mb-4">{t('upcoming')}</Headline>
               <div className="text-lg font-bold text-white">
@@ -152,7 +154,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
                   let start: Date | null = null;
                   if (next.startTime) start = new Date(next.startTime);
                   else if (next.stageEndTime) start = new Date(new Date(next.stageEndTime).getTime() - next.durationMinutes * 60000);
-                  if (start) return `${t('nextAt')} ${formatDateAsTime(start)}`;
+                  if (start) return `${next.label} · ${formatDateAsTime(start)}`;
                   return next.label;
                 })()}
               </div>
@@ -173,6 +175,41 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
           />
         </div>
       </section>
+      <div className="flex justify-center mt-6">
+        <Button
+          variant="secondary"
+          size="md"
+          onClick={() => setIsCancelOpen(true)}
+          className="w-64"
+        >
+          {t('cancelSession')}
+        </Button>
+      </div>
+
+      {isCancelOpen && createPortal(
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/60" onClick={() => setIsCancelOpen(false)} />
+          <div className="relative bg-slate-900 rounded-lg p-6 w-full max-w-md border border-slate-700">
+            <h3 className="text-lg font-bold mb-3">{t('cancelSession')}</h3>
+            <p className="text-slate-300 mb-6">{t('cancelSessionConfirm')}</p>
+            <div className="flex justify-end space-x-3">
+              <Button variant="secondary" size="md" onClick={() => setIsCancelOpen(false)}>{t('resumeSession')}</Button>
+              <Button
+                variant="primary"
+                size="md"
+                onClick={() => {
+                  setSession({ ...session, status: 'planning', activeStageIndex: 0 });
+                  setTimeLeft(0);
+                  setIsCancelOpen(false);
+                }}
+              >
+                {t('cancelSession')}
+              </Button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 };
