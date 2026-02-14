@@ -15,6 +15,8 @@ export const computeSequentialStages = (
     const dur = updatedStages[i].durationMinutes || 0;
     updatedStages[i].startTime = new Date(cursor);
     updatedStages[i].stageEndTime = new Date(cursor.getTime() + dur * 60000);
+    // Reset completion state for stages that are recomputed and set active flag
+    updatedStages[i].completed = false;
     updatedStages[i].isActive = i === startIdx;
     cursor = new Date(updatedStages[i].stageEndTime as Date);
   }
