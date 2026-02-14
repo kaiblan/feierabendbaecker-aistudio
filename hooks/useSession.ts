@@ -4,7 +4,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { BakerSession, BakerConfig, StageType } from '../types';
-import { generateBakingStages } from '../services/bakerService';
+import { generateBakingStages, calculateSessionDuration } from '../services/bakerService';
 import { computeSequentialStages } from '../utils/sessionUtils';
 
 interface UseSessionProps {
@@ -146,12 +146,22 @@ export const useSession = ({ initialConfig, translateFn }: UseSessionProps) => {
   }, []);
 
   const transitionToActive = useCallback(() => {
-    setSession((prev) => ({
-      ...prev,
-      status: 'active',
-      activeStageIndex: 0,
-    }));
-  }, []);
+    setSession((prev) => {
+      const now = new Date();
+      // regenerate fresh stages from current config and translateFn
+      const freshStages = generateBakingStages(prev.config, translateFn);
+      const computed = computeSequentialStages(freshStages, 0, now);
+      const totalMins = calculateSessionDuration(prev.config);
+      return {
+        ...prev,
+        status: 'active',
+        activeStageIndex: 0,
+        startTime: now,
+        targetEndTime: new Date(now.getTime() + totalMins * 60000),
+        stages: computed,
+      };
+    });
+  }, [translateFn]);
 
   const completeSession = useCallback(() => {
     setSession((prev) => ({ ...prev, status: 'completed' }));
