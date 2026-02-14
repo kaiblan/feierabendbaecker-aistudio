@@ -6,12 +6,13 @@ type ButtonSize = 'sm' | 'md' | 'lg';
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
+  shimmer?: boolean;
   children: React.ReactNode;
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: 'bg-primary text-white hover:brightness-110 shadow-lg',
-  secondary: 'bg-surface text-white hover:bg-slate-600',
+  primary: 'group relative px-10 md:px-16 py-4 text-white font-bold bg-cyan-600 hover:bg-cyan-500 shadow-2xl active:scale-95 flex items-center space-x-6 overflow-hidden z-10 shadow-cyan-900/40 tracking-[0.2em]',
+  secondary: 'px-8 md:px-12 py-4 text-slate-300 font-bold border-2 border-slate-700 hover:border-slate-600 hover:bg-slate-800/50 tracking-[0.2em]',
   ghost: 'text-muted hover:text-white hover:bg-slate-800',
   outline: 'border border-surface text-muted hover:border-slate-600 hover:bg-slate-900'
 };
@@ -28,6 +29,7 @@ export const Button: React.FC<ButtonProps> = ({
   className = '', 
   children, 
   disabled,
+  shimmer = false,
   ...props 
 }) => {
   const baseStyles = 'font-bold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed';
@@ -39,6 +41,9 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
       {...props}
     >
+      {shimmer && (
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
+      )}
       {children}
     </button>
   );

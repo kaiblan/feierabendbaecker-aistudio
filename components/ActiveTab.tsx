@@ -97,25 +97,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
               style={{ width: `${(1 - timeLeft / ((session.stages[session.activeStageIndex]?.durationMinutes || 1) * 60)) * 100}%` }}
             />
           </div>
-        </Card>
-
-        <Card variant="subtle" className="flex flex-col justify-between">
-          <div>
-            <Headline color="text-muted" className="mb-4">{t('upcoming')}</Headline>
-              <div className="text-lg font-bold text-white">
-                {(() => {
-                  const next = session.stages[session.activeStageIndex + 1];
-                  if (!next) return t('sessionEnd');
-                  // determine start time if available
-                  let start: Date | null = null;
-                  if (next.startTime) start = new Date(next.startTime);
-                  else if (next.stageEndTime) start = new Date(new Date(next.stageEndTime).getTime() - next.durationMinutes * 60000);
-                  if (start) return `${t('nextAt')} ${formatDateAsTime(start)}`;
-                  return next.label;
-                })()}
-              </div>
-          </div>
-          <div className="space-y-2">
+          <div className="mt-6 w-full">
             <Button
                 onClick={() => {
                   const currentIdx = session.activeStageIndex;
@@ -152,11 +134,30 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
                 }}
               variant="primary"
               size="lg"
-              className="w-full tracking-widest text-base"
+              className="mx-auto w-auto px-6 tracking-widest text-base"
             >
               {t('completeAndAdvance')}
             </Button>
           </div>
+        </Card>
+
+        <Card variant="subtle" className="flex flex-col justify-between">
+          <div>
+            <Headline color="text-muted" className="mb-4">{t('upcoming')}</Headline>
+              <div className="text-lg font-bold text-white">
+                {(() => {
+                  const next = session.stages[session.activeStageIndex + 1];
+                  if (!next) return t('sessionEnd');
+                  // determine start time if available
+                  let start: Date | null = null;
+                  if (next.startTime) start = new Date(next.startTime);
+                  else if (next.stageEndTime) start = new Date(new Date(next.stageEndTime).getTime() - next.durationMinutes * 60000);
+                  if (start) return `${t('nextAt')} ${formatDateAsTime(start)}`;
+                  return next.label;
+                })()}
+              </div>
+          </div>
+          
         </Card>
       </div>
 

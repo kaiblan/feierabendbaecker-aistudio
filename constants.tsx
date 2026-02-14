@@ -71,7 +71,6 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     cold: 'Cold',
     // Buttons & Actions
     confirmTimeline: 'Confirm Timeline & Recipe',
-    commenceTracking: 'Commence Real-Time Tracking',
     startNow: 'Start Now',
     start: 'Start Now',
     noActiveProcess: 'Choose your timing to start the process',
@@ -152,7 +151,6 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     cold: 'Kalt',
     // Buttons & Actions
     confirmTimeline: 'Mengen planen',
-    commenceTracking: 'Backverlauf Starten',
     startNow: 'Direkt Starten',
     start: 'Starten',
     noActiveProcess: 'Plane einen Ablauf, bevor Du einen Backvorgang startest',
@@ -175,7 +173,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     nextAt: 'Als Nächstes um',
     sessionComplete: 'Backvorgang abgeschlossen!',
     // Active Tab
-    workingStep: 'Arbeitsschritt',
+    workingStep: 'Gerade läuft',
     upcoming: 'Als Nächstes',
     sessionEnd: 'Sitzung Ende',
     completeAndAdvance: 'Abschließen & Weiter',
