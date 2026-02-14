@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { BakerSession } from '../types';
 import { Button } from './Button';
 import { Card } from './Card';
@@ -7,6 +6,7 @@ import ActiveTimeline from './ActiveTimeline';
 import { formatTime, formatDateAsTime } from '../utils/timeUtils';
 import { useLanguage } from './LanguageContext';
 import Headline from './Headline';
+import ConfirmationModal from './ConfirmationModal';
 
 interface ActiveTabProps {
   session: BakerSession;
@@ -186,30 +186,19 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
         </Button>
       </div>
 
-      {isCancelOpen && createPortal(
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setIsCancelOpen(false)} />
-          <div className="relative bg-slate-900 rounded-lg p-6 w-full max-w-md border border-slate-700">
-            <h3 className="text-lg font-bold mb-3">{t('cancelSession')}</h3>
-            <p className="text-slate-300 mb-6">{t('cancelSessionConfirm')}</p>
-            <div className="flex justify-end space-x-3">
-              <Button variant="secondary" size="md" onClick={() => setIsCancelOpen(false)}>{t('resumeSession')}</Button>
-              <Button
-                variant="primary"
-                size="md"
-                onClick={() => {
-                  setSession({ ...session, status: 'planning', activeStageIndex: 0 });
-                  setTimeLeft(0);
-                  setIsCancelOpen(false);
-                }}
-              >
-                {t('cancelSession')}
-              </Button>
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
+      <ConfirmationModal
+        isOpen={isCancelOpen}
+        onClose={() => setIsCancelOpen(false)}
+        onConfirm={() => {
+          setSession({ ...session, status: 'planning', activeStageIndex: 0 });
+          setTimeLeft(0);
+        }}
+        title={t('cancelSession')}
+        message={t('cancelSessionConfirm')}
+        confirmText={t('cancelSession')}
+        cancelText={t('resumeSession')}
+        isDangerous={true}
+      />
     </div>
   );
 };

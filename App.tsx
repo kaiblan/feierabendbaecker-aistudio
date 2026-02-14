@@ -11,6 +11,7 @@ import { useSession } from './hooks/useSession';
 import { useTimer } from './hooks/useTimer';
 import { useBakeSchedule } from './hooks/useBakeSchedule';
 import { addMinutesToDate, formatDateAsTime } from './utils/timeUtils';
+import ConfirmationModal from './components/ConfirmationModal';
 
 const DEFAULT_CONFIG: BakerConfig = {
   totalFlour: 1000,
@@ -40,6 +41,7 @@ const App: React.FC = () => {
   const [secondaryTab, setSecondaryTab] = useState<'timing'|'amounts'>('timing');
   const [startTimeStr, setStartTimeStr] = useState('08:00');
   const [planningMode, setPlanningMode] = useState<'forward' | 'backward'>('backward');
+  const [isActiveSessionModalOpen, setIsActiveSessionModalOpen] = useState(false);
 
   const headerRef = useRef<HTMLDivElement | null>(null);
   const timelineRef = useRef<HTMLDivElement | null>(null);
@@ -120,7 +122,40 @@ const App: React.FC = () => {
   };
 
   const handleStartNow = () => {
+    // Check if there's already an active session
+    if (session.status === 'active') {
+      setIsActiveSessionModalOpen(true);
+      return;
+    }
+
     // Compute consecutive start/end times for all stages beginning now
+    const now = new Date();
+    const computeSequential = (stages: typeof session.stages, startIdx: number, base: Date) => {
+      const out = stages.map((s) => ({ ...s }));
+      let cursor = new Date(base);
+      for (let i = startIdx; i < out.length; i++) {
+        const dur = out[i].durationMinutes || 0;
+        out[i].startTime = new Date(cursor);
+        out[i].stageEndTime = new Date(cursor.getTime() + dur * 60000);
+        cursor = new Date(out[i].stageEndTime as Date);
+      }
+      return out;
+    };
+
+    if (session.stages.length > 0) {
+      const updatedStages = computeSequential(session.stages, 0, now);
+      setSession({ ...session, stages: updatedStages });
+    }
+    transitionToActive();
+    setActiveTab('active');
+  };
+
+  const handleCancelAndStartNew = () => {
+    // Reset session to planning and start fresh
+    setSession({ ...session, status: 'planning', activeStageIndex: 0 });
+    setTimeLeft(0);
+    
+    // Start the new session
     const now = new Date();
     const computeSequential = (stages: typeof session.stages, startIdx: number, base: Date) => {
       const out = stages.map((s) => ({ ...s }));
@@ -213,6 +248,21 @@ const App: React.FC = () => {
 
         </div>
       </main>
+
+      <ConfirmationModal
+        isOpen={isActiveSessionModalOpen}
+        onClose={() => {
+          setIsActiveSessionModalOpen(false);
+          setActiveTab('active');
+        }}
+        onConfirm={handleCancelAndStartNew}
+        title={t('activeSessionDetected')}
+        message={t('activeSessionMessage')}
+        confirmText={t('cancelAndStartNew')}
+        cancelText={t('resumeCurrent')}
+        isDangerous={true}
+      />
+
       {/* Bottom navigation for small screens */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-slate-950/95 border-t border-slate-800 z-50">
         <div className="max-w-7xl mx-auto px-4">
