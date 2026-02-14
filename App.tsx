@@ -74,6 +74,13 @@ const App: React.FC = () => {
     translateFn: t,
   });
 
+  // Automatically switch to active tab if session is restored from storage
+  useEffect(() => {
+    if (session.status === 'active') {
+      setActiveTab('active');
+    }
+  }, []); // Only run on mount
+
   const currentStage = session.stages[session.activeStageIndex];
   const { timeLeft, setTimeLeft } = useTimer({
     isActive: session.status === 'active' && !currentStage?.completed,
