@@ -5,6 +5,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { BakerSession, BakerConfig, StageType } from '../types';
 import { generateBakingStages } from '../services/bakerService';
+import { computeSequentialStages } from '../utils/sessionUtils';
 
 interface UseSessionProps {
   initialConfig: BakerConfig;
@@ -115,11 +116,29 @@ export const useSession = ({ initialConfig, translateFn }: UseSessionProps) => {
     }));
   }, []);
 
-  const advanceStage = useCallback(() => {
-    setSession((prev) => ({
-      ...prev,
-      activeStageIndex: Math.min(prev.activeStageIndex + 1, prev.stages.length - 1),
-    }));
+  const advanceToNextStage = useCallback(() => {
+    setSession((prev) => {
+      const currentIdx = prev.activeStageIndex;
+      const nextIdx = currentIdx + 1;
+      const now = new Date();
+
+      // Mark current stage as completed and set its end time to now
+      let updatedStages = prev.stages.map((s, i) => {
+        if (i === currentIdx) {
+          return { ...s, completed: true, isActive: false, stageEndTime: now };
+        }
+        return { ...s };
+      });
+
+      // If there's a next stage, advance to it
+      if (nextIdx < prev.stages.length) {
+        updatedStages = computeSequentialStages(updatedStages, nextIdx, now);
+        return { ...prev, stages: updatedStages, activeStageIndex: nextIdx };
+      } else {
+        // No next stage — mark session complete
+        return { ...prev, stages: updatedStages, status: 'completed' };
+      }
+    });
   }, []);
 
   const transitionToRecipe = useCallback(() => {
@@ -142,7 +161,7 @@ export const useSession = ({ initialConfig, translateFn }: UseSessionProps) => {
     session,
     setSession,
     updateConfig,
-    advanceStage,
+    advanceToNextStage,
     transitionToRecipe,
     transitionToActive,
     completeSession,

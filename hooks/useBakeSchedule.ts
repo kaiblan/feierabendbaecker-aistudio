@@ -6,6 +6,7 @@ import { useMemo } from 'react';
 import { BakerConfig } from '../types';
 import { calculateFermentationTimes, calculateTotalProcessTime } from '../utils/bakerMath';
 import { parseTimeString, createDateWithTime, addMinutesToDate, formatDateAsTime } from '../utils/timeUtils';
+import { getStageDefinitions } from '../services/bakerService';
 
 export interface ScheduleStep {
   type: string;
@@ -53,42 +54,13 @@ export const useBakeSchedule = ({
     // Normalize start to the nearest minute to avoid fractional-second drift
     start = new Date(Math.round(start.getTime() / 60000) * 60000);
 
-    const steps: Array<{ type: string; label: string; min: number; active: boolean; cold: boolean }> = [];
-
-    if (config.autolyseEnabled) {
-      steps.push({ type: 'autolyse', label: translateFn('autolyse'), min: config.autolyseDurationMinutes || 0, active: false, cold: false });
-    }
-    steps.push({ type: 'mixing', label: translateFn('mixing'), min: 15, active: true, cold: false });
-
-    // Split bulkMins into folds and remaining bulk fermentation
-    const FOLDS_MINS = 45;
-    const warmFoldMins = Math.min(FOLDS_MINS, bulkMins);
-    const warmBulkRestMins = Math.max(0, bulkMins - warmFoldMins);
-
-    steps.push({ type: 'folds', label: translateFn('folds'), min: warmFoldMins, active: true, cold: false });
-
-    // Base bulk fermentation (room temp) - remaining after folds
-    steps.push({ type: 'bulkFerment', label: translateFn('bulkFerment'), min: warmBulkRestMins, active: false, cold: false });
-    // If cold bulk is enabled, append it after the normal bulk
-    if (coldBulkMins > 0) {
-      steps.push({ type: 'coldBulk', label: translateFn('coldBulk'), min: coldBulkMins, active: false, cold: true });
-    }
-
-    steps.push({ type: 'shaping', label: translateFn('shaping'), min: 15, active: true, cold: false });
-
-    // Base final proof (room temp)
-    steps.push({ type: 'finalProof', label: translateFn('finalProof'), min: proofMins, active: false, cold: false });
-    // If cold proof is enabled, append it after the normal proof
-    if (coldProofMins > 0) {
-      steps.push({ type: 'coldProof', label: translateFn('coldProof'), min: coldProofMins, active: false, cold: true });
-    }
-
-    steps.push({ type: 'baking', label: translateFn('baking'), min: 50, active: true, cold: false });
+    // Get stage definitions from the single source of truth
+    const stageDefinitions = getStageDefinitions(config, translateFn);
 
     let currentCursor = start.getTime();
-    const resultSteps: ScheduleStep[] = steps.map((step) => {
+    const resultSteps: ScheduleStep[] = stageDefinitions.map((stageDef) => {
       const stepStart = new Date(currentCursor);
-      const stepEnd = addMinutesToDate(stepStart, step.min);
+      const stepEnd = addMinutesToDate(stepStart, stageDef.durationMinutes);
       currentCursor = stepEnd.getTime();
 
       // Round step start/end to nearest minute for consistent display
@@ -96,7 +68,11 @@ export const useBakeSchedule = ({
       const roundedEnd = new Date(Math.round(stepEnd.getTime() / 60000) * 60000);
 
       return {
-        ...step,
+        type: stageDef.type,
+        label: stageDef.label,
+        min: stageDef.durationMinutes,
+        active: stageDef.isActive,
+        cold: stageDef.isCold,
         startStr: formatDateAsTime(roundedStart),
         endStr: formatDateAsTime(roundedEnd),
       };
@@ -111,7 +87,7 @@ export const useBakeSchedule = ({
       sessionStartTime: start,
       sessionEndTime: end,
     };
-  }, [config, startTimeStr, planningMode, totalProcessMins, bulkMins, proofMins, translateFn]);
+  }, [config, startTimeStr, planningMode, totalProcessMins, translateFn]);
 
   const hourlyMarkers = useMemo(() => {
     const markers: Array<{ label: string; position: number }> = [];

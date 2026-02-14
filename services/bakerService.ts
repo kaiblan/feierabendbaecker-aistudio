@@ -6,34 +6,47 @@ import { BakerConfig, Stage, StageType } from '../types';
 import { calculateFermentationTimes, calculateTotalProcessTime } from '../utils/bakerMath';
 
 /**
- * Generate stages for a baking session based on config
+ * Base stage definition (common structure for both Stage and ScheduleStep)
  */
-export const generateBakingStages = (
+export interface BaseStageDefinition {
+  type: string;
+  stageType?: StageType;
+  label: string;
+  durationMinutes: number;
+  isActive: boolean;
+  isCold: boolean;
+}
+
+/**
+ * Get the core stage definitions for a baking session
+ * This is the single source of truth for the stage sequence
+ */
+export const getStageDefinitions = (
   config: BakerConfig,
   translateFn: (key: string) => string
-): Stage[] => {
+): BaseStageDefinition[] => {
   const { bulkMins, proofMins, coldBulkMins, coldProofMins } = calculateFermentationTimes(config);
-
-  const stages: Stage[] = [];
+  
+  const stages: BaseStageDefinition[] = [];
 
   if (config.autolyseEnabled) {
     stages.push({
-      id: 'a1',
-      type: StageType.AUTOLYSE,
+      type: 'autolyse',
+      stageType: StageType.AUTOLYSE,
       label: translateFn('autolyse'),
       durationMinutes: config.autolyseDurationMinutes || 0,
-      completed: false,
       isActive: false,
+      isCold: false,
     });
   }
 
   stages.push({
-    id: 'm1',
-    type: StageType.MIXING,
+    type: 'mixing',
+    stageType: StageType.MIXING,
     label: translateFn('mixing'),
     durationMinutes: 15,
-    completed: false,
     isActive: true,
+    isCold: false,
   });
 
   // Split bulkMins into folds and remaining bulk fermentation
@@ -42,75 +55,92 @@ export const generateBakingStages = (
   const warmBulkRestMins = Math.max(0, bulkMins - warmFoldMins);
 
   stages.push({
-    id: 'f1',
-    type: StageType.STRETCH_AND_FOLD,
+    type: 'folds',
+    stageType: StageType.STRETCH_AND_FOLD,
     label: translateFn('folds'),
     durationMinutes: warmFoldMins,
-    completed: false,
     isActive: true,
+    isCold: false,
   });
 
-  // Base bulk fermentation (room temp) - remaining after folds
   stages.push({
-    id: 'b1',
-    type: StageType.BULK_FERMENTATION,
+    type: 'bulkFerment',
+    stageType: StageType.BULK_FERMENTATION,
     label: translateFn('bulkFerment'),
     durationMinutes: warmBulkRestMins,
-    completed: false,
     isActive: false,
+    isCold: false,
   });
-  // Append cold bulk after normal bulk when configured
+
   if (coldBulkMins > 0) {
     stages.push({
-      id: 'cb1',
-      type: StageType.BULK_FERMENTATION,
+      type: 'coldBulk',
+      stageType: StageType.BULK_FERMENTATION,
       label: translateFn('coldBulk'),
       durationMinutes: coldBulkMins,
-      completed: false,
       isActive: false,
+      isCold: true,
     });
   }
 
   stages.push({
-    id: 's1',
-    type: StageType.SHAPING,
+    type: 'shaping',
+    stageType: StageType.SHAPING,
     label: translateFn('shaping'),
     durationMinutes: 15,
-    completed: false,
     isActive: true,
+    isCold: false,
   });
 
-  // Base final proof (room temp)
   stages.push({
-    id: 'pr1',
-    type: StageType.PROVING,
+    type: 'finalProof',
+    stageType: StageType.PROVING,
     label: translateFn('finalProof'),
     durationMinutes: proofMins,
-    completed: false,
     isActive: false,
+    isCold: false,
   });
-  // Append cold proof after normal proof when configured
+
   if (coldProofMins > 0) {
     stages.push({
-      id: 'cp1',
-      type: StageType.PROVING,
+      type: 'coldProof',
+      stageType: StageType.PROVING,
       label: translateFn('coldProof'),
       durationMinutes: coldProofMins,
-      completed: false,
       isActive: false,
+      isCold: true,
     });
   }
 
   stages.push({
-    id: 'bk1',
-    type: StageType.BAKING,
+    type: 'baking',
+    stageType: StageType.BAKING,
     label: translateFn('baking'),
     durationMinutes: 50,
-    completed: false,
     isActive: true,
+    isCold: false,
   });
 
   return stages;
+};
+
+/**
+ * Generate stages for a baking session based on config
+ */
+export const generateBakingStages = (
+  config: BakerConfig,
+  translateFn: (key: string) => string
+): Stage[] => {
+  const baseStages = getStageDefinitions(config, translateFn);
+  
+  return baseStages.map((baseDef, index) => ({
+    id: `${baseDef.type}-${index}`,
+    type: baseDef.stageType!,
+    label: baseDef.label,
+    durationMinutes: baseDef.durationMinutes,
+    completed: false,
+    isActive: baseDef.isActive,
+  }));
 };
 
 /**

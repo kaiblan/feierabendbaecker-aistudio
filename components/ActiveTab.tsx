@@ -7,13 +7,13 @@ import { formatTime, formatDateAsTime } from '../utils/timeUtils';
 import { useLanguage } from './LanguageContext';
 import Headline from './Headline';
 import ConfirmationModal from './ConfirmationModal';
-import { computeSequentialStages } from '../utils/sessionUtils';
 
 interface ActiveTabProps {
   session: BakerSession;
   timeLeft: number;
   setSession: (session: BakerSession) => void;
   setTimeLeft: (time: number) => void;
+  advanceToNextStage: () => void;
   onNavigatePlanning: () => void;
 }
 
@@ -22,6 +22,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
   timeLeft,
   setSession,
   setTimeLeft,
+  advanceToNextStage,
   onNavigatePlanning,
 }) => {
   const { t } = useLanguage();
@@ -102,25 +103,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
           </div>
           <div className="mt-6 w-full">
             <Button
-                onClick={() => {
-                  const currentIdx = session.activeStageIndex;
-                  const nextIdx = currentIdx + 1;
-                  const now = new Date();
-
-                  // mark current completed and set its end time to now
-                  let updatedStages = session.stages.map((s, i) => {
-                    if (i === currentIdx) return { ...s, completed: true, isActive: false, stageEndTime: now };
-                    return { ...s };
-                  });
-
-                  if (nextIdx < session.stages.length) {
-                    updatedStages = computeSequentialStages(updatedStages, nextIdx, now);
-                    setSession({ ...session, stages: updatedStages, activeStageIndex: nextIdx });
-                  } else {
-                    // No next stage — mark session complete
-                    setSession({ ...session, stages: updatedStages, status: 'completed' });
-                  }
-                }}
+              onClick={advanceToNextStage}
               variant="primary"
               size="lg"
               className="mx-auto w-auto px-6 tracking-widest text-base"

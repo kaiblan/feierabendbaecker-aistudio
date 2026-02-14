@@ -10,7 +10,7 @@ import { Button } from './components/Button';
 import { useSession } from './hooks/useSession';
 import { useTimer } from './hooks/useTimer';
 import { useBakeSchedule } from './hooks/useBakeSchedule';
-import { addMinutesToDate, formatDateAsTime } from './utils/timeUtils';
+import { addMinutesToDate, formatDateAsTime, roundDateTo5Minutes, calculateShiftedTime } from './utils/timeUtils';
 import { computeSequentialStages } from './utils/sessionUtils';
 import ConfirmationModal from './components/ConfirmationModal';
 
@@ -72,7 +72,7 @@ const App: React.FC = () => {
     };
   }, [secondaryTab, activeTab]);
 
-  const { session, updateConfig, transitionToRecipe, transitionToActive, advanceStage, setSession } = useSession({
+  const { session, updateConfig, transitionToRecipe, transitionToActive, advanceToNextStage, setSession } = useSession({
     initialConfig: DEFAULT_CONFIG,
     translateFn: t,
   });
@@ -97,29 +97,10 @@ const App: React.FC = () => {
     translateFn: t,
   });
 
-  const roundDateTo5Minutes = (date: Date) => {
-    const stepMs = 5 * 60 * 1000;
-    return new Date(Math.round(date.getTime() / stepMs) * stepMs);
-  };
-
   const handleShiftMinutes = (minutes: number, baseStart: Date) => {
-    // In forward mode: startTimeStr is the start time
-    // In backward mode: startTimeStr is the ready/end time
-    // We always receive sessionStartTime as baseStart, so we need to convert
-    if (planningMode === 'backward') {
-      // Calculate what the new end time should be
-      const newStart = addMinutesToDate(baseStart, minutes);
-      const newEnd = addMinutesToDate(newStart, totalProcessMins);
-      const roundedEnd = roundDateTo5Minutes(newEnd);
-      const formatted = formatDateAsTime(roundedEnd);
-      setStartTimeStr(formatted);
-    } else {
-      // Forward mode: directly shift the start time
-      const newStart = addMinutesToDate(baseStart, minutes);
-      const roundedStart = roundDateTo5Minutes(newStart);
-      const formatted = formatDateAsTime(roundedStart);
-      setStartTimeStr(formatted);
-    }
+    const shiftedTime = calculateShiftedTime(baseStart, minutes, totalProcessMins, planningMode);
+    const formatted = formatDateAsTime(shiftedTime);
+    setStartTimeStr(formatted);
   };
 
   const startSession = () => {
@@ -213,6 +194,7 @@ const App: React.FC = () => {
               timeLeft={timeLeft}
               setSession={setSession}
               setTimeLeft={setTimeLeft}
+              advanceToNextStage={advanceToNextStage}
               onNavigatePlanning={() => setActiveTab('planning')}
             />
           )}

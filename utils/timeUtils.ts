@@ -48,3 +48,42 @@ export const addMinutesToDate = (date: Date, minutes: number): Date => {
 export const getMinutesBetweenDates = (start: Date, end: Date): number => {
   return (end.getTime() - start.getTime()) / 60000;
 };
+
+/**
+ * Round a date to the nearest 5 minutes
+ */
+export const roundDateTo5Minutes = (date: Date): Date => {
+  const stepMs = 5 * 60 * 1000;
+  return new Date(Math.round(date.getTime() / stepMs) * stepMs);
+};
+
+/**
+ * Format a date as HH:MM input string (24-hour format, zero-padded)
+ */
+export const formatDateToInput = (date: Date): string => {
+  const pad = (n: number) => n.toString().padStart(2, '0');
+  return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+};
+
+/**
+ * Calculate shifted time based on planning mode
+ * In forward mode: shifts the start time directly
+ * In backward mode: shifts the start time and returns the new end time
+ */
+export const calculateShiftedTime = (
+  baseStart: Date,
+  shiftMinutes: number,
+  totalProcessMinutes: number,
+  planningMode: 'forward' | 'backward'
+): Date => {
+  const newStart = addMinutesToDate(baseStart, shiftMinutes);
+  
+  if (planningMode === 'backward') {
+    // In backward mode, calculate the new end time
+    const newEnd = addMinutesToDate(newStart, totalProcessMinutes);
+    return roundDateTo5Minutes(newEnd);
+  } else {
+    // In forward mode, return the new start time
+    return roundDateTo5Minutes(newStart);
+  }
+};

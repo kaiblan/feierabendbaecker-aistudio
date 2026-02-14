@@ -5,6 +5,7 @@ import RangeField from './RangeField';
 import LockIcon from './icons/LockIcon';
 import Headline from './Headline';
 import { useLanguage } from './LanguageContext';
+import { calculateBatchWeights } from '../utils/bakerMath';
 
 interface AmountsTabProps {
   session: BakerSession;
@@ -14,6 +15,7 @@ interface AmountsTabProps {
 
 const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartNow }) => {
   const { t } = useLanguage();
+  const { flour, water, yeast, salt, total } = calculateBatchWeights(session.config);
 
   return (
     <div className="w-1/2 h-full">
@@ -86,27 +88,27 @@ const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartN
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-base text-slate-400">{t('totalFlour')}</span>
-                <span className="text-lg font-black mono text-white">{Math.round(session.config.totalFlour)}g</span>
+                <span className="text-lg font-black mono text-white">{Math.round(flour)}g</span>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-base text-slate-400">{t('water')}</span>
-                <span className="text-lg font-black mono text-white">{Math.round(session.config.totalFlour * session.config.hydration / 100)}g</span>
+                <span className="text-lg font-black mono text-white">{Math.round(water)}g</span>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-base text-slate-400">{t('yeast')}</span>
-                <span className="text-lg font-black mono text-white">{(session.config.totalFlour * (session.config.yeast / 100)).toFixed(1)}g</span>
+                <span className="text-lg font-black mono text-white">{yeast.toFixed(1)}g</span>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-base text-slate-400">{t('salt')}</span>
-                <span className="text-lg font-black mono text-white">{(session.config.totalFlour * (session.config.salt / 100)).toFixed(1)}g</span>
+                <span className="text-lg font-black mono text-white">{salt.toFixed(1)}g</span>
               </div>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-base text-slate-400">
               <span className="tracking-widest">{t('totalBatchWeight')}</span>
-              <span className="text-lg font-black mono text-white">{(session.config.totalFlour * (1 + (session.config.hydration + session.config.yeast + session.config.salt) / 100)).toFixed(0)}g</span>
+              <span className="text-lg font-black mono text-white">{total.toFixed(0)}g</span>
             </div>
           </Card>
 

@@ -3,6 +3,7 @@ import { BakerConfig } from '../types';
 // imports
 import { useBakeSchedule } from '../hooks/useBakeSchedule';
 import { sliderValueToDuration, durationToSliderValue, formatDurationDisplay, formatMinutesDisplay, roundDuration } from '../utils/coldFermentationUtils';
+import { formatDateToInput } from '../utils/timeUtils';
 import { Card } from './Card';
 import Slider from './Slider';
 import RangeField from './RangeField';
@@ -97,9 +98,6 @@ const PlanningView: React.FC<PlanningViewProps> = ({
       }
     }, 0);
   };
-
-  const pad = (n: number) => n.toString().padStart(2, '0');
-  const formatDateToInput = (d: Date) => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
 
   const startInputValue = planningMode === 'forward' ? startTimeStr : formatDateToInput(sessionStartTime);
   const readyInputValue = planningMode === 'backward' ? startTimeStr : formatDateToInput(sessionEndTime);
