@@ -11,6 +11,7 @@ import { useSession } from './hooks/useSession';
 import { useTimer } from './hooks/useTimer';
 import { useBakeSchedule } from './hooks/useBakeSchedule';
 import { addMinutesToDate, formatDateAsTime } from './utils/timeUtils';
+import { computeSequentialStages } from './utils/sessionUtils';
 import ConfirmationModal from './components/ConfirmationModal';
 
 const DEFAULT_CONFIG: BakerConfig = {
@@ -121,6 +122,16 @@ const App: React.FC = () => {
     }
   };
 
+  const startSession = () => {
+    const now = new Date();
+    if (session.stages.length > 0) {
+      const updatedStages = computeSequentialStages(session.stages, 0, now);
+      setSession({ ...session, stages: updatedStages });
+    }
+    transitionToActive();
+    setActiveTab('active');
+  };
+
   const handleStartNow = () => {
     // Check if there's already an active session
     if (session.status === 'active') {
@@ -128,26 +139,7 @@ const App: React.FC = () => {
       return;
     }
 
-    // Compute consecutive start/end times for all stages beginning now
-    const now = new Date();
-    const computeSequential = (stages: typeof session.stages, startIdx: number, base: Date) => {
-      const out = stages.map((s) => ({ ...s }));
-      let cursor = new Date(base);
-      for (let i = startIdx; i < out.length; i++) {
-        const dur = out[i].durationMinutes || 0;
-        out[i].startTime = new Date(cursor);
-        out[i].stageEndTime = new Date(cursor.getTime() + dur * 60000);
-        cursor = new Date(out[i].stageEndTime as Date);
-      }
-      return out;
-    };
-
-    if (session.stages.length > 0) {
-      const updatedStages = computeSequential(session.stages, 0, now);
-      setSession({ ...session, stages: updatedStages });
-    }
-    transitionToActive();
-    setActiveTab('active');
+    startSession();
   };
 
   const handleCancelAndStartNew = () => {
@@ -156,25 +148,7 @@ const App: React.FC = () => {
     setTimeLeft(0);
     
     // Start the new session
-    const now = new Date();
-    const computeSequential = (stages: typeof session.stages, startIdx: number, base: Date) => {
-      const out = stages.map((s) => ({ ...s }));
-      let cursor = new Date(base);
-      for (let i = startIdx; i < out.length; i++) {
-        const dur = out[i].durationMinutes || 0;
-        out[i].startTime = new Date(cursor);
-        out[i].stageEndTime = new Date(cursor.getTime() + dur * 60000);
-        cursor = new Date(out[i].stageEndTime as Date);
-      }
-      return out;
-    };
-
-    if (session.stages.length > 0) {
-      const updatedStages = computeSequential(session.stages, 0, now);
-      setSession({ ...session, stages: updatedStages });
-    }
-    transitionToActive();
-    setActiveTab('active');
+    startSession();
   };
 
 

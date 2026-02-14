@@ -7,6 +7,7 @@ import { formatTime, formatDateAsTime } from '../utils/timeUtils';
 import { useLanguage } from './LanguageContext';
 import Headline from './Headline';
 import ConfirmationModal from './ConfirmationModal';
+import { computeSequentialStages } from '../utils/sessionUtils';
 
 interface ActiveTabProps {
   session: BakerSession;
@@ -112,22 +113,8 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
                     return { ...s };
                   });
 
-                  // helper to compute sequential start/end times from base time
-                  const computeSequential = (stages: typeof updatedStages, startIdx: number, base: Date) => {
-                    const out = stages.map((s) => ({ ...s }));
-                    let cursor = new Date(base);
-                    for (let i = startIdx; i < out.length; i++) {
-                      const dur = out[i].durationMinutes || 0;
-                      out[i].startTime = new Date(cursor);
-                      out[i].stageEndTime = new Date(cursor.getTime() + dur * 60000);
-                      out[i].isActive = i === startIdx;
-                      cursor = new Date(out[i].stageEndTime as Date);
-                    }
-                    return out;
-                  };
-
                   if (nextIdx < session.stages.length) {
-                    updatedStages = computeSequential(updatedStages, nextIdx, now);
+                    updatedStages = computeSequentialStages(updatedStages, nextIdx, now);
                     setSession({ ...session, stages: updatedStages, activeStageIndex: nextIdx });
                   } else {
                     // No next stage — mark session complete
