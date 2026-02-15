@@ -15,6 +15,7 @@ const HelpModal: React.FC<HelpModalProps> = ({
   title,
   content
 }) => {
+  const { t } = useLanguage();
   if (!isOpen) return null;
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -65,7 +66,7 @@ const HelpModal: React.FC<HelpModalProps> = ({
           <button
             onClick={onClose}
             className="text-slate-400 hover:text-slate-200 text-3xl leading-none w-10 h-10 rounded-lg hover:bg-slate-800 transition-all flex items-center justify-center"
-            aria-label="Close"
+            aria-label={t('close')}
           >
             ×
           </button>
@@ -79,12 +80,12 @@ const HelpModal: React.FC<HelpModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="border-t border-slate-700 px-6 py-4 bg-slate-800/30">
+        <div className="border-t border-slate-700 px-6 py-4 bg-slate-800/30 flex justify-end">
           <button
             onClick={onClose}
             className="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors font-medium"
           >
-            Close
+            {t('close')}
           </button>
         </div>
       </div>

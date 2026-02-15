@@ -77,6 +77,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     scheduleDetails: 'Schedule Details',
     timing: 'Timing',
     amounts: 'Amounts',
+    close: 'Close',
     // Stage Names
     autolyse: 'Autolyse',
     kneading: 'Kneading',
@@ -193,6 +194,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     language: 'Sprache',
     timing: 'Zeiten',
     amounts: 'Mengen',
+    close: 'Schließen',
     // Stage Names
     autolyse: 'Autolyse',
     kneading: 'Kneten',

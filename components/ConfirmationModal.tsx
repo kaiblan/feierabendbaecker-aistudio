@@ -2,6 +2,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from './Button';
 import Headline from './Headline';
+import { useLanguage } from './LanguageContext';
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -26,6 +27,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   confirmVariant = 'primary',
   isDangerous = false
 }) => {
+  const { t } = useLanguage();
   if (!isOpen) return null;
 
   const handleConfirm = () => {
@@ -54,7 +56,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             <button
               onClick={onClose}
               className="text-slate-400 hover:text-slate-200 text-2xl leading-none w-8 h-8 rounded transition-colors"
-              aria-label="Close"
+              aria-label={t('close')}
             >
               ×
             </button>
