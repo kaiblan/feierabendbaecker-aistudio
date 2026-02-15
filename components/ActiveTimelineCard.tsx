@@ -39,7 +39,7 @@ const ActiveTimelineCard: React.FC<ActiveTimelineCardProps> = ({ stage, isActive
         </div>
       </div>
 
-      <div className="flex justify-between items-end mt-2 text-sm mono text-muted">
+      <div className="flex justify-between items-end mt-2 text-sm text-muted">
         <div className="text-left">
           {Math.round(stage.durationMinutes || 0)} {t('minuteUnit')}
         </div>
