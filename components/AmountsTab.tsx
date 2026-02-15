@@ -7,6 +7,7 @@ import Headline from './Headline';
 import { sessionManager } from '../services/sessionManager';
 import { useLanguage } from './LanguageContext';
 import { calculateBatchWeights } from '../utils/bakerMath';
+import { yeastPercentToSliderValue, yeastSliderValueToPercent, YEAST_PERCENT_MAX, YEAST_PERCENT_MIN } from '../utils/yeastSliderUtils';
 
 interface AmountsTabProps {
   session: BakerSession;
@@ -59,14 +60,17 @@ const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartN
               <div>
                 <RangeField
                   label={t('yeast')}
-                  value={session.config.yeast}
+                  value={yeastPercentToSliderValue(session.config.yeast, YEAST_PERCENT_MIN, YEAST_PERCENT_MAX)}
                   min={0}
-                  max={2}
+                  max={100}
                   step={0.01}
-                  onChange={(v) => updateConfig({ yeast: Number(v.toFixed(2)) })}
+                  onChange={(sliderVal) => {
+                    const yeastPercent = yeastSliderValueToPercent(sliderVal, YEAST_PERCENT_MIN, YEAST_PERCENT_MAX);
+                    updateConfig({ yeast: Number(yeastPercent.toFixed(3)) });
+                  }}
                   accent="accent-emerald-400"
                   readOnly={true}
-                  valueFormatter={(v) => `${v.toFixed(2)}%`}
+                  valueFormatter={(sliderVal) => `${yeastSliderValueToPercent(sliderVal, YEAST_PERCENT_MIN, YEAST_PERCENT_MAX).toFixed(3)}%`}
                   valueClassName="text-white"
                 />
               </div>

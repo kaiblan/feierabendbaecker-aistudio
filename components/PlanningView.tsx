@@ -3,6 +3,7 @@ import { BakerConfig } from '../types';
 import { useBakeSchedule } from '../hooks/useBakeSchedule';
 import { sliderValueToDuration, durationToSliderValue, formatDurationDisplay, formatMinutesDisplay, roundDuration } from '../utils/coldFermentationUtils';
 import { formatDateToInput } from '../utils/timeUtils';
+import { yeastPercentToSliderValue, yeastSliderValueToPercent, YEAST_PERCENT_MAX, YEAST_PERCENT_MIN } from '../utils/yeastSliderUtils';
 import { Card } from './Card';
 import Slider from './Slider';
 import RangeField from './RangeField';
@@ -161,14 +162,17 @@ const PlanningView: React.FC<PlanningViewProps> = ({
               <div className="space-y-4">
                 <RangeField
                   label={t('yeastPercentage')}
-                  value={config.yeast}
-                  min={0.01}
-                  max={2}
+                  value={yeastPercentToSliderValue(config.yeast, YEAST_PERCENT_MIN, YEAST_PERCENT_MAX)}
+                  min={0}
+                  max={100}
                   step={0.01}
                   readOnly={!sessionManager.isEditable}
-                  onChange={(v) => { onUpdateConfig({ yeast: v }); }}
+                  onChange={(sliderVal) => {
+                    const yeastPercent = yeastSliderValueToPercent(sliderVal, YEAST_PERCENT_MIN, YEAST_PERCENT_MAX);
+                    onUpdateConfig({ yeast: Number(yeastPercent.toFixed(3)) });
+                  }}
                   accent="accent-cyan-500"
-                  valueFormatter={(v) => v.toFixed(2) + '%'}
+                  valueFormatter={(sliderVal) => yeastSliderValueToPercent(sliderVal, YEAST_PERCENT_MIN, YEAST_PERCENT_MAX).toFixed(3) + '%'}
                   valueClassName="text-white"
                 />
 
