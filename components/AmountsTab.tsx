@@ -24,7 +24,7 @@ const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartN
       <div className="max-w-7xl mx-auto px-4 pb-32 overflow-y-auto h-full" style={{ paddingTop: 'var(--header-height)' }}>
         <div className="w-full max-w-3xl mx-auto space-y-6">
           <Card variant="default" className="w-full p-6 mt-4">
-            <Headline color="text-white" className="text-xl border-b border-slate-800 pb-3 mb-4">{t('bakerPercentages')}</Headline>
+            <Headline color="text-white" className="text-xl border-b border-slate-800 pb-3 mb-4" helpKey="help_dough_settings">{t('bakerPercentages')}</Headline>
             
             <div className="space-y-6">
               <div>
@@ -94,6 +94,7 @@ const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartN
           </Card>
 
           <Card variant="subtle" className="w-full p-6">
+            <Headline color="text-white" className="text-xl border-b border-slate-800 pb-3 mb-4" helpKey="help_recipe_components">{t('recipeComponents')}</Headline>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-base text-slate-400">{t('totalFlour')}</span>

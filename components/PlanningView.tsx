@@ -104,7 +104,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
         <div className="max-w-7xl mx-auto w-full flex flex-col lg:grid lg:grid-cols-10 gap-6 items-start">
           <Card variant="default" className="order-1 lg:order-3 lg:col-span-2 w-full p-4 flex flex-col space-y-3">
             <div className="flex justify-between items-center">
-              <Headline color="text-white" className="text-xl">{t('sessionTiming')}</Headline>
+              <Headline color="text-white" className="text-xl" helpKey="help_timing">{t('sessionTiming')}</Headline>
             </div>
             <p className="text-muted text-sm whitespace-pre-wrap">{t('planYourBake')}</p>
 
@@ -156,7 +156,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
           </Card>
 
           <Card variant="default" className="order-2 lg:order-1 lg:col-span-4 w-full p-4 space-y-6">
-            <Headline color="text-white" className="text-xl border-b border-slate-800 pb-3">{t('basicFactors')}</Headline>
+            <Headline color="text-white" className="text-xl border-b border-slate-800 pb-3" helpKey="help_basic_factors">{t('basicFactors')}</Headline>
             
             <div className="grid grid-cols-1 gap-8 items-start">
               <div className="space-y-4">
@@ -205,7 +205,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
           </Card>
 
           <Card variant="default" className="order-3 lg:order-2 lg:col-span-4 w-full space-y-4">
-            <Headline color="text-white" className="text-xl border-b border-slate-800 pb-3">{t('additionalSteps')}</Headline>
+            <Headline color="text-white" className="text-xl border-b border-slate-800 pb-3" helpKey="help_additional_steps">{t('additionalSteps')}</Headline>
             <p className="text-muted text-sm whitespace-pre-wrap">Aktiviere zusätzliche Verarbeitungsschritte, um noch flexibler zu planen.</p>
             <div className="space-y-3">
               <div className="bg-slate-950/60 px-3 pt-4 pb-2 rounded-xl border border-slate-800 space-y-2">

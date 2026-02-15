@@ -106,6 +106,31 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     cancelAndStartNew: 'Cancel & Start New',
     resumeCurrent: 'Resume Current',
     parametersLocked: 'Parameters are locked while the session is active. Reset the session to make changes.',
+    
+    // Help Content
+    help_settings_title: 'Settings',
+    help_settings_content: 'This section allows you to customize your baking assistant experience.\n\nLanguage: Switch between English and German for the entire interface.',
+    
+    help_timing_title: 'Session Timing',
+    help_timing_content: 'Plan your baking session based on time constraints.\n\nForward Planning: Set when you want to start baking, and the schedule will calculate when everything will be ready.\n\nBackward Planning: Set when you need your bread to be ready, and the schedule will calculate when you need to start.\n\nTip: Use backward planning when you need bread ready for a specific meal or event.',
+    
+    help_basic_factors_title: 'Basic Factors',
+    help_basic_factors_content: 'Control the fundamental variables that affect fermentation time and dough development.\n\nYeast Percentage: Lower percentages (0.1-0.5%) result in longer, more flavorful fermentation. Higher percentages (1-2%) speed up the process.\n\nDough Temperature: Warmer dough (75-80°F / 24-27°C) ferments faster. Cooler dough (65-70°F / 18-21°C) ferments slower and develops more complex flavors.\n\nTip: For the best flavor, use less yeast and allow more time for fermentation.',
+    
+    help_additional_steps_title: 'Additional Steps',
+    help_additional_steps_content: 'Optional cold fermentation periods that enhance flavor and fit your schedule.\n\nCold Bulk Fermentation: Refrigerate the dough after mixing but before shaping. This develops flavor and makes the dough easier to work with.\n\nCold Proof: Refrigerate shaped loaves before baking. This is great for baking fresh bread in the morning - shape the night before and bake when you wake up.\n\nFridge Temperature: The calculator uses this to estimate fermentation rates in cold storage. Most home fridges are 37-40°F (3-4°C).\n\nTip: Cold fermentation is the secret to artisan-quality bread at home!',
+    
+    help_dough_settings_title: 'Dough Settings',
+    help_dough_settings_content: 'Define the composition of your dough using baker\'s percentages.\n\nFlour: The base weight - all other ingredients are calculated as a percentage of this.\n\nHydration: Water content as a percentage of flour weight. 65-70% is typical for bread. Higher hydration (75-80%) creates more open crumb but is harder to handle.\n\nBaker\'s Percentages: Professional bakers use percentages relative to flour weight, making it easy to scale recipes up or down.\n\nTip: Start with 70% hydration if you\'re new to bread baking.',
+    
+    help_recipe_components_title: 'Recipe Components',
+    help_recipe_components_content: 'The exact weights you need for your batch.\n\nThese amounts are calculated based on your dough settings and total batch weight. All measurements are in grams for accuracy.\n\nFlour: Your base ingredient\nWater: Based on hydration percentage\nYeast: Based on yeast percentage\nSalt: Typically 2% of flour weight\n\nTip: Use a digital scale for the best results. Measuring by weight is more accurate than measuring by volume.',
+    
+    help_timeline_title: 'Production Timeline',
+    help_timeline_content: 'Your step-by-step baking schedule with precise times for each stage.\n\nThe timeline shows:\n- Each fermentation and working step\n- Start and end times for every stage\n- Visual indication of active work vs. waiting time\n\nWork steps (hands-on): Mixing, folding, shaping, baking\nCold steps (passive): Cold bulk, cold proof\n\nTip: Most of bread baking is waiting - plan accordingly! You only need to be present for the work steps.',
+    
+    help_active_session_title: 'Active Session',
+    help_active_session_content: 'Track your baking progress in real-time.\n\nCurrent Step: What you should be doing right now\nNext Steps: Upcoming stages with countdown timers\nProgress: Visual indication of how far along you are\n\nYou can complete steps early if needed, or let the timers guide you for optimal results.\n\nTip: Set notifications or alarms for important steps so you don\'t miss them!',
   },
   de: {
     // Navigation
@@ -197,5 +222,30 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     cancelAndStartNew: 'Abbrechen & neu starten',
     resumeCurrent: 'Aktuellen fortsetzen',
     parametersLocked: 'Parameter sind gesperrt, solange ein Backvorgang läuft. Setze den Backvorgang zurück, um Änderungen vorzunehmen.',
+    
+    // Help Content
+    help_settings_title: 'Einstellungen',
+    help_settings_content: 'Hier kannst du deinen Backassistenten anpassen.\n\nSprache: Wechsle zwischen Englisch und Deutsch für die gesamte Benutzeroberfläche.',
+    
+    help_timing_title: 'Zeitplanung',
+    help_timing_content: 'Plane deinen Backvorgang basierend auf deinen zeitlichen Anforderungen.\n\nVorwärts planen: Lege fest, wann du mit dem Backen beginnen möchtest, und der Zeitplan berechnet, wann alles fertig sein wird.\n\nRückwärts planen: Lege fest, wann dein Brot fertig sein soll, und der Zeitplan berechnet, wann du beginnen musst.\n\nTipp: Nutze die Rückwärtsplanung, wenn du Brot zu einer bestimmten Mahlzeit oder einem Event brauchst.',
+    
+    help_basic_factors_title: 'Grundparameter',
+    help_basic_factors_content: 'Steuere die grundlegenden Variablen, die Garzeit und Teigentwicklung beeinflussen.\n\nHefe-Prozentsatz: Niedrigere Prozentsätze (0,1-0,5%) führen zu längerer, geschmackvollerer Gärung. Höhere Prozentsätze (1-2%) beschleunigen den Prozess.\n\nTeigtemperatur: Wärmerer Teig (24-27°C) gärt schneller. Kühlerer Teig (18-21°C) gärt langsamer und entwickelt komplexere Aromen.\n\nTipp: Für den besten Geschmack verwende weniger Hefe und lasse mehr Zeit für die Gärung.',
+    
+    help_additional_steps_title: 'Weitere Schritte',
+    help_additional_steps_content: 'Optionale kalte Gärphasen, die den Geschmack verbessern und zu deinem Zeitplan passen.\n\nKalte Stockgare: Kühle den Teig nach dem Mischen, aber vor dem Formen. Das entwickelt Geschmack und macht den Teig leichter zu verarbeiten.\n\nKalte Stückgare: Kühle die geformten Laibe vor dem Backen. Ideal für frisches Brot am Morgen - forme am Abend und backe beim Aufwachen.\n\nKühlschrank-Temperatur: Der Rechner nutzt diese, um die Gärrate im Kühlschrank zu schätzen. Die meisten Haushaltskühlschränke haben 3-4°C.\n\nTipp: Kalte Gärung ist das Geheimnis für handwerklich hochwertiges Brot zu Hause!',
+    
+    help_dough_settings_title: 'Teigzusammensetzung',
+    help_dough_settings_content: 'Definiere die Zusammensetzung deines Teigs mit Bäckerprozenten.\n\nMehl: Das Basisgewicht - alle anderen Zutaten werden als Prozentsatz davon berechnet.\n\nHydration: Wassergehalt als Prozentsatz des Mehlgewichts. 65-70% ist typisch für Brot. Höhere Hydration (75-80%) erzeugt eine offenere Krume, ist aber schwieriger zu handhaben.\n\nBäckerprozente: Professionelle Bäcker verwenden Prozentsätze relativ zum Mehlgewicht, was das Skalieren von Rezepten erleichtert.\n\nTipp: Beginne mit 70% Hydration, wenn du neu im Brotbacken bist.',
+    
+    help_recipe_components_title: 'Zutaten',
+    help_recipe_components_content: 'Die exakten Gewichte, die du für deinen Teig brauchst.\n\nDiese Mengen werden basierend auf deinen Teigeinstellungen und dem Gesamtgewicht berechnet. Alle Messungen sind in Gramm für höchste Genauigkeit.\n\nMehl: Deine Basiszutat\nWasser: Basierend auf dem Hydrationsprozentsatz\nHefe: Basierend auf dem Hefeprozentsatz\nSalz: Typischerweise 2% des Mehlgewichts\n\nTipp: Verwende eine Digitalwaage für beste Ergebnisse. Wiegen ist genauer als Volumen messen.',
+    
+    help_timeline_title: 'Zeitplan',
+    help_timeline_content: 'Dein schrittweiser Backplan mit präzisen Zeiten für jede Phase.\n\nDer Zeitplan zeigt:\n- Jeden Gär- und Arbeitsschritt\n- Start- und Endzeiten für jede Phase\n- Visuelle Kennzeichnung von aktiver Arbeit vs. Wartezeit\n\nArbeitsschritte (aktiv): Kneten, Falten, Formen, Backen\nKalte Schritte (passiv): Kalte Stockgare, Kalte Stückgare\n\nTipp: Das meiste beim Brotbacken ist Warten - plane entsprechend! Du musst nur bei den Arbeitsschritten anwesend sein.',
+    
+    help_active_session_title: 'Aktiver Backvorgang',
+    help_active_session_content: 'Verfolge deinen Backfortschritt in Echtzeit.\n\nAktueller Schritt: Was du gerade tun solltest\nNächste Schritte: Kommende Phasen mit Countdown-Timern\nFortschritt: Visuelle Anzeige, wie weit du bereits bist\n\nDu kannst Schritte vorzeitig abschließen, wenn nötig, oder die Timer für optimale Ergebnisse nutzen.\n\nTipp: Stelle Benachrichtigungen oder Wecker für wichtige Schritte, damit du sie nicht verpasst!',
   },
 };
