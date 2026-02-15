@@ -107,11 +107,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
             </div>
             <p className="text-muted text-sm whitespace-pre-wrap">{t('planYourBake')}</p>
 
-            {!sessionManager.isEditable && (
-              <div className="mt-2 p-2 rounded bg-slate-900 border border-slate-800 text-sm text-amber-300">
-                {t('parametersLocked')}
-              </div>
-            )}
+            
 
             <div className="grid grid-cols-2 gap-3">
               <button onClick={handleSelectForward} className={`rounded-lg border transition-all text-left ${planningMode === 'forward' ? 'border-emerald-500 bg-slate-900' : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 cursor-pointer'}`}>
@@ -160,11 +156,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
 
           <Card variant="default" className="order-2 lg:order-1 lg:col-span-4 w-full p-4 space-y-6">
             <Headline color="text-white" className="text-xl border-b border-slate-800 pb-3">{t('basicFactors')}</Headline>
-            {!sessionManager.isEditable && (
-              <div className="mt-2 p-2 rounded bg-slate-900 border border-slate-800 text-sm text-amber-300">
-                {t('parametersLocked')}
-              </div>
-            )}
+            
             <div className="grid grid-cols-1 gap-8 items-start">
               <div className="space-y-4">
                 <RangeField

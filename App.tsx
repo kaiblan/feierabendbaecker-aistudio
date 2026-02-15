@@ -2,6 +2,7 @@ import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { ICONS, TRANSLATIONS, Language } from './constants';
 import { BakerConfig } from './types';
 import Navigation from './components/Navigation';
+import ActiveSessionPanel from './components/ActiveSessionPanel';
 import PlanningTab from './components/PlanningTab';
 import ActiveTab from './components/ActiveTab';
 import SettingsTab from './components/SettingsTab';
@@ -212,6 +213,9 @@ const App: React.FC = () => {
         cancelText={t('resumeCurrent')}
         isDangerous={true}
       />
+
+      {/* Fixed active-session panel (mobile) */}
+      <ActiveSessionPanel session={session} activeTab={activeTab} setActiveTab={setActiveTab} secondaryTab={secondaryTab} />
 
       {/* Bottom navigation for small screens */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-slate-950/95 border-t border-slate-800 z-50">
