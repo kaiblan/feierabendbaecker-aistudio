@@ -1,10 +1,11 @@
 /**
  * useSession - Custom hook for managing baking session state
+ * Now acts as a thin wrapper around the centralized sessionManager
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import { BakerSession, BakerConfig, StageType } from '../types';
-import { generateBakingStages, calculateSessionDuration } from '../services/bakerService';
+import { useState, useEffect, useCallback } from 'react';
+import { BakerSession, BakerConfig } from '../types';
+import { sessionManager } from '../services/sessionManager';
 import { computeSequentialStages } from '../utils/sessionUtils';
 
 interface UseSessionProps {
@@ -12,168 +13,86 @@ interface UseSessionProps {
   translateFn: (key: string) => string;
 }
 
-const SESSION_STORAGE_KEY = 'bakerSession';
-
-// Helper function to serialize session to localStorage
-const serializeSession = (session: BakerSession): string => {
-  return JSON.stringify(session, (key, value) => {
-    // Convert Date objects to ISO strings
-    if (value instanceof Date) {
-      return { __type: 'Date', value: value.toISOString() };
-    }
-    return value;
-  });
-};
-
-// Helper function to deserialize session from localStorage
-const deserializeSession = (json: string): BakerSession | null => {
-  try {
-    return JSON.parse(json, (key, value) => {
-      // Convert ISO strings back to Date objects
-      if (value && typeof value === 'object' && value.__type === 'Date') {
-        return new Date(value.value);
-      }
-      return value;
-    });
-  } catch (error) {
-    console.error('Failed to deserialize session:', error);
-    return null;
-  }
-};
-
-// Helper function to load session from localStorage
-const loadSessionFromStorage = (): BakerSession | null => {
-  try {
-    const stored = localStorage.getItem(SESSION_STORAGE_KEY);
-    if (stored) {
-      const session = deserializeSession(stored);
-      // Only restore if it's an active session
-      if (session && session.status === 'active') {
-        return session;
-      }
-    }
-  } catch (error) {
-    console.error('Failed to load session from storage:', error);
-  }
-  return null;
-};
-
-// Helper function to save session to localStorage
-const saveSessionToStorage = (session: BakerSession): void => {
-  try {
-    // Only persist active sessions
-    if (session.status === 'active') {
-      localStorage.setItem(SESSION_STORAGE_KEY, serializeSession(session));
-    } else {
-      // Clear storage if session is not active
-      localStorage.removeItem(SESSION_STORAGE_KEY);
-    }
-  } catch (error) {
-    console.error('Failed to save session to storage:', error);
-  }
-};
-
 export const useSession = ({ initialConfig, translateFn }: UseSessionProps) => {
-  // Try to load session from storage, otherwise use default
-  const [session, setSession] = useState<BakerSession>(() => {
-    const storedSession = loadSessionFromStorage();
-    if (storedSession) {
-      return storedSession;
-    }
-    return {
-      id: 'new-bake',
-      name: 'Experimental Batch',
-      startTime: new Date(),
-      targetEndTime: new Date(),
-      stages: [],
-      activeStageIndex: 0,
-      status: 'planning',
-      config: initialConfig,
-    };
-  });
-
-  // Persist session to localStorage whenever it changes
+  // Initialize the session manager with config and translation function
   useEffect(() => {
-    saveSessionToStorage(session);
-  }, [session]);
+    sessionManager.initialize(initialConfig);
+    sessionManager.setTranslateFn(translateFn);
+  }, [initialConfig, translateFn]);
 
-  // Generate stages whenever config changes
-  const calculatedStages = useMemo(
-    () => generateBakingStages(session.config, translateFn),
-    [session.config, translateFn]
-  );
+  // Subscribe to session changes from the centralized manager
+  const [session, setSession] = useState<BakerSession>(sessionManager.getSession() as BakerSession);
 
   useEffect(() => {
-    if (session.status === 'planning' || session.status === 'recipe') {
-      setSession((prev) => ({ ...prev, stages: calculatedStages }));
-    }
-  }, [calculatedStages, session.status]);
+    // Regenerate stages when in planning/recipe mode
+    sessionManager.regenerateStages();
+    
+    // Subscribe to session updates
+    const unsubscribe = sessionManager.subscribe((updatedSession) => {
+      setSession(updatedSession as BakerSession);
+    });
 
+    return unsubscribe;
+  }, [translateFn]); // Re-subscribe when translate function changes
+
+  // Expose session manager methods
   const updateConfig = useCallback((updates: Partial<BakerConfig>) => {
-    setSession((prev) => ({
-      ...prev,
-      config: { ...prev.config, ...updates },
-    }));
+    sessionManager.updateConfig(updates);
   }, []);
 
   const advanceToNextStage = useCallback(() => {
-    setSession((prev) => {
-      const currentIdx = prev.activeStageIndex;
-      const nextIdx = currentIdx + 1;
-      const now = new Date();
-
-      // Mark current stage as completed and set its end time to now
-      let updatedStages = prev.stages.map((s, i) => {
-        if (i === currentIdx) {
-          return { ...s, completed: true, isActive: false, stageEndTime: now };
-        }
-        return { ...s };
-      });
-
-      // If there's a next stage, advance to it
-      if (nextIdx < prev.stages.length) {
-        updatedStages = computeSequentialStages(updatedStages, nextIdx, now);
-        return { ...prev, stages: updatedStages, activeStageIndex: nextIdx };
-      } else {
-        // No next stage — mark session complete
-        return { ...prev, stages: updatedStages, status: 'completed' };
-      }
-    });
+    sessionManager.advanceToNextStage();
   }, []);
 
   const transitionToRecipe = useCallback(() => {
-    setSession((prev) => ({ ...prev, status: 'recipe' }));
+    sessionManager.transitionToRecipe();
   }, []);
 
   const transitionToActive = useCallback(() => {
-    setSession((prev) => {
-      const now = new Date();
-      // regenerate fresh stages from current config and translateFn
-      const freshStages = generateBakingStages(prev.config, translateFn);
-      const computed = computeSequentialStages(freshStages, 0, now);
-      const totalMins = calculateSessionDuration(prev.config);
-      return {
-        ...prev,
-        status: 'active',
-        activeStageIndex: 0,
-        startTime: now,
-        targetEndTime: new Date(now.getTime() + totalMins * 60000),
-        stages: computed,
-      };
-    });
-  }, [translateFn]);
+    sessionManager.startSession();
+  }, []);
 
   const completeSession = useCallback(() => {
-    setSession((prev) => ({ ...prev, status: 'completed' }));
+    sessionManager.completeSession();
+  }, []);
+
+  const resetSession = useCallback(() => {
+    sessionManager.resetSession();
+  }, []);
+
+  // Provide updateStages for manual stage adjustments (e.g., timeline drag)
+  const updateStages = useCallback((stages: typeof session.stages) => {
+    sessionManager.updateStages(stages);
   }, []);
 
   return {
     session,
-    setSession,
+    // Deprecated: direct setSession - kept for backward compatibility but discouraged
+    setSession: (newSession: BakerSession | ((prev: BakerSession) => BakerSession)) => {
+      console.warn('Direct setSession is deprecated. Use specific session manager methods instead.');
+      if (typeof newSession === 'function') {
+        const updated = newSession(session);
+        // Apply updates through session manager for consistency
+        if (updated.status !== session.status) {
+          if (updated.status === 'planning') {
+            sessionManager.resetSession();
+          } else if (updated.status === 'active') {
+            sessionManager.startSession();
+          }
+        }
+        if (updated.stages !== session.stages) {
+          sessionManager.updateStages(updated.stages);
+        }
+      }
+    },
     updateConfig,
+    updateStages,
     advanceToNextStage,
     transitionToRecipe,
     transitionToActive,
     completeSession,
+    resetSession,
+    // New major operations exposed
+    startSession: transitionToActive,
   };
 };

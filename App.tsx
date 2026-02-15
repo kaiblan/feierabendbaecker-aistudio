@@ -11,7 +11,6 @@ import { useSession } from './hooks/useSession';
 import { useTimer } from './hooks/useTimer';
 import { useBakeSchedule } from './hooks/useBakeSchedule';
 import { addMinutesToDate, formatDateAsTime, roundDateTo5Minutes, calculateShiftedTime } from './utils/timeUtils';
-import { computeSequentialStages } from './utils/sessionUtils';
 import ConfirmationModal from './components/ConfirmationModal';
 
 const DEFAULT_CONFIG: BakerConfig = {
@@ -72,7 +71,7 @@ const App: React.FC = () => {
     };
   }, [secondaryTab, activeTab]);
 
-  const { session, updateConfig, transitionToRecipe, transitionToActive, advanceToNextStage, setSession } = useSession({
+  const { session, updateConfig, transitionToRecipe, startSession: transitionToActive, advanceToNextStage, resetSession } = useSession({
     initialConfig: DEFAULT_CONFIG,
     translateFn: t,
   });
@@ -104,11 +103,6 @@ const App: React.FC = () => {
   };
 
   const startSession = () => {
-    const now = new Date();
-    if (session.stages.length > 0) {
-      const updatedStages = computeSequentialStages(session.stages, 0, now);
-      setSession({ ...session, stages: updatedStages });
-    }
     transitionToActive();
     setActiveTab('active');
   };
@@ -125,7 +119,7 @@ const App: React.FC = () => {
 
   const handleCancelAndStartNew = () => {
     // Reset session to planning and start fresh
-    setSession({ ...session, status: 'planning', activeStageIndex: 0 });
+    resetSession();
     setTimeLeft(0);
     
     // Start the new session
@@ -192,7 +186,7 @@ const App: React.FC = () => {
             <ActiveTab
               session={session}
               timeLeft={timeLeft}
-              setSession={setSession}
+              resetSession={resetSession}
               setTimeLeft={setTimeLeft}
               advanceToNextStage={advanceToNextStage}
               onNavigatePlanning={() => setActiveTab('planning')}

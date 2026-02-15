@@ -11,7 +11,7 @@ import ConfirmationModal from './ConfirmationModal';
 interface ActiveTabProps {
   session: BakerSession;
   timeLeft: number;
-  setSession: (session: BakerSession) => void;
+  resetSession: () => void;
   setTimeLeft: (time: number) => void;
   advanceToNextStage: () => void;
   onNavigatePlanning: () => void;
@@ -20,7 +20,7 @@ interface ActiveTabProps {
 const ActiveTab: React.FC<ActiveTabProps> = ({
   session,
   timeLeft,
-  setSession,
+  resetSession,
   setTimeLeft,
   advanceToNextStage,
   onNavigatePlanning,
@@ -162,7 +162,7 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
         isOpen={isCancelOpen}
         onClose={() => setIsCancelOpen(false)}
         onConfirm={() => {
-          setSession({ ...session, status: 'planning', activeStageIndex: 0 });
+          resetSession();
           setTimeLeft(0);
         }}
         title={t('cancelSession')}
