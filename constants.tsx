@@ -174,7 +174,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     hydration: 'Hydration',
     bakerPercentages: 'Bäckerprozente',
     // Recipe Components
-    recipeComponents: 'Zutaten',
+    recipeComponents: 'Mengen',
     flour: 'Mehl',
     water: 'Wasser',
     yeast: 'Hefe',
@@ -223,31 +223,31 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     activeSessionMessage: 'Du hast bereits einen aktiven Backvorgang. Möchtest du ihn abbrechen und einen neuen starten, oder den aktuellen fortsetzen?',
     cancelAndStartNew: 'Abbrechen & neu starten',
     resumeCurrent: 'Aktuellen fortsetzen',
-    parametersLocked: 'Parameter sind gesperrt, solange ein Backvorgang läuft. Setze den Backvorgang zurück, um Änderungen vorzunehmen.',
+    parametersLocked: 'Parameter sind gesperrt, solange ein Backvorgang läuft. Breche den Backvorgang ab, um Änderungen vorzunehmen.',
     
     // Help Content
     help_settings_title: 'Einstellungen',
     help_settings_content: 'Hier kannst du deinen Backassistenten anpassen.\n\nSprache: Wechsle zwischen Englisch und Deutsch für die gesamte Benutzeroberfläche.',
     
     help_timing_title: 'Zeitplanung',
-    help_timing_content: 'Plane deinen Backvorgang basierend auf deinen zeitlichen Anforderungen.\n\nVorwärts planen: Lege fest, wann du mit dem Backen beginnen möchtest, und der Zeitplan berechnet, wann alles fertig sein wird.\n\nRückwärts planen: Lege fest, wann dein Brot fertig sein soll, und der Zeitplan berechnet, wann du beginnen musst.\n\nTipp: Nutze die Rückwärtsplanung, wenn du Brot zu einer bestimmten Mahlzeit oder einem Event brauchst.',
-    
+    help_timing_content: 'Plane deinen Backvorgang basierend auf deinen zeitlichen Anforderungen.\n\nVorwärts planen: Lege fest, wann du mit dem Backen beginnen möchtest, und der Zeitplan berechnet, wann alles fertig sein wird.\n\nRückwärts planen: Lege fest, wann dein Brot fertig sein soll, und der Zeitplan berechnet, wann du beginnen musst.\n\nTipp: Nutze die Rückwärtsplanung, wenn du Brot zu einer bestimmten Mahlzeit oder einem Event brauchst. Aber denk dran: Es muss auch noch abkühlen!',
+        
     help_basic_factors_title: 'Grundparameter',
-    help_basic_factors_content: 'Steuere die grundlegenden Variablen, die Garzeit und Teigentwicklung beeinflussen.\n\nHefe-Prozentsatz: Niedrigere Prozentsätze (0,1-0,5%) führen zu längerer, geschmackvollerer Gärung. Höhere Prozentsätze (1-2%) beschleunigen den Prozess.\n\nTeigtemperatur: Wärmerer Teig (24-27°C) gärt schneller. Kühlerer Teig (18-21°C) gärt langsamer und entwickelt komplexere Aromen.\n\nTipp: Für den besten Geschmack verwende weniger Hefe und lasse mehr Zeit für die Gärung.',
-    
+    help_basic_factors_content: 'Steuere die grundlegenden Variablen, die Garzeit und Teigentwicklung beeinflussen.\n\nHefe-Prozentsatz: Niedrigere Prozentsätze (0,1-0,5%) führen zu längerer Gare und mehr Geschmack. Höhere Prozentsätze (1-2%) beschleunigen den Prozess.\n\nTeigtemperatur: Wärmerer Teig (24-27°C) gärt schneller. Kühlerer Teig (18-21°C) gärt langsamer und entwickelt komplexere Aromen.\n\nTipp: Für den besten Geschmack plane eine lange Gare mit wenig Hefe und kühlerer Temperatur.',
+        
     help_additional_steps_title: 'Weitere Schritte',
-    help_additional_steps_content: 'Optionale kalte Gärphasen, die den Geschmack verbessern und zu deinem Zeitplan passen.\n\nKalte Stockgare: Kühle den Teig nach dem Mischen, aber vor dem Formen. Das entwickelt Geschmack und macht den Teig leichter zu verarbeiten.\n\nKalte Stückgare: Kühle die geformten Laibe vor dem Backen. Ideal für frisches Brot am Morgen - forme am Abend und backe beim Aufwachen.\n\nKühlschrank-Temperatur: Der Rechner nutzt diese, um die Gärrate im Kühlschrank zu schätzen. Die meisten Haushaltskühlschränke haben 3-4°C.\n\nTipp: Kalte Gärung ist das Geheimnis für handwerklich hochwertiges Brot zu Hause!',
-    
-    help_dough_settings_title: 'Teigzusammensetzung',
-    help_dough_settings_content: 'Definiere die Zusammensetzung deines Teigs mit Bäckerprozenten.\n\nMehl: Das Basisgewicht - alle anderen Zutaten werden als Prozentsatz davon berechnet.\n\nHydration: Wassergehalt als Prozentsatz des Mehlgewichts. 65-70% ist typisch für Brot. Höhere Hydration (75-80%) erzeugt eine offenere Krume, ist aber schwieriger zu handhaben.\n\nBäckerprozente: Professionelle Bäcker verwenden Prozentsätze relativ zum Mehlgewicht, was das Skalieren von Rezepten erleichtert.\n\nTipp: Beginne mit 70% Hydration, wenn du neu im Brotbacken bist.',
-    
-    help_recipe_components_title: 'Zutaten',
-    help_recipe_components_content: 'Die exakten Gewichte, die du für deinen Teig brauchst.\n\nDiese Mengen werden basierend auf deinen Teigeinstellungen und dem Gesamtgewicht berechnet. Alle Messungen sind in Gramm für höchste Genauigkeit.\n\nMehl: Deine Basiszutat\nWasser: Basierend auf dem Hydrationsprozentsatz\nHefe: Basierend auf dem Hefeprozentsatz\nSalz: Typischerweise 2% des Mehlgewichts\n\nTipp: Verwende eine Digitalwaage für beste Ergebnisse. Wiegen ist genauer als Volumen messen.',
-    
+    help_additional_steps_content: 'Optionale Phasen, die die Teigstruktur oder den Geschmack verbessern und zu deinem Zeitplan passen.\n\nKalte Stockgare: Kühle den Teig nach dem Mischen, aber vor dem Formen. Das entwickelt Geschmack und macht den Teig leichter zu verarbeiten.\n\nKalte Stückgare: Kühle die geformten Laibe vor dem Backen. Ideal für frisches Brot am Morgen - forme am Abend und backe beim Aufwachen.\n\nKühlschrank-Temperatur: Der Rechner nutzt diese, um die Gärung im Kühlschrank zu schätzen. Die meisten Haushaltskühlschränke haben 5-7°C.\n\nTipp: Kalte Gare ist das Geheimnis für handwerklich hochwertiges Brot zu Hause!',
+        
+    help_dough_settings_title: 'Bäckerprozente',
+    help_dough_settings_content: 'Definiere die Zusammensetzung deines Teigs mit Bäckerprozenten.\n\nMehl: Das Basisgewicht - alle anderen Zutaten werden als Prozentsatz davon berechnet.\n\nHydration: Wassergehalt als Prozentsatz des Mehlgewichts. 65-70% ist typisch für Brot. Höhere Hydration (75-80%) erzeugt eine offenere Krume, der Teig wird aber klebriger und ist schwieriger zu handhaben.\n\nTipp: Beginne mit 70% Hydration, wenn du neu im Brotbacken bist.',
+        
+    help_recipe_components_title: 'Mengen',
+    help_recipe_components_content: 'Die exakten Gewichte, die du für deinen Teig brauchst.\n\nDiese Mengen werden basierend auf deinen Teigeinstellungen und dem Gesamtgewicht berechnet.\n\nMehl: Deine Basiszutat\nWasser: Basierend auf dem Hydrationsprozentsatz\nHefe: Basierend auf dem Hefeprozentsatz\nSalz: Typischerweise 2% des Mehlgewichts',
+        
     help_timeline_title: 'Zeitplan',
-    help_timeline_content: 'Dein schrittweiser Backplan mit präzisen Zeiten für jede Phase.\n\nDer Zeitplan zeigt:\n- Jeden Gär- und Arbeitsschritt\n- Start- und Endzeiten für jede Phase\n- Visuelle Kennzeichnung von aktiver Arbeit vs. Wartezeit\n\nArbeitsschritte (aktiv): Kneten, Falten, Formen, Backen\nKalte Schritte (passiv): Kalte Stockgare, Kalte Stückgare\n\nTipp: Das meiste beim Brotbacken ist Warten - plane entsprechend! Du musst nur bei den Arbeitsschritten anwesend sein.',
-    
+    help_timeline_content: 'Dein schrittweiser Backplan mit Start- und End-Zeiten für jede Phase.\n\nDer Zeitplan zeigt:\n- Jeden Gar- und Arbeitsschritt\n- Start- und Endzeiten für jede Phase\n- Visuelle Kennzeichnung von aktiver Arbeit vs. Wartezeit\n\nArbeitsschritte (aktiv): Kneten, Falten, Formen, Backen\nKalte Schritte (passiv): Kalte Stockgare, Kalte Stückgare\n\nTipp: Das meiste beim Brotbacken ist Warten - plane entsprechend! Du musst nur bei den Arbeitsschritten anwesend sein.',
+        
     help_active_session_title: 'Aktiver Backvorgang',
-    help_active_session_content: 'Verfolge deinen Backfortschritt in Echtzeit.\n\nAktueller Schritt: Was du gerade tun solltest\nNächste Schritte: Kommende Phasen mit Countdown-Timern\nFortschritt: Visuelle Anzeige, wie weit du bereits bist\n\nDu kannst Schritte vorzeitig abschließen, wenn nötig, oder die Timer für optimale Ergebnisse nutzen.\n\nTipp: Stelle Benachrichtigungen oder Wecker für wichtige Schritte, damit du sie nicht verpasst!',
+    help_active_session_content: 'Verfolge deinen Backfortschritt in Echtzeit.\n\nAktueller Schritt: Was du gerade tun solltest\nBackfortschritt: Alle kommenden Phasen und ihre Zeiten\n\nDu kannst Schritte vorzeitig abschließen, wenn nötig, oder die Timer für optimale Ergebnisse nutzen.\n\nTipp: Stelle Benachrichtigungen oder Wecker für wichtige Schritte, damit du sie nicht verpasst!',
   },
 };

@@ -36,7 +36,7 @@ const ActiveSessionPanel: React.FC<Props> = ({ session, activeTab, setActiveTab 
           tabIndex={setActiveTab ? 0 : undefined}
           onClick={setActiveTab ? handleClick : undefined}
           onKeyDown={setActiveTab ? handleKeyDown : undefined}
-          className={`rounded-lg bg-slate-700 border border-slate-600 text-amber-300 px-3 py-2 text-sm flex items-center justify-center ${setActiveTab ? 'cursor-pointer' : ''}`}
+          className={`rounded-lg bg-slate-700 border border-slate-600 text-amber-300 px-3 py-2 text-md flex items-center justify-center ${setActiveTab ? 'cursor-pointer' : ''}`}
         >
           <div className="flex items-center">
             <LockIcon className="w-5 h-5 text-amber-300 flex-shrink-0" aria-hidden />
