@@ -4,6 +4,7 @@ import { Card } from './Card';
 import RangeField from './RangeField';
 import LockIcon from './icons/LockIcon';
 import Headline from './Headline';
+import { sessionManager } from '../services/sessionManager';
 import { useLanguage } from './LanguageContext';
 import { calculateBatchWeights } from '../utils/bakerMath';
 
@@ -23,6 +24,11 @@ const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartN
         <div className="w-full max-w-3xl mx-auto space-y-6">
           <Card variant="default" className="w-full p-6 mt-4">
             <Headline color="text-white" className="text-xl border-b border-slate-800 pb-3 mb-4">{t('bakerPercentages')}</Headline>
+            {!sessionManager.isEditable && (
+              <div className="mt-2 p-2 rounded bg-slate-900 border border-slate-800 text-sm text-amber-300">
+                {t('parametersLocked')}
+              </div>
+            )}
             <div className="space-y-6">
               <div>
                 <RangeField
@@ -32,6 +38,7 @@ const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartN
                   max={3000}
                   step={50}
                   onChange={(v) => updateConfig({ totalFlour: Math.round(v) })}
+                  readOnly={!sessionManager.isEditable}
                   accent="accent-cyan-400"
                   valueFormatter={(v) => Math.round(v) + 'g'}
                   valueClassName="text-white"
@@ -46,6 +53,7 @@ const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartN
                   max={90}
                   step={1}
                   onChange={(v) => updateConfig({ hydration: Math.round(v) })}
+                  readOnly={!sessionManager.isEditable}
                   accent="accent-cyan-400"
                   valueFormatter={(v) => Math.round(v) + '%'}
                   valueClassName="text-white"
@@ -76,6 +84,7 @@ const AmountsTab: React.FC<AmountsTabProps> = ({ session, updateConfig, onStartN
                   step={0.1}
                   onChange={(v) => updateConfig({ salt: Number(v.toFixed(1)) })}
                   accent="accent-cyan-400"
+                  readOnly={!sessionManager.isEditable}
                   valueFormatter={(v) => v.toFixed(1) + '%'}
                   valueClassName="text-white"
                 />

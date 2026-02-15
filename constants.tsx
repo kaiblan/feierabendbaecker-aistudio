@@ -105,6 +105,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     activeSessionMessage: 'You already have an active baking session in progress. Would you like to cancel it and start a new one, or resume the current session?',
     cancelAndStartNew: 'Cancel & Start New',
     resumeCurrent: 'Resume Current',
+    parametersLocked: 'Parameters are locked while the session is active. Reset the session to make changes.',
   },
   de: {
     // Navigation
@@ -183,17 +184,18 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     // Active Tab
     workingStep: 'Gerade läuft',
     upcoming: 'Als Nächstes',
-    sessionEnd: 'Sitzung Ende',
-    cancelSession: 'Sitzung abbrechen',
-    cancelSessionConfirm: 'Möchtest du die Sitzung abbrechen? Alle Fortschritte gehen verloren.',
-    resumeSession: 'Sitzung fortsetzen',
+    sessionEnd: 'Fertig! :-)',
+    cancelSession: 'Backvorgang abbrechen',
+    cancelSessionConfirm: 'Möchtest du den Backvorgang abbrechen? Alle Fortschritte gehen verloren.',
+    resumeSession: 'Backvorgang fortsetzen',
     completeAndAdvance: 'Abschließen & Weiter',
-    sessionProgress: 'Sitzungsfortschritt',
+    sessionProgress: 'Backfortschritt',
     until: 'bis',
     // Active Session Modal
-    activeSessionDetected: 'Aktive Sitzung erkannt',
+    activeSessionDetected: 'Aktiver Backvorgang erkannt',
     activeSessionMessage: 'Du hast bereits einen aktiven Backvorgang. Möchtest du ihn abbrechen und einen neuen starten, oder den aktuellen fortsetzen?',
-    cancelAndStartNew: 'Abbrechen & Neu starten',
+    cancelAndStartNew: 'Abbrechen & neu starten',
     resumeCurrent: 'Aktuellen fortsetzen',
+    parametersLocked: 'Parameter sind gesperrt, solange ein Backvorgang läuft. Setze den Backvorgang zurück, um Änderungen vorzunehmen.',
   },
 };

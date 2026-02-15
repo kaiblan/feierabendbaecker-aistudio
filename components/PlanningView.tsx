@@ -109,7 +109,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
 
             {!sessionManager.isEditable && (
               <div className="mt-2 p-2 rounded bg-slate-900 border border-slate-800 text-sm text-amber-300">
-                Parameters are locked while the session is active. Reset the session to make changes.
+                {t('parametersLocked')}
               </div>
             )}
 
@@ -160,6 +160,11 @@ const PlanningView: React.FC<PlanningViewProps> = ({
 
           <Card variant="default" className="order-2 lg:order-1 lg:col-span-4 w-full p-4 space-y-6">
             <Headline color="text-white" className="text-xl border-b border-slate-800 pb-3">{t('basicFactors')}</Headline>
+            {!sessionManager.isEditable && (
+              <div className="mt-2 p-2 rounded bg-slate-900 border border-slate-800 text-sm text-amber-300">
+                {t('parametersLocked')}
+              </div>
+            )}
             <div className="grid grid-cols-1 gap-8 items-start">
               <div className="space-y-4">
                 <RangeField
