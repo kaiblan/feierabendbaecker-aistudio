@@ -51,6 +51,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
     translateFn: t,
   });
 
+  const isEditable = status === 'planning' || status === 'recipe';
+
   const finalProofMinutes = Math.round(config.finalProofDurationMinutes ?? 90);
   const startInputRef = useRef<HTMLInputElement | null>(null);
   const readyInputRef = useRef<HTMLInputElement | null>(null);
@@ -114,6 +116,12 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                 </div>
                 <p className="text-muted text-sm whitespace-pre-wrap">{t('planYourBake')}</p>
 
+                {!isEditable && (
+                  <div className="mt-2 p-2 rounded bg-slate-900 border border-slate-800 text-sm text-amber-300">
+                    Parameters are locked while the session is active. Reset the session to make changes.
+                  </div>
+                )}
+
                 <div className="grid grid-cols-2 gap-3">
                   <button onClick={handleSelectForward} className={`rounded-lg border transition-all text-left ${planningMode === 'forward' ? 'border-emerald-500 bg-slate-900' : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 cursor-pointer'}`}>
                       <div className={`w-full text-sm py-1.5 font-sans text-center transition-all ${planningMode === 'forward' ? 'text-white' : 'text-muted'}`}>{t('forward')}</div>
@@ -126,7 +134,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                           value={startInputValue}
                           onChange={e => { if (planningMode === 'forward') onUpdateStartTime(e.target.value); }}
                           onClick={e => { if (planningMode === 'forward') e.stopPropagation(); }}
-                          readOnly={planningMode !== 'forward'}
+                          readOnly={!isEditable || planningMode !== 'forward'}
                           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-full opacity-0 z-10"
                         />
                         <div className={`w-full p-1.5 text-[20px] font-bold text-center mono rounded ${planningMode === 'forward' ? 'bg-surface border border-surface text-white' : 'bg-slate-900/50 border border-slate-800/50 text-muted'}`}>
@@ -147,7 +155,7 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                           value={readyInputValue}
                           onChange={e => { if (planningMode === 'backward') onUpdateStartTime(e.target.value); }}
                           onClick={e => { if (planningMode === 'backward') e.stopPropagation(); }}
-                          readOnly={planningMode !== 'backward'}
+                          readOnly={!isEditable || planningMode !== 'backward'}
                           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-full opacity-0 z-10"
                         />
                         <div className={`w-full p-1.5 text-[20px] font-bold text-center mono rounded ${planningMode === 'backward' ? 'bg-surface border border-surface text-white' : 'bg-slate-900/50 border border-slate-800/50 text-muted'}`}>
@@ -169,7 +177,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       min={0.01}
                       max={2}
                       step={0.01}
-                      onChange={(v) => onUpdateConfig({ yeast: v })}
+                      readOnly={!isEditable}
+                      onChange={(v) => { onUpdateConfig({ yeast: v }); }}
                       accent="accent-cyan-500"
                       valueFormatter={(v) => v.toFixed(2) + '%'}
                       valueClassName="text-white"
@@ -181,7 +190,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                         min={18}
                         max={27}
                       step={0.5}
-                      onChange={(v) => onUpdateConfig({ targetTemp: v })}
+                      readOnly={!isEditable}
+                      onChange={(v) => { onUpdateConfig({ targetTemp: v }); }}
                       accent="accent-amber-500"
                       valueFormatter={(v) => v.toFixed(1) + '°C'}
                       valueClassName="text-amber-400"
@@ -192,7 +202,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       min={0}
                       max={180}
                       step={5}
-                      onChange={(value) => onUpdateConfig({ finalProofDurationMinutes: Math.round(value) })}
+                      readOnly={!isEditable}
+                      onChange={(value) => { onUpdateConfig({ finalProofDurationMinutes: Math.round(value) }); }}
                       accent="accent-cyan-400"
                       valueFormatter={(value) => formatMinutesDisplay(value)}
                       valueClassName="text-white"
@@ -210,7 +221,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       <label className="text-base text-slate-300">{t('autolyse')}</label>
                       <ToggleSwitch
                         checked={config.autolyseEnabled}
-                        onChange={(value) => onUpdateConfig(value ? { autolyseEnabled: true, autolyseDurationMinutes: config.autolyseDurationMinutes || 5 } : { autolyseEnabled: false })}
+                        readOnly={!isEditable}
+                        onChange={(value) => { onUpdateConfig(value ? { autolyseEnabled: true, autolyseDurationMinutes: config.autolyseDurationMinutes || 5 } : { autolyseEnabled: false }); }}
                       />
                     </div>
                     <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.autolyseEnabled ? 'max-h-96 pt-2 border-t border-slate-800/50 opacity-100' : 'max-h-0 border-t border-transparent opacity-0'}`}>
@@ -221,7 +233,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                           min={5}
                           max={120}
                           step={5}
-                          onChange={(value) => onUpdateConfig({ autolyseDurationMinutes: Math.round(value) })}
+                          readOnly={!isEditable}
+                          onChange={(value) => { onUpdateConfig({ autolyseDurationMinutes: Math.round(value) }); }}
                           accent="accent-cyan-400"
                           valueFormatter={(value) => formatMinutesDisplay(value)}
                           valueClassName="text-white"
@@ -234,7 +247,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       <label className="text-base text-slate-300">{t('coldBulk')}</label>
                       <ToggleSwitch
                         checked={config.coldBulkEnabled}
-                        onChange={(value) => onUpdateConfig({ coldBulkEnabled: value })}
+                        readOnly={!isEditable}
+                        onChange={(value) => { onUpdateConfig({ coldBulkEnabled: value }); }}
                       />
                     </div>
                     <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.coldBulkEnabled ? 'max-h-96 pt-2 border-t border-slate-800/50 opacity-100' : 'max-h-0 border-t border-transparent opacity-0'}`}>
@@ -245,7 +259,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                           min={0}
                           max={100}
                           step={1}
-                          onChange={(v) => onUpdateConfig({ coldBulkDurationHours: roundDuration(sliderValueToDuration(v)) })}
+                          readOnly={!isEditable}
+                          onChange={(v) => { onUpdateConfig({ coldBulkDurationHours: roundDuration(sliderValueToDuration(v)) }); }}
                           accent="accent-cyan-400"
                           valueFormatter={(sliderVal) => formatDurationDisplay(sliderValueToDuration(sliderVal))}
                           valueClassName="text-white"
@@ -258,7 +273,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                       <label className="text-base text-slate-300">{t('coldProof')}</label>
                       <ToggleSwitch
                         checked={config.coldProofEnabled}
-                        onChange={(value) => onUpdateConfig({ coldProofEnabled: value })}
+                        readOnly={!isEditable}
+                        onChange={(value) => { onUpdateConfig({ coldProofEnabled: value }); }}
                       />
                     </div>
                     <div className={`transition-all duration-300 ease-in-out overflow-hidden ${config.coldProofEnabled ? 'max-h-96 pt-2 border-t border-slate-800/50 opacity-100' : 'max-h-0 border-t border-transparent opacity-0'}`}>
@@ -269,7 +285,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                           min={0}
                           max={100}
                           step={1}
-                          onChange={(v) => onUpdateConfig({ coldProofDurationHours: roundDuration(sliderValueToDuration(v)) })}
+                          readOnly={!isEditable}
+                          onChange={(v) => { onUpdateConfig({ coldProofDurationHours: roundDuration(sliderValueToDuration(v)) }); }}
                           accent="accent-cyan-400"
                           valueFormatter={(sliderVal) => formatDurationDisplay(sliderValueToDuration(sliderVal))}
                           valueClassName="text-white"
@@ -285,7 +302,8 @@ const PlanningView: React.FC<PlanningViewProps> = ({
                         min={0}
                         max={10}
                         step={0.5}
-                        onChange={v => onUpdateConfig({ fridgeTemp: v })}
+                        readOnly={!isEditable}
+                        onChange={v => { onUpdateConfig({ fridgeTemp: v }); }}
                         accent="accent-cyan-400"
                         valueFormatter={(v) => v.toFixed(1) + '°C'}
                         valueClassName="text-cyan-400"
