@@ -8,7 +8,6 @@ import AmountsTab from './AmountsTab';
 
 interface PlanningTabProps {
   session: BakerSession;
-  isEditable: boolean;
   startTimeStr: string;
   planningMode: 'forward' | 'backward';
   secondaryTab: 'timing' | 'amounts';
@@ -24,7 +23,6 @@ interface PlanningTabProps {
 
 const PlanningTab: React.FC<PlanningTabProps> = ({
   session,
-  isEditable,
   startTimeStr,
   planningMode,
   secondaryTab,
@@ -78,7 +76,6 @@ const PlanningTab: React.FC<PlanningTabProps> = ({
               <div className="w-full max-w-3xl mx-auto">
                 <PlanningView
                   config={session.config}
-                  isEditable={isEditable}
                   startTimeStr={startTimeStr}
                   planningMode={planningMode}
                   onUpdateConfig={updateConfig}

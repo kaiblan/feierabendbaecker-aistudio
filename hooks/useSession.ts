@@ -94,7 +94,5 @@ export const useSession = ({ initialConfig, translateFn }: UseSessionProps) => {
     resetSession,
     // New major operations exposed
     startSession: transitionToActive,
-    // Derived flag for UI convenience
-    isEditable: session.status === 'planning' || session.status === 'recipe',
   };
 };

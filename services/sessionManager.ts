@@ -90,6 +90,14 @@ class BakingSessionManager {
   }
 
   /**
+   * Read-only flag indicating whether the session is editable in the UI
+   * (planning or recipe states are editable)
+   */
+  get isEditable(): boolean {
+    return this.session.status === 'planning' || this.session.status === 'recipe';
+  }
+
+  /**
    * Update configuration (only allowed in planning/recipe state)
    */
   updateConfig(updates: Partial<BakerConfig>): void {
