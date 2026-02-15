@@ -12,7 +12,7 @@ import { Button } from './Button';
 
 interface PlanningViewProps {
   config: BakerConfig;
-  status: 'planning' | 'recipe' | 'active' | 'completed';
+  isEditable: boolean;
   startTimeStr: string;
   planningMode: 'forward' | 'backward';
   onUpdateConfig: (updates: Partial<BakerConfig>) => void;
@@ -27,7 +27,7 @@ import Headline from './Headline';
 
 const PlanningView: React.FC<PlanningViewProps> = ({
   config,
-  status,
+  isEditable,
   startTimeStr,
   planningMode,
   onUpdateConfig,
@@ -51,7 +51,6 @@ const PlanningView: React.FC<PlanningViewProps> = ({
     translateFn: t,
   });
 
-  const isEditable = status === 'planning' || status === 'recipe';
 
   const finalProofMinutes = Math.round(config.finalProofDurationMinutes ?? 90);
   const startInputRef = useRef<HTMLInputElement | null>(null);

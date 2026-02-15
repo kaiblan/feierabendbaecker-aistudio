@@ -71,7 +71,7 @@ const App: React.FC = () => {
     };
   }, [secondaryTab, activeTab]);
 
-  const { session, updateConfig, transitionToRecipe, startSession: transitionToActive, advanceToNextStage, resetSession } = useSession({
+  const { session, isEditable, updateConfig, transitionToRecipe, startSession: transitionToActive, advanceToNextStage, resetSession } = useSession({
     initialConfig: DEFAULT_CONFIG,
     translateFn: t,
   });
@@ -168,6 +168,7 @@ const App: React.FC = () => {
           {activeTab === 'planning' && (
             <PlanningTab
               session={session}
+              isEditable={isEditable}
               startTimeStr={startTimeStr}
               planningMode={planningMode}
               secondaryTab={secondaryTab}
