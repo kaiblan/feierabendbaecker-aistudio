@@ -72,7 +72,7 @@ const PlanningTab: React.FC<PlanningTabProps> = ({
         <div className="absolute inset-0 flex w-[200%] transition-transform duration-300 ease-in-out" style={{ transform: secondaryTab === 'timing' ? 'translateX(0%)' : 'translateX(-50%)' }}>
           {/* Timing tab content */}
           <div className="w-1/2 h-full">
-            <div className="max-w-7xl mx-auto pb-32 overflow-y-auto h-full" style={{ paddingTop: 'calc(var(--planning-offset) + 2rem)' }}>
+            <div className="max-w-7xl mx-auto pb-32 overflow-y-auto h-full" style={{ paddingTop: 'calc(var(--planning-offset) + 1rem)' }}>
               <div className="w-full max-w-3xl mx-auto">
                 <PlanningView
                   config={session.config}

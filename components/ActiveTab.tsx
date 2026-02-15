@@ -3,7 +3,7 @@ import { BakerSession } from '../types';
 import { Button } from './Button';
 import { Card } from './Card';
 import ActiveTimeline from './ActiveTimeline';
-import { formatTime, formatDateAsTime } from '../utils/timeUtils';
+import { formatTime, formatDateAsTime, addMinutesToDate } from '../utils/timeUtils';
 import { useLanguage } from './LanguageContext';
 import Headline from './Headline';
 import ConfirmationModal from './ConfirmationModal';
@@ -122,11 +122,19 @@ const ActiveTab: React.FC<ActiveTabProps> = ({
                 {(() => {
                   const next = session.stages[session.activeStageIndex + 1];
                   if (!next) return t('sessionEnd');
+
                   // determine start time if available
                   let start: Date | null = null;
                   if (next.startTime) start = new Date(next.startTime);
-                  else if (next.stageEndTime) start = new Date(new Date(next.stageEndTime).getTime() - next.durationMinutes * 60000);
-                  if (start) return `${next.label} · ${formatDateAsTime(start)}`;
+                  else if (next.stageEndTime) start = new Date(new Date(next.stageEndTime).getTime() - (next.durationMinutes || 0) * 60000);
+
+                  // determine end time if available
+                  let end: Date | null = null;
+                  if (next.stageEndTime) end = new Date(next.stageEndTime);
+                  else if (next.startTime) end = addMinutesToDate(new Date(next.startTime), next.durationMinutes || 0);
+
+                  if (start && end) return `${next.label} • ${formatDateAsTime(start)} ${t('until')} ${formatDateAsTime(end)}`;
+                  if (start) return `${next.label} • ${formatDateAsTime(start)}`;
                   return next.label;
                 })()}
               </div>

@@ -58,7 +58,7 @@ export const PlanningTimeline: React.FC<PlanningTimelineProps> = ({
   });
 
   return (
-    <div className="sticky top-0 bg-slate-900 backdrop-blur-xl border-b border-slate-800 shadow-lg z-40 px-4 md:px-8 pt-6 pb-4">
+    <div className="sticky top-0 bg-slate-900 backdrop-blur-xl border-b border-slate-800 shadow-lg z-40 px-4 md:px-8 pt-6 ">
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex justify-between items-center mb-4">
           <Headline color="text-slate-400">{productionWorkflowLabel}</Headline>

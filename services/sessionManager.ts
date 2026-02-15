@@ -225,7 +225,45 @@ class BakingSessionManager {
    * Update stages (used for planning adjustments)
    */
   updateStages(stages: Stage[]): void {
-    this.updateSession({ stages });
+    // Ensure timeline consistency: if any stage contains a defined startTime or
+    // stageEndTime, recompute all following stages' startTime and stageEndTime
+    // based on each stage's duration. This keeps end times filled and
+    // recalculates downstream times when a start or end is adjusted.
+    const cloned = stages.map(s => ({ ...s }));
+
+    // Find first stage with an explicit startTime
+    const firstStartIdx = cloned.findIndex(s => !!s.startTime);
+
+    if (firstStartIdx >= 0) {
+      const base = new Date(cloned[firstStartIdx].startTime as Date);
+      const recomputed = computeSequentialStages(cloned, firstStartIdx, base);
+      this.updateSession({ stages: recomputed });
+      return;
+    }
+
+    // If no explicit startTime, but session has a startTime, use it
+    if (this.session.startTime) {
+      const base = new Date(this.session.startTime);
+      const recomputed = computeSequentialStages(cloned, 0, base);
+      this.updateSession({ stages: recomputed });
+      return;
+    }
+
+    // If someone adjusted an end time (stageEndTime) without a startTime,
+    // try to infer the startTime for that stage and recompute from there.
+    const firstEndIdx = cloned.findIndex(s => !!s.stageEndTime && !s.startTime);
+    if (firstEndIdx >= 0) {
+      const st = cloned[firstEndIdx].stageEndTime as Date;
+      const dur = cloned[firstEndIdx].durationMinutes || 0;
+      const inferredStart = new Date(new Date(st).getTime() - dur * 60000);
+      cloned[firstEndIdx].startTime = inferredStart;
+      const recomputed = computeSequentialStages(cloned, firstEndIdx, inferredStart);
+      this.updateSession({ stages: recomputed });
+      return;
+    }
+
+    // Fallback: just set stages as provided
+    this.updateSession({ stages: cloned });
   }
 
   /**
