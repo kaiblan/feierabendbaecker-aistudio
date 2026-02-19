@@ -132,6 +132,26 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     
     help_active_session_title: 'Active Session',
     help_active_session_content: 'Track your baking progress in real-time.\n\nCurrent Step: What you should be doing right now\nNext Steps: Upcoming stages with countdown timers\nProgress: Visual indication of how far along you are\n\nYou can complete steps early if needed, or let the timers guide you for optimal results.\n\nTip: Set notifications or alarms for important steps so you don\'t miss them!',
+
+    // History Tab
+    noHistoryYet: 'No baking sessions yet',
+    noHistoryDescription: 'Completed sessions will appear here',
+    deleteEntry: 'Delete',
+    deleteEntryConfirm: 'Delete this session?',
+    editName: 'Edit name',
+    unnamed: 'Unnamed',
+    completed: 'Completed',
+    inProgress: 'In Progress',
+    abandoned: 'Abandoned',
+    addNotes: 'Add notes',
+    notes: 'Notes',
+    saveNotes: 'Save notes',
+    details: 'Details',
+    started: 'Started',
+    recipe: 'Recipe',
+    temperature: 'Temperature',
+    room: 'Room',
+    fridge: 'Fridge',
   },
   de: {
     // Navigation
@@ -249,5 +269,25 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
         
     help_active_session_title: 'Aktiver Backvorgang',
     help_active_session_content: 'Verfolge deinen Backfortschritt in Echtzeit.\n\nAktueller Schritt: Was du gerade tun solltest\nBackfortschritt: Alle kommenden Phasen und ihre Zeiten\n\nDu kannst Schritte vorzeitig abschließen, wenn nötig, oder die Timer für optimale Ergebnisse nutzen.\n\nTipp: Stelle Benachrichtigungen oder Wecker für wichtige Schritte, damit du sie nicht verpasst!',
+
+    // History Tab
+    noHistoryYet: 'Noch keine Backsessions',
+    noHistoryDescription: 'Abgeschlossene Sessions erscheinen hier',
+    deleteEntry: 'Löschen',
+    deleteEntryConfirm: 'Session wirklich löschen?',
+    editName: 'Name bearbeiten',
+    unnamed: 'Unbenannt',
+    completed: 'Abgeschlossen',
+    inProgress: 'In Arbeit',
+    abandoned: 'Abgebrochen',
+    addNotes: 'Notizen hinzufügen',
+    notes: 'Notizen',
+    saveNotes: 'Notizen speichern',
+    details: 'Details',
+    started: 'Beginn',
+    recipe: 'Rezept',
+    temperature: 'Temperatur',
+    room: 'Raum',
+    fridge: 'Kühlschrank',
   },
 };

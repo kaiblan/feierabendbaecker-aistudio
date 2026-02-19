@@ -9,6 +9,7 @@
 import { BakerSession, BakerConfig, Stage } from '../types';
 import { generateBakingStages, calculateSessionDuration } from './bakerService';
 import { computeSequentialStages } from '../utils/sessionUtils';
+import { historyManager } from './historyManager';
 
 const SESSION_STORAGE_KEY = 'bakerSession';
 
@@ -137,11 +138,14 @@ class BakingSessionManager {
     // Update session to active state
     this.updateSession({
       status: 'active',
-      activeStageIndex: 0,
+      activeStageIndex:  0,
       startTime: now,
       targetEndTime,
       stages: computedStages,
     });
+
+    // Add to history when session starts
+    historyManager.addSession(this.session);
   }
 
   /**
@@ -216,6 +220,12 @@ class BakingSessionManager {
       // No next stage — mark session complete
       this.updateSession({
         stages: updatedStages,
+        status: 'completed',
+      });
+
+      // Update history entry when session completes
+      historyManager.updateSession(this.session.id, {
+        endTime: now,
         status: 'completed',
       });
     }

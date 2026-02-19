@@ -51,3 +51,33 @@ export interface BakerSession {
   status: 'planning' | 'recipe' | 'active' | 'completed';
   config: BakerConfig;
 }
+
+export interface HistoryEntry {
+  id: string;
+  name: string;
+  startTime: Date;
+  endTime?: Date;
+  status: 'in-progress' | 'completed' | 'abandoned';
+
+  // Optional steps (for tag pills)
+  autolyseEnabled: boolean;
+  coldBulkEnabled: boolean;
+  coldProofEnabled: boolean;
+
+  // Recipe amounts
+  flourGrams: number;
+  waterGrams: number;
+  saltGrams: number;
+  starterGrams: number;
+
+  // Temperature data
+  roomTemp: number;
+  fridgeTemp?: number;
+
+  // User notes
+  notes: string;
+
+  // Metadata
+  totalDurationMinutes?: number;
+  stages: Stage[];
+}

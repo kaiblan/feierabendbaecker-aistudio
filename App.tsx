@@ -6,6 +6,7 @@ import ActiveSessionPanel from './components/ActiveSessionPanel';
 import PlanningTab from './components/PlanningTab';
 import ActiveTab from './components/ActiveTab';
 import SettingsTab from './components/SettingsTab';
+import HistoryTab from './components/HistoryTab';
 import { LanguageContext, createTranslator } from './components/LanguageContext';
 import { Button } from './components/Button';
 import { useSession } from './hooks/useSession';
@@ -195,6 +196,8 @@ const App: React.FC = () => {
           )}
 
           {activeTab === 'settings' && <SettingsTab />}
+
+          {activeTab === 'history' && <HistoryTab />}
 
 
         </div>
