@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FermentLab - Precision Baking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #06b6d4; /* Cyan 500 */
+            --color-secondary: #64748b; /* Slate 500 */
+            --color-background: #0f172a; /* Slate 900 */
+            --color-surface: #1e293b; /* Slate 800 */
+            --color-accent: #10b981; /* Emerald 500 */
+            --color-muted: rgba(248,250,252,0.6); /* slate-50 at 60% */
+            --scroll-thumb: #334155;
+            --scroll-thumb-hover: #475569;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: #f8fafc;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Semantic theme helpers */
+        .text-primary { color: var(--color-primary); }
+        .text-accent { color: var(--color-accent); }
+        .text-muted { color: var(--color-muted); }
+        .bg-surface { background-color: var(--color-surface); }
+        .bg-primary { background-color: var(--color-primary); }
+        .bg-accent { background-color: var(--color-accent); }
+        .border-surface { border-color: var(--color-surface); }
+        .body-text { font-size: 1rem; line-height: 1.5; }
+        .heading { font-weight: 700; }
+
+        /* Custom scrollbar for lab look */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--scroll-thumb);
+            border-radius: 2px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--scroll-thumb-hover);
+        }
+    </style>
+
+    <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "@google/genai": "https://esm.sh/@google/genai@^1.38.0"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/assets/index-B6swKQxR.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-D3sTf7rP.css">
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+
+<body class="overflow-hidden">
+    <div id="root"></div>
+</body>
+
+</html>
