@@ -31,8 +31,8 @@ const coldEquivalenceFactor = (tempC: number): number => {
  * Deterministic fermentation time model
  *
  * Baseline (0.2% yeast @ 24°C):
- * - Bulk target = 300 min
- * - Proof target = 180 min
+ * - Bulk target = 240 min
+ * - Proof target = 120 min
  *
  * Yeast effect: time ∝ 1 / yeastPercent (yeastFactor = 0.2 / yeastPercent)
  *
@@ -41,7 +41,7 @@ const coldEquivalenceFactor = (tempC: number): number => {
  * - Proof: proofTempEffect = 0.80 ^ ((tempC - 24) / 2)
  *
  * Warm fermentation targets:
- * - bulkWarmTarget  = 300 × yeastFactor × bulkTempEffect
+ * - bulkWarmTarget  = 240 × yeastFactor × bulkTempEffect
  * - proofWarmTarget = 180 × yeastFactor × proofTempEffect
  *
  * Cold fermentation:
@@ -58,8 +58,8 @@ export const calculateFermentationTimes = (config: BakerConfig): { bulkMins: num
   const proofTempEffect = Math.pow(0.80, (config.targetTemp - 24) / 2);
 
   // Warm fermentation targets
-  const bulkWarmTarget = 300 * yeastFactor * bulkTempEffect;
-  const proofWarmTarget = 180 * yeastFactor * proofTempEffect;
+  const bulkWarmTarget = 240 * yeastFactor * bulkTempEffect;
+  const proofWarmTarget = 120 * yeastFactor * proofTempEffect;
 
   // Cold durations (user-specified in hours)
   const coldBulkMins = config.coldBulkEnabled ? Math.round((config.coldBulkDurationHours || 0) * 60) : 0;
