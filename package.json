@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "npm run build && npx gh-pages -d dist",
-    "docker:build": "docker build -t feierabendbaecker-aistudio:local ."
+    "docker:build": "npm run build && podman build -t docker.io/blakai/feierabendbaecker . && podman save docker.io/blakai/feierabendbaecker -o \\\\diskstation2\\docker\\feierabendbaecker\\feierabendbaecker.tar && copy docker-compose.yml \\\\diskstation2\\docker\\feierabendbaecker\\docker-compose.yml",
+    "docker:deploy": "ssh dsmadmin@diskstation2 \"/usr/local/bin/docker load -i /volume1/docker/feierabendbaecker/feierabendbaecker.tar && /usr/local/bin/docker image prune -f && /usr/local/bin/docker compose -f /volume1/docker/feierabendbaecker/docker-compose.yml up -d --force-recreate 2>&1\"",
+    "docker:full": "npm run docker:build && npm run docker:deploy"
   },
   "dependencies": {
     "@google/genai": "^1.38.0",
@@ -16,9 +18,9 @@
     "react-dom": "^19.2.3"
   },
   "devDependencies": {
-    "gh-pages": "^4.0.0",
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "gh-pages": "^6.3.0",
     "typescript": "~5.8.2",
     "vite": "^6.2.0",
     "vite-plugin-pwa": "^1.2.0",

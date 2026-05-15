@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  feierabendbaecker:
+    image: blakai/feierabendbaecker:latest
+    container_name: feierabendbaecker
+    restart: unless-stopped
+
+    ports:
+      - "${PORT:-8080}:80"
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
