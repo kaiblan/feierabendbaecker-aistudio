@@ -1,5 +1,20 @@
 /**
  * useBakeSchedule - Custom hook for managing bake schedule calculations
+ *
+ * PLANNING MODES
+ * ==============
+ * This hook supports two time-anchoring modes, controlled by the `planningMode` prop:
+ *
+ * - 'forward'  → `startTimeStr` is the session START time.
+ *                The hook computes when the baking process will finish.
+ *                UI label: "I want to start at __:__"
+ *
+ * - 'backward' → `startTimeStr` is the DESIRED FINISH time (target end).
+ *                The hook subtracts `totalProcessMins` to find the required start.
+ *                UI label: "I want the bread ready at __:__"
+ *
+ * In both modes, `sessionStartTime` and `sessionEndTime` are absolute Date objects.
+ * `scheduleWithTimes` always lists stages from first to last with their wall-clock times.
  */
 
 import { useMemo } from 'react';
