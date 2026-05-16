@@ -113,8 +113,7 @@ src/
 │   ├── timeUtils.ts      (6 exported functions)
 │   └── bakerMath.ts      (4 exported functions)
 ├── services/
-│   ├── bakerService.ts   (2 exported functions)
-│   └── geminiService.ts  (existing)
+│   └── bakerService.ts   (2 exported functions)
 ├── hooks/
 │   ├── useSession.ts     (Custom hook for session state)
 │   ├── useTimer.ts       (Custom hook for countdown)
